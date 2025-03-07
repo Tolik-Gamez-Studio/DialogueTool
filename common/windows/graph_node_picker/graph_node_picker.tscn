@@ -1,8 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cmpsaafag7cwl"]
 
-[ext_resource type="Script" path="res://common/windows/graph_node_picker/graph_node_picker.gd" id="1_5oqa8"]
-[ext_resource type="Script" path="res://common/windows/graph_node_picker/graph_node_tree.gd" id="2_5kkcj"]
-
+[ext_resource type="Script" uid="uid://bcagysl3b0ncf" path="res://common/windows/graph_node_picker/graph_node_picker.gd" id="1_5oqa8"]
+[ext_resource type="Script" uid="uid://dqy8aovapnh5h" path="res://common/windows/graph_node_picker/graph_node_tree.gd" id="2_5kkcj"]
 
 [node name="GraphNodePicker" type="Window"]
 auto_translate_mode = 1

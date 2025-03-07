@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://bexlgpgwakbrr" path="res://ui/assets/icons/slot_right.svg" id="1_242j4"]
 [ext_resource type="Texture2D" uid="uid://px17kflnvnd7" path="res://ui/assets/icons/slot_left.svg" id="1_dup0t"]
-[ext_resource type="Script" path="res://nodes/condition_node/condition_node.gd" id="3_vhhwe"]
+[ext_resource type="Script" uid="uid://bt5pl4c11vfxd" path="res://nodes/condition_node/condition_node.gd" id="3_vhhwe"]
 
 [sub_resource type="Theme" id="Theme_llmqa"]
 

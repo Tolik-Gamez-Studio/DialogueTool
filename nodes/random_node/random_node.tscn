@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b6mcmodpmsacw"]
 
-[ext_resource type="Script" path="res://nodes/random_node/random_node.gd" id="1_qeufj"]
+[ext_resource type="Script" uid="uid://cx8uppic5c27l" path="res://nodes/random_node/random_node.gd" id="1_qeufj"]
 
 [node name="RandomNode" type="GraphNode" groups=["graph_nodes"]]
 offset_right = 127.0

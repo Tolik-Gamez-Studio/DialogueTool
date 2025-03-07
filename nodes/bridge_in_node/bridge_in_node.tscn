@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b0eo5lvnrwidu"]
 
-[ext_resource type="Script" path="res://nodes/bridge_in_node/bridge_in_node.gd" id="1_8y1eo"]
+[ext_resource type="Script" uid="uid://bqxf6ixm3hcsj" path="res://nodes/bridge_in_node/bridge_in_node.gd" id="1_8y1eo"]
 [ext_resource type="Texture2D" uid="uid://px17kflnvnd7" path="res://ui/assets/icons/slot_left.svg" id="1_726p4"]
 
 [node name="BridgeInNode" type="GraphNode"]
