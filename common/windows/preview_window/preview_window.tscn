@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d3f7d4bb40iht"]
 
-[ext_resource type="Script" path="res://common/windows/preview_window/preview_window.gd" id="1_15o47"]
+[ext_resource type="Script" uid="uid://c7bl8kcyl4fxb" path="res://common/windows/preview_window/preview_window.gd" id="1_15o47"]
 
 [node name="PreviewWindow" type="Window"]
 auto_translate_mode = 1

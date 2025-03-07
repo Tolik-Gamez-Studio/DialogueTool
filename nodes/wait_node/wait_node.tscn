@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bxu71eq40qoq6"]
 
-[ext_resource type="Script" path="res://nodes/wait_node/wait_node.gd" id="3_n44rg"]
+[ext_resource type="Script" uid="uid://b804pp3yjytjr" path="res://nodes/wait_node/wait_node.gd" id="3_n44rg"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_82fue"]
 font_color = Color(0.572549, 0.572549, 0.572549, 1)

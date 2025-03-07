@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b4ptsysoq7mgm"]
 
-[ext_resource type="Script" path="res://nodes/comment_node/comment_node.gd" id="3_vd25i"]
+[ext_resource type="Script" uid="uid://b60bh6vkocfn0" path="res://nodes/comment_node/comment_node.gd" id="3_vd25i"]
 
 [sub_resource type="Theme" id="Theme_llmqa"]
 

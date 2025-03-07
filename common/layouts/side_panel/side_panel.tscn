@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dgvhvxdrd58qp"]
 
-[ext_resource type="Script" path="res://common/layouts/side_panel/side_panel.gd" id="1_haagr"]
+[ext_resource type="Script" uid="uid://dtf4ge38njewp" path="res://common/layouts/side_panel/side_panel.gd" id="1_haagr"]
 [ext_resource type="Texture2D" uid="uid://b272tbdmvxj20" path="res://ui/assets/icons/play.svg" id="2_34x8o"]
 
 [node name="SidePanelNodeDetails" type="PanelContainer"]

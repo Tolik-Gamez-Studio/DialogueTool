@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://qd3nbp87ls3r"]
 
 [ext_resource type="Texture2D" uid="uid://bexlgpgwakbrr" path="res://ui/assets/icons/slot_right.svg" id="2_t53kr"]
-[ext_resource type="Script" path="res://nodes/setter_node/setter_node.gd" id="3_3ny3s"]
+[ext_resource type="Script" uid="uid://c8qi7r33gmf1i" path="res://nodes/setter_node/setter_node.gd" id="3_3ny3s"]
 
 [sub_resource type="Theme" id="Theme_llmqa"]
 
