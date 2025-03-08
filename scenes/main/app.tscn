@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bim51g1aibuw0"]
+[gd_scene load_steps=12 format=3 uid="uid://bim51g1aibuw0"]
 
 [ext_resource type="PackedScene" uid="uid://bqjfdabrxujp7" path="res://scenes/main/graph.tscn" id="1_kiov6"]
 [ext_resource type="Script" uid="uid://bsq6lognjqdwu" path="res://scenes/main/custom_title_bar.gd" id="1_sdg01"]
@@ -8,9 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://cxek38x4sufp5" path="res://ui/assets/icons/ui_reduce.svg" id="4_b7q52"]
 [ext_resource type="Script" uid="uid://m1wxne1g6kju" path="res://scenes/main/main_menu.gd" id="4_f1t0i"]
 [ext_resource type="Texture2D" uid="uid://c4ib88gq1pbjr" path="res://ui/assets/icons/ui_maximize.svg" id="5_fxbua"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_da2f7"]
-bg_color = Color(0.192157, 0.192157, 0.211765, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k15gm"]
 bg_color = Color(1, 1, 1, 0.12549)
@@ -41,7 +38,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_da2f7")
+theme_type_variation = &"PanelContainer_Secondary_Corner0"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Frame"]
 layout_mode = 2
@@ -111,6 +108,14 @@ layout_mode = 2
 
 [node name="GraphEditSwitcher" parent="Frame/VBoxContainer/MonologueControl/MarginContainer/MainContainer/GraphEditsArea" index="0" node_paths=PackedStringArray("tab_bar")]
 tab_bar = NodePath("../../../../../CustomTitleBar/HBoxContainer2/TabBar")
+
+[node name="WelcomeWindow" parent="Frame/VBoxContainer/MonologueControl" index="4"]
+size = Vector2i(450, 277)
+transient = false
+transient_to_focused = false
+exclusive = false
+content_scale_mode = 0
+content_scale_aspect = 0
 
 [connection signal="gui_input" from="Frame/VBoxContainer/CustomTitleBar" to="Frame/VBoxContainer/CustomTitleBar" method="_on_gui_input"]
 [connection signal="pressed" from="Frame/VBoxContainer/CustomTitleBar/tbButtonContainer/tbReduceButton" to="Frame/VBoxContainer/CustomTitleBar" method="_on_tb_reduce_button_pressed"]

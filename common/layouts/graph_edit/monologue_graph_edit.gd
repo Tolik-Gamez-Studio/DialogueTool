@@ -152,30 +152,30 @@ func free_graphnode(node: MonologueGraphNode) -> Dictionary:
 
 ## Find all other connections that connect to the given graphnode.
 func get_all_inbound_connections(from_node: StringName) -> Array:
-	var connections = []
+	var node_connections = []
 	for connection in get_connection_list():
 		if connection.get("to_node") == from_node:
-			connections.append(connection)
-	return connections
+			node_connections.append(connection)
+	return node_connections
 
 
 ## Find all connections that originate from the given graphnode.
 func get_all_outbound_connections(from_node: StringName) -> Array:
-	var connections = []
+	var node_connections = []
 	for connection in get_connection_list():
 		if connection.get("from_node") == from_node:
-			connections.append(connection)
-	return connections
+			node_connections.append(connection)
+	return node_connections
 
 
 ## Find connections of the given [param from_node] at its [param from_port].
 func get_all_connections_from_slot(from_node: StringName, from_port: int) -> Array:
-	var connections = []
+	var node_connections = []
 	for connection in get_connection_list():
 		if connection.get("from_node") == from_node and connection.get("from_port") == from_port:
 			var to = get_node_or_null(NodePath(connection.get("to_node")))
-			connections.append(to)
-	return connections
+			node_connections.append(to)
+	return node_connections
 
 
 func get_free_bridge_number(_n=1, lp_max=50) -> int:
