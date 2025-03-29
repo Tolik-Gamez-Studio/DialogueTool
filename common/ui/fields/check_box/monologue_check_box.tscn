@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://71sq1ohwv8cn"]
 
-[ext_resource type="Script" path="res://common/ui/fields/check_box/monologue_check_box.gd" id="1_awprp"]
+[ext_resource type="Script" uid="uid://m2a68q1fce52" path="res://common/ui/fields/check_box/monologue_check_box.gd" id="1_awprp"]
 
 [node name="MonologueCheckBox" type="HBoxContainer"]
 offset_right = 81.0

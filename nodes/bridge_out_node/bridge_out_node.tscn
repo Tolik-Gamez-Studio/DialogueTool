@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c75iblt2kuvr2"]
 
-[ext_resource type="Script" path="res://nodes/bridge_out_node/bridge_out_node.gd" id="1_6kxjr"]
+[ext_resource type="Script" uid="uid://bimgycdfh52xb" path="res://nodes/bridge_out_node/bridge_out_node.gd" id="1_6kxjr"]
 [ext_resource type="Texture2D" uid="uid://bexlgpgwakbrr" path="res://ui/assets/icons/slot_right.svg" id="2_pjg2v"]
 
 [node name="BridgeOutNode" type="GraphNode"]

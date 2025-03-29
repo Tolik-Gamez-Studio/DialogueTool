@@ -1,10 +1,12 @@
 [gd_scene load_steps=4 format=3 uid="uid://bw7thqdhujl41"]
 
-[ext_resource type="Script" path="res://common/ui/fields/line_edit/monologue_line_edit.gd" id="1_toqtt"]
+[ext_resource type="Script" uid="uid://cdx8c5vk7f3jb" path="res://common/ui/fields/line_edit/monologue_line_edit.gd" id="1_toqtt"]
 [ext_resource type="Texture2D" uid="uid://dm2u0xqmmcorj" path="res://ui/assets/icons/copy.png" id="2_lbcco"]
 [ext_resource type="FontFile" uid="uid://2eq6t1lcw61" path="res://ui/assets/fonts/NotoSans-Italic.ttf" id="3_bg611"]
 
-[node name="OuterVBox" type="VBoxContainer"]
+[node name="MonologueLine" type="MarginContainer"]
+offset_right = 300.0
+offset_bottom = 97.0
 size_flags_horizontal = 3
 script = ExtResource("1_toqtt")
 

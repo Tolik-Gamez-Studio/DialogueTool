@@ -1,8 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bkreq3xdr7gxw"]
 
-[ext_resource type="Script" path="res://common/windows/prompt_window/prompt_window.gd" id="1_u0ucq"]
-
-
+[ext_resource type="Script" uid="uid://bb5cq5tmook8s" path="res://common/windows/prompt_window/prompt_window.gd" id="1_u0ucq"]
 
 [node name="PromptWindow" type="Window"]
 initial_position = 2

@@ -2,12 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://px17kflnvnd7" path="res://ui/assets/icons/slot_left.svg" id="1_akw3b"]
 [ext_resource type="Texture2D" uid="uid://bexlgpgwakbrr" path="res://ui/assets/icons/slot_right.svg" id="2_kflmp"]
-[ext_resource type="Script" path="res://nodes/wait_node/wait_node.gd" id="3_n44rg"]
+[ext_resource type="Script" uid="uid://b804pp3yjytjr" path="res://nodes/wait_node/wait_node.gd" id="3_n44rg"]
 [ext_resource type="StyleBox" uid="uid://bmb6fo20hn20m" path="res://ui/theme_default/node_value.stylebox" id="4_eokp5"]
-
-
-
-
 
 [sub_resource type="LabelSettings" id="LabelSettings_82fue"]
 font_color = Color(0.572549, 0.572549, 0.572549, 1)

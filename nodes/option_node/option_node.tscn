@@ -1,8 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://ccuhx5vr7t50a"]
 
-[ext_resource type="Script" path="res://nodes/option_node/option_node.gd" id="1_67u8k"]
-
-
+[ext_resource type="Script" uid="uid://b3sgq1spd1cf8" path="res://nodes/option_node/option_node.gd" id="1_67u8k"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5mv5j"]
 content_margin_left = 10.0

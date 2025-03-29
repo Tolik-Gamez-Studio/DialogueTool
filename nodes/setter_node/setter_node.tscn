@@ -2,12 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://px17kflnvnd7" path="res://ui/assets/icons/slot_left.svg" id="1_bsa4i"]
 [ext_resource type="Texture2D" uid="uid://bexlgpgwakbrr" path="res://ui/assets/icons/slot_right.svg" id="2_t53kr"]
-[ext_resource type="Script" path="res://nodes/setter_node/setter_node.gd" id="3_3ny3s"]
+[ext_resource type="Script" uid="uid://c8qi7r33gmf1i" path="res://nodes/setter_node/setter_node.gd" id="3_3ny3s"]
 [ext_resource type="StyleBox" uid="uid://bmb6fo20hn20m" path="res://ui/theme_default/node_value.stylebox" id="4_xcnds"]
-
-
-
-
 
 [sub_resource type="Theme" id="Theme_llmqa"]
 

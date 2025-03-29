@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cndkr1vq6ab1o"]
 
-[ext_resource type="Script" path="res://common/ui/fields/slider/monologue_slider.gd" id="1_waj5i"]
+[ext_resource type="Script" uid="uid://bfviu4cmsm4jo" path="res://common/ui/fields/slider/monologue_slider.gd" id="1_waj5i"]
 
 [node name="MonologueSlider" type="HBoxContainer"]
 offset_right = 291.0
