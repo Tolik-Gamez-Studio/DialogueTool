@@ -1,15 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://c0d8fac8so0p0"]
+[gd_scene load_steps=3 format=3 uid="uid://c0d8fac8so0p0"]
 
 [ext_resource type="Script" uid="uid://catei6iaaw77f" path="res://common/ui/fields/spin_box/monologue_spin_box.gd" id="1_wmtop"]
+[ext_resource type="PackedScene" uid="uid://x0daq5tsejey" path="res://common/ui/fields/field_label.tscn" id="2_1ivi1"]
 
 [node name="MonologueSpinBox" type="HBoxContainer"]
 script = ExtResource("1_wmtop")
 
-[node name="Label" type="Label" parent="."]
-custom_minimum_size = Vector2(100, 0)
+[node name="Label" parent="." instance=ExtResource("2_1ivi1")]
 layout_mode = 2
-size_flags_vertical = 0
-text = "Value"
 
 [node name="SpinBox" type="SpinBox" parent="."]
 custom_minimum_size = Vector2(120, 0)

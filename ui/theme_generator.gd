@@ -162,9 +162,21 @@ func define_separator() -> void:
 		var separator_type_style = inherit(SEPARATOR_STYLE, stylebox_line({
 			vertical = separator_type == "VSeparator"
 		}))
+		var dotted_separator_style = stylebox_texture({
+			texture = preload("res://ui/theme_default/assets/dash.svg"),
+			axis_stretch_horizontal = 2,
+			axis_stretch_vertical = 2,
+			region_rect = Rect2(0, 0, 14, 2),
+			expand_ = expand_margins(0, 1, 0, 0)
+		})
+		
 		define_style(separator_type, {
 			separation = 1,
 			separator = separator_type_style
+		})
+		define_variant_style("%s_Dotted" % [separator_type], separator_type, {
+			separation = 1,
+			separator = inherit(separator_type_style, dotted_separator_style)
 		})
 
 		for margin in [PRIMARY_CONTENT_MARGIN, SECONDARY_CONTENT_MARGIN, TERTIARY_CONTENT_MARGIN]:
@@ -173,6 +185,13 @@ func define_separator() -> void:
 			define_variant_style("%s_Grow%s" % [separator_type, margin], separator_type, {
 				separation = 1,
 				separator = inherit(separator_type_style, variant_separator)
+			})
+			
+			var dotted_variant_separator = inherit(separator_type_style, variant_separator, dotted_separator_style)
+			
+			define_variant_style("%s_Grow%s_Dotted" % [separator_type, margin], separator_type, {
+				separation = 1,
+				separator = dotted_variant_separator
 			})
 
 # Label

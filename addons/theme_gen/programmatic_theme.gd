@@ -6,7 +6,7 @@ class_name ProgrammaticTheme
 # Run the theme generator via File/Run when editing the theme gdscript file.
 
 
-const THEME_GEN_VERSION = "1.1"
+const THEME_GEN_VERSION = "1.2"
 
 
 var _styles_by_name = {}
@@ -20,8 +20,10 @@ var _save_path = null
 # The function that is run to generate / define the theme. Default: define_theme().
 var _theme_generator = null
 
-# The default theme is used to get the data type of each item (e.g. is a given integer
-# a constant or a font size?)
+# The default theme is used to get the base type for each theme variation.
+# Previoiusly, it was also used to get the data type of each item (e.g. is a 
+# given integer a constant or a font size?). If the ClassDB property lookup fails,
+# this system could be used as a fallback in future versions.
 var _default_theme: Theme
 
 # Current theme instance used by the generator.
@@ -109,6 +111,11 @@ func stylebox_line(style: Dictionary):
 
 func stylebox_empty(style: Dictionary):
 	var as_dictionary = {"type": "stylebox_empty"}
+	as_dictionary.merge(style)
+	return as_dictionary
+
+func stylebox_texture(style: Dictionary):
+	var as_dictionary = {"type": "stylebox_texture"}
 	as_dictionary.merge(style)
 	return as_dictionary
 
@@ -289,6 +296,8 @@ func _create_stylebox_from_dict(data: Dictionary):
 			stylebox = StyleBoxLine.new()
 		"stylebox_empty":
 			stylebox = StyleBoxEmpty.new()
+		"stylebox_texture":
+			stylebox = StyleBoxTexture.new()
 
 	for attribute in data:
 		if attribute == "type":
@@ -300,17 +309,17 @@ func _create_stylebox_from_dict(data: Dictionary):
 
 
 func _get_data_type_for_value(default_theme: Theme, theme: Theme, type_name, item_name):
-	if default_theme.get_color_list(type_name).has(item_name):
+	if _type_has_color_item(type_name, item_name):
 		return Theme.DATA_TYPE_COLOR
-	if default_theme.get_constant_list(type_name).has(item_name):
+	if _type_has_constant_item(type_name, item_name):
 		return Theme.DATA_TYPE_CONSTANT
-	if default_theme.get_font_list(type_name).has(item_name):
+	if _type_has_font_item(type_name, item_name):
 		return Theme.DATA_TYPE_FONT
-	if default_theme.get_font_size_list(type_name).has(item_name):
+	if _type_has_font_size_item(type_name, item_name):
 		return Theme.DATA_TYPE_FONT_SIZE
-	if default_theme.get_icon_list(type_name).has(item_name):
+	if _type_has_icon_item(type_name, item_name):
 		return Theme.DATA_TYPE_ICON
-	if default_theme.get_stylebox_list(type_name).has(item_name):
+	if _type_has_style_item(type_name, item_name):
 		return Theme.DATA_TYPE_STYLEBOX
 
 	# This type does not contain this item. => Check the parent type.
@@ -323,6 +332,33 @@ func _get_data_type_for_value(default_theme: Theme, theme: Theme, type_name, ite
 		return -1
 
 	return _get_data_type_for_value(default_theme, theme, parent, item_name)
+
+
+func _type_has_color_item(type_name: String, item_name: String):
+	return _type_has_property(type_name, "theme_override_colors/" + item_name)
+	
+func _type_has_constant_item(type_name: String, item_name: String):
+	return _type_has_property(type_name, "theme_override_constants/" + item_name)
+	
+func _type_has_font_item(type_name: String, item_name: String):
+	return _type_has_property(type_name, "theme_override_fonts/" + item_name)
+	
+func _type_has_font_size_item(type_name: String, item_name: String):
+	return _type_has_property(type_name, "theme_override_font_sizes/" + item_name)
+	
+func _type_has_icon_item(type_name: String, item_name: String):
+	return _type_has_property(type_name, "theme_override_icons/" + item_name)
+	
+func _type_has_style_item(type_name: String, item_name: String):
+	return _type_has_property(type_name, "theme_override_styles/" + item_name)
+
+
+func _type_has_property(type_name: String, property_name: String):
+	if not ClassDB.class_exists(type_name):
+		return false
+	
+	var properties = ClassDB.instantiate(type_name).get_property_list()
+	return properties.any(func(property): return property.name == property_name)
 
 
 func _log(message: String):
@@ -378,4 +414,17 @@ func content_margins(left: int, top = null, right = null, bottom = null):
 		"content_margin_top": top,
 		"content_margin_right": right,
 		"content_margin_bottom": bottom
+	}
+
+
+func texture_margins(left: int, top = null, right = null, bottom = null):
+	if top == null: top = left
+	if right == null: right = left
+	if bottom == null: bottom = top
+
+	return {
+		"texture_margin_left": left,
+		"texture_margin_top": top,
+		"texture_margin_right": right,
+		"texture_margin_bottom": bottom
 	}

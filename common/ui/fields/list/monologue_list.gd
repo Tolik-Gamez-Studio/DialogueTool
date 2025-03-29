@@ -51,7 +51,7 @@ func create_item_vbox(panel: PanelContainer) -> VBoxContainer:
 
 func create_delete_button(field_box: VBoxContainer, id: Variant) -> void:
 	var delete_container = MarginContainer.new()
-	delete_container.add_theme_constant_override("margin_top", 5)
+	#delete_container.add_theme_constant_override("margin_top", 5)
 	var delete_button = delete_scene.instantiate()
 	delete_button.connect("pressed", _on_delete_button_pressed.bind(id))
 	delete_container.add_child(delete_button, true)

@@ -7,10 +7,10 @@ class_name MonologueSlider extends MonologueField
 @export var step: float
 @export var suffix: String
 
-@onready var control_label = $ControlLabel
-@onready var display_label = $DisplayLabel
-@onready var reset_button = $ResetButton
-@onready var slider = $HSlider
+@onready var control_label = $FieldLabel
+@onready var display_label = $HBoxContainer/DisplayLabel
+@onready var reset_button = $HBoxContainer/ResetButton
+@onready var slider = $HBoxContainer/HSlider
 
 
 func _ready():

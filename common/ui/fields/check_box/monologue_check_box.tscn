@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://71sq1ohwv8cn"]
+[gd_scene load_steps=3 format=3 uid="uid://71sq1ohwv8cn"]
 
 [ext_resource type="Script" uid="uid://m2a68q1fce52" path="res://common/ui/fields/check_box/monologue_check_box.gd" id="1_awprp"]
+[ext_resource type="PackedScene" uid="uid://x0daq5tsejey" path="res://common/ui/fields/field_label.tscn" id="2_8ij76"]
 
 [node name="MonologueCheckBox" type="HBoxContainer"]
 custom_minimum_size = Vector2(0, 32)
@@ -36,8 +37,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 expand_icon = true
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" parent="." instance=ExtResource("2_8ij76")]
 layout_mode = 2
-text = "Enable"
 
 [connection signal="toggled" from="Control/CheckBox" to="." method="_on_check_box_toggled"]

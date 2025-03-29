@@ -1,17 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://durq2yowmkr60"]
+[gd_scene load_steps=4 format=3 uid="uid://durq2yowmkr60"]
 
 [ext_resource type="Script" uid="uid://laakj3xm565t" path="res://common/ui/fields/text/monologue_text.gd" id="1_m7tlj"]
 [ext_resource type="Texture2D" uid="uid://bu603ytypk2jb" path="res://ui/assets/icons/expand.svg" id="2_mkdom"]
+[ext_resource type="PackedScene" uid="uid://x0daq5tsejey" path="res://common/ui/fields/field_label.tscn" id="2_nsrvi"]
 
 [node name="MonologueText" type="HBoxContainer"]
 size_flags_horizontal = 3
 script = ExtResource("1_m7tlj")
 
-[node name="Label" type="Label" parent="."]
-custom_minimum_size = Vector2(100, 0)
+[node name="Label" parent="." instance=ExtResource("2_nsrvi")]
 layout_mode = 2
-size_flags_vertical = 0
-text = "Value"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
