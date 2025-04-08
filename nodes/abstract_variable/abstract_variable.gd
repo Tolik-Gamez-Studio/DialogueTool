@@ -77,6 +77,10 @@ func record_morph(new_value: Variant):
 			last_number = new_value
 		TYPE_STRING:
 			last_string = new_value
+	
+	# display integer without decimals
+	match get_variable_type(variable.value):
+		"Integer": new_value = int(new_value)
 	get_value_label().text = str(new_value)
 
 
@@ -97,7 +101,7 @@ func value_morph(selected_name: Variant = variable.value) -> void:
 			value.morph(SPINBOX)
 			value.value = int(last_number)
 			value.propagate(int(last_number), false)
-			get_value_label().text = str(last_number)
+			get_value_label().text = str(int(last_number))
 		"String":
 			operator.invoke("disable_items", [get_operator_disabler()])
 			value.morph(LINE)

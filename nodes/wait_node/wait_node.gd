@@ -13,7 +13,7 @@ func _ready() -> void:
 
 
 func _on_wait_preview(value: Variant):
-	wait_label.text = str(value)
+	wait_label.text = str(int(value))
 
 
 func _update():

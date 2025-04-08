@@ -53,7 +53,7 @@ func add_output(data: Dictionary = {}) -> MonologueRandomOutput:
 	_output_references.append(output)
 	var line_instance := output_line.instantiate()
 	add_child(line_instance)
-	line_instance.update_label(str(output.weight.value) + "%")
+	line_instance.update_label(str(int(output.weight.value)) + "%")
 	
 	# if output was added from scratch, redistribute all equally
 	if not data:
