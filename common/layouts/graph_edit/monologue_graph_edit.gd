@@ -372,6 +372,11 @@ func _on_connection_to_empty(node: String, port: int, release: Vector2) -> void:
 	GlobalSignal.emit("enable_picker_mode", [node, port, release, graph_release, center])
 
 
+func _on_focus_entered() -> void:
+	# when the user focuses on the graph edit itself, close unnecessary stuff
+	GlobalSignal.emit("show_languages", [false])
+
+
 func _on_node_selected(node) -> void:
 	if node is MonologueGraphNode:
 		selected_nodes.append(node)
