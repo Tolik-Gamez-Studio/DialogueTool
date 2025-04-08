@@ -54,6 +54,8 @@ func set_items(data: Array, key_text: String = "text", key_id: String = "EditorI
 	option_button.clear()
 	for idx in range(data.size()):
 		var item_id = data[idx].get(key_id, -1)
+		if item_id is String:
+			item_id = -1
 		var item_name = data[idx]
 		var item_name_path = key_text.split("/")
 		
