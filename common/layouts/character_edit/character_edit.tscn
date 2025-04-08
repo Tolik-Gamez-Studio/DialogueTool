@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" path="res://common/layouts/character_edit/character_edit.gd" id="1_mo23b"]
 [ext_resource type="LabelSettings" uid="uid://cu53lojswyksx" path="res://common/layouts/character_edit/theme/title_label_settings.tres" id="2_50fu3"]
-[ext_resource type="Script" path="res://common/layouts/character_edit/portrait_list_section.gd" id="5_mpn8l"]
+[ext_resource type="Script" uid="uid://0j3efmsb2t3o" path="res://common/layouts/character_edit/portrait_list_section.gd" id="5_mpn8l"]
 [ext_resource type="Texture2D" uid="uid://c7ee44ql1gv6b" path="res://ui/assets/icons/offset_cross.svg" id="6_q7cn4"]
-[ext_resource type="Script" path="res://addons/ReorderableContainer/reorderable_vbox.gd" id="6_rcm5i"]
+[ext_resource type="Script" uid="uid://njbq7fjqywkc" path="res://addons/ReorderableContainer/reorderable_vbox.gd" id="6_rcm5i"]
 [ext_resource type="Script" path="res://common/layouts/character_edit/portrait_settings_section.gd" id="7_gu775"]
 [ext_resource type="Script" path="res://common/layouts/character_edit/timeline_section.gd" id="9_shsbx"]
 [ext_resource type="Texture2D" uid="uid://hmjhxdsk3pwj" path="res://ui/assets/icons/trash.svg" id="10_m01ot"]

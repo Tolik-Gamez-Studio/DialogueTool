@@ -71,6 +71,8 @@ func load_portraits(new_portrait_list: Array) -> void:
 
 func _from_dict(dict: Dictionary) -> void:
 	super._from_dict(dict)
+	# custom handling because the default_portrait property is a little special
+	default_portrait.value = dict.get("DefaultPortrait", "")
 	load_portraits(dict.get("Portraits", []))
 	portraits.propagate(portraits.value)
 
