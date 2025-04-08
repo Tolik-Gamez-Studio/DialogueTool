@@ -10,9 +10,8 @@ var recent_filepaths: Array = []
 
 
 func _ready() -> void:
-	create_file()
-	load_file()
-	show_or_hide()
+	GlobalSignal.add_listener("load_successful", add)
+	refresh()
 
 
 ## Adds a new filepath as recent file and save it to the history file.
@@ -22,6 +21,25 @@ func add(filepath: String) -> void:
 		recent_filepaths.erase(filepath)
 		recent_filepaths.push_front(filepath)
 		file.store_string(JSON.stringify(recent_filepaths.slice(0, 10)))
+		file.close()
+		refresh()
+
+
+func create_button(filepath: String) -> Button:
+	var btn = button_scene.instantiate()
+	var btn_text = filepath.replace("\\", "/")
+	btn_text = btn_text.replace("//", "/")
+	btn_text = btn_text.split("/")
+	if btn_text.size() >= 2:
+		btn_text = btn_text.slice(-2, btn_text.size())
+		btn_text = btn_text[0].path_join(btn_text[1])
+	else:
+		btn_text = btn_text.back()
+	
+	btn.text = Util.truncate_filename(btn_text)
+	btn.pressed.connect(GlobalSignal.emit.bind("load_project", [filepath]))
+	button_container.add_child(btn)
+	return btn
 
 
 ## Create the recent file history save in user directory if it doesn't exist.
@@ -39,19 +57,7 @@ func load_file() -> void:
 		
 		for path in data.slice(0, 3):
 			recent_filepaths.append(path)
-			var btn = button_scene.instantiate()
-			var btn_text = path.replace("\\", "/")
-			btn_text = btn_text.replace("//", "/")
-			btn_text = btn_text.split("/")
-			if btn_text.size() >= 2:
-				btn_text = btn_text.slice(-2, btn_text.size())
-				btn_text = btn_text[0].path_join(btn_text[1])
-			else:
-				btn_text = btn_text.back()
-			
-			btn.text = Util.truncate_filename(btn_text)
-			btn.pressed.connect(GlobalSignal.emit.bind("load_project", [path]))
-			button_container.add_child(btn)
+			create_button(path)
 
 
 ## Return only the recent files that still exist as a JSON array.
@@ -60,6 +66,16 @@ func parse_history(text: String) -> Array:
 	if data is Array:
 		return data.filter(func(p): return FileAccess.file_exists(p))
 	return []
+
+
+## Remake the recent file list.
+func refresh() -> void:
+	for child in button_container.get_children():
+		child.queue_free()
+	recent_filepaths.clear()
+	create_file()
+	load_file()
+	show_or_hide()
 
 
 ## Show container if recent file buttons are present, otherwise hide it.

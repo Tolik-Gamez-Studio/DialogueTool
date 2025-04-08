@@ -106,6 +106,7 @@ func load_project(path: String, new_graph: bool = false) -> void:
 		_connect_nodes(node_list)
 		graph_switcher.add_root()
 		graph_switcher.current.update_node_positions()
+		GlobalSignal.emit("load_successful", [path])
 
 
 ## Reload the current graph edit and side panel values.
