@@ -19,10 +19,9 @@ func _ready():
 
 func clear():
 	for field in fields_container.get_children():
-		fields_container.remove_child(field)
-		field.queue_free()
+		field.free()
 	if is_instance_valid(id_field):
-		id_field.queue_free()
+		id_field.free()
 
 
 func on_graph_node_deselected(_node):
