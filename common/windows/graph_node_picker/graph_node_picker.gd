@@ -37,6 +37,7 @@ func _on_enable_picker_mode(node: String = "", port: int = -1, mouse_pos = null,
 		else:
 			var mouse_position =  Vector2i(get_parent().get_global_mouse_position())
 			position = get_tree().get_root().position + mouse_position
+		current_screen = get_tree().get_root().current_screen
 		show()
 
 
