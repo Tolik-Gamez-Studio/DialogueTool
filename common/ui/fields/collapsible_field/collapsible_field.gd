@@ -23,7 +23,7 @@ func _ready() -> void:
 
 func add_item(item: Control, force_readable_name: bool = false) -> void:
 	if separate_items and vbox.get_children().size() > 0:
-		vbox.add_child(HSeparator.new())
+		vbox.add_child(HSeparator.new(), true)
 	
 	vbox.add_child(item, force_readable_name)
 

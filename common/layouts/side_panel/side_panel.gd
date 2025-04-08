@@ -19,6 +19,7 @@ func _ready():
 
 func clear():
 	for field in fields_container.get_children():
+		fields_container.remove_child(field)
 		field.queue_free()
 	if is_instance_valid(id_field):
 		id_field.queue_free()
@@ -38,6 +39,19 @@ func on_graph_node_selected(node: MonologueGraphNode, bypass: bool = false):
 		else:
 			graph_edit.active_graphnode = null
 			return
+	
+	# hack to preserve focus if the side panel contains the same node paths
+	var focus_owner = get_viewport().gui_get_focus_owner()
+	var refocus_path: NodePath = ""
+	var refocus_line: int = -1
+	var refocus_column: int = -1
+	if focus_owner:
+		refocus_path = get_path_to(focus_owner)
+		if focus_owner is TextEdit:
+			refocus_line = focus_owner.get_caret_line()
+			refocus_column = focus_owner.get_caret_column()
+		elif focus_owner is LineEdit:
+			refocus_column = focus_owner.get_caret_column()
 	
 	clear()
 	selected_node = node
@@ -59,7 +73,7 @@ func on_graph_node_selected(node: MonologueGraphNode, bypass: bool = false):
 			for group in item:
 				var fields = item[group]
 				var field_obj: CollapsibleField = collapsible_field.instantiate()
-				fields_container.add_child(field_obj)
+				fields_container.add_child(field_obj, true)
 				field_obj.set_title(group)
 				
 				for field_name in fields:
@@ -87,6 +101,8 @@ func on_graph_node_selected(node: MonologueGraphNode, bypass: bool = false):
 			field.set_label_text(property_name.capitalize())
 
 	show()
+	# if focus was preserved, restore it
+	restore_focus(refocus_path, refocus_line, refocus_column)
 
 
 ## If the side panel for the node is visible, release the focus so that
@@ -97,6 +113,18 @@ func refocus(node: MonologueGraphNode) -> void:
 		if focus_owner:
 			focus_owner.release_focus()
 			focus_owner.grab_focus()
+
+
+## Hacky improvement for #52 to maintain focus on side panel refresh.
+func restore_focus(node_path: NodePath, line: int, column: int) -> void:
+	if node_path:
+		var node = get_node_or_null(node_path)
+		if is_instance_valid(node) and node is Control:
+			node.grab_focus()
+			if line >= 0:
+				node.set_caret_line(line)
+			if column >= 0:
+				node.set_caret_column(column)
 
 
 func _on_rfh_button_pressed() -> void:
