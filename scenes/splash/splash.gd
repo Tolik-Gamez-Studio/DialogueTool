@@ -2,8 +2,8 @@ extends Control
 
 
 @export_file var load_scene: String
-@export var min_display_time: float = 2.0
-@export var after_blink_time: float = 1.0
+@export var min_display_time: float = 0.2
+@export var after_blink_time: float = 0.5
 
 @onready var timer = $tMinDisplayTime
 @onready var eye = $CenterContainer/AnimatedSprite2D
