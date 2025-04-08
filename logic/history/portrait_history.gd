@@ -21,14 +21,16 @@ func revert_properties() -> void:
 	_display_portrait()
 
 
-func set_property(_node: Variant, property: String, value: Variant) -> void:
-	graph_edit.speakers[character_index]["Character"]["Portraits"][portrait_index][Util.to_key_name(property)] = value
+func set_property(node: Variant, property: String, value: Variant) -> void:
+	super.set_property(node, property, value)
+	var character_dict = graph_edit.speakers[character_index]["Character"]
+	var key = Util.to_key_name(property)
+	character_dict["Portraits"][portrait_index][key] = value
 
 
 func _display_portrait() -> void:
-	var _node = graph_edit.get_node(node_path)
-	#if node[changes[0].property].field.is_visible_in_tree():
-		#GlobalSignal.emit("reload_character_edit", [character_index])
-	#else:
-		#graph_edit.set_selected(graph_edit.get_root_node())
-		#GlobalSignal.emit("open_character_edit", [graph_edit, character_index])
+	GlobalSignal.emit("select_portrait_option", [portrait_index])
+
+
+func _update_character(_property: String, _value: Variant) -> void:
+	pass  # intentionally overriden to do nothing, do not remove!

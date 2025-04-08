@@ -23,7 +23,7 @@ func revert_properties() -> void:
 
 func set_property(node: Variant, property: String, value: Variant) -> void:
 	super.set_property(node, property, value)
-	graph_edit.speakers[character_index]["Character"][Util.to_key_name(property)] = value
+	_update_character(property, value)
 
 
 func _display_character() -> void:
@@ -34,8 +34,12 @@ func _display_character() -> void:
 	else:
 		graph_edit.set_selected(graph_edit.get_root_node())
 		GlobalSignal.emit("open_character_edit", [graph_edit, character_index])
-		
 
 
 func _hide_unrelated_windows() -> void:
-	pass  # override
+	pass  # intentionally overriden to do nothing, do not remove!
+
+
+func _update_character(property: String, value: Variant) -> void:
+	var key = Util.to_key_name(property)
+	graph_edit.speakers[character_index]["Character"][key] = value
