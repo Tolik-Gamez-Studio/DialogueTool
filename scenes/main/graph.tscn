@@ -1,20 +1,20 @@
 [gd_scene load_steps=17 format=3 uid="uid://bqjfdabrxujp7"]
 
-[ext_resource type="Script" path="res://scenes/main/monologue_control.gd" id="1_r00lk"]
+[ext_resource type="Script" uid="uid://q6eg6rid6xqd" path="res://scenes/main/monologue_control.gd" id="1_r00lk"]
 [ext_resource type="Texture2D" uid="uid://cfc0nhupnhixg" path="res://icon_min.png" id="5_cttu0"]
-[ext_resource type="Script" path="res://scenes/main/main_menu.gd" id="6_0gy3h"]
+[ext_resource type="Script" uid="uid://m1wxne1g6kju" path="res://scenes/main/main_menu.gd" id="6_0gy3h"]
 [ext_resource type="PackedScene" uid="uid://dgvhvxdrd58qp" path="res://common/layouts/side_panel/side_panel.tscn" id="6_3jc6d"]
 [ext_resource type="PackedScene" uid="uid://cb3se7h7akt47" path="res://common/layouts/language_switcher/language_switcher.tscn" id="6_nqv8k"]
-[ext_resource type="Script" path="res://scenes/main/add_node_button.gd" id="6_tdvn8"]
-[ext_resource type="Script" path="res://scenes/main/search_bar_container.gd" id="7_eu0e0"]
+[ext_resource type="Script" uid="uid://bmku341x5gaoe" path="res://scenes/main/add_node_button.gd" id="6_tdvn8"]
+[ext_resource type="Script" uid="uid://q0oqx6butjwn" path="res://scenes/main/search_bar_container.gd" id="7_eu0e0"]
 [ext_resource type="PackedScene" uid="uid://cvum3eaenloix" path="res://common/layouts/search_bar/search_bar.tscn" id="8_tvorm"]
 [ext_resource type="PackedScene" uid="uid://bcs6s2yuf374j" path="res://common/layouts/expanded_text_edit/expanded_text_edit_container.tscn" id="9_v3rw4"]
-[ext_resource type="Script" path="res://scenes/main/graph_edit_switcher.gd" id="11_k843q"]
-[ext_resource type="PackedScene" uid="uid://1agbvbqhayb8" path="res://common/windows/welcome_window/welcome_window.tscn" id="14_mv3om"]
+[ext_resource type="Script" uid="uid://nxistnt1yhxc" path="res://scenes/main/graph_edit_switcher.gd" id="11_k843q"]
+[ext_resource type="PackedScene" uid="uid://bqqcww601rcx5" path="res://common/windows/welcome_window/welcome_window.tscn" id="14_mv3om"]
 [ext_resource type="Texture2D" uid="uid://b272tbdmvxj20" path="res://ui/assets/icons/play.svg" id="15_hn16p"]
 [ext_resource type="PackedScene" uid="uid://d3f7d4bb40iht" path="res://common/windows/preview_window/preview_window.tscn" id="19_gp2ng"]
 [ext_resource type="PackedScene" uid="uid://cmpsaafag7cwl" path="res://common/windows/graph_node_picker/graph_node_picker.tscn" id="19_myvjg"]
-[ext_resource type="Script" path="res://common/windows/file_dialog/file_dialog.gd" id="20_2dvte"]
+[ext_resource type="Script" uid="uid://b2l7hjfyrnr3x" path="res://common/windows/file_dialog/file_dialog.gd" id="20_2dvte"]
 
 [sub_resource type="GDScript" id="GDScript_lenro"]
 script/source = "extends Button
@@ -232,8 +232,10 @@ visible = false
 layout_mode = 1
 
 [node name="GraphNodePicker" parent="." node_paths=PackedStringArray("switcher") instance=ExtResource("19_myvjg")]
-initial_position = 1
 visible = false
+keep_title_visible = false
+content_scale_mode = 2
+content_scale_aspect = 1
 switcher = NodePath("../MarginContainer/MainContainer/GraphEditsArea/GraphEditSwitcher")
 
 [node name="PreviewWindow" parent="." instance=ExtResource("19_gp2ng")]
