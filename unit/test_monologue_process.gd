@@ -179,9 +179,14 @@ func test_process_conditional_text_calculation_nested():
 	assert_str(runner.process_conditional_text(text)).is_equal("36.8")
 
 
-func test_process_conditional_text_calculation_numbers():
-	var text = "{{ 4 * 1.5 + 20 / 5 }}"
+func test_process_conditional_text_calculation_integer():
+	var text = "{{ int(4 * 1.5 + 20 / 5) }}"
 	assert_str(runner.process_conditional_text(text)).is_equal("10")
+
+
+func test_process_conditional_text_calculation_float():
+	var text = "{{ 4 * 1.5 + 20 / 5 }}"
+	assert_str(runner.process_conditional_text(text)).is_equal("10.0")
 
 
 func test_process_conditional_text_calculation_variable():

@@ -16,7 +16,9 @@ func before_test():
 	lang1.language_name = "Lang1"
 	lang2.name = "LanguageOption2"
 	lang2.language_name = "Lang2"
+	do_return(lang1).on(switcher).get_by_node_name(&"LanguageOption1")
 	do_return(lang1).on(switcher).get_by_node_name("LanguageOption1")
+	do_return(lang2).on(switcher).get_by_node_name(&"LanguageOption2")
 	do_return(lang2).on(switcher).get_by_node_name("LanguageOption2")
 	do_return({"Lang1": lang1.name, "Lang2": lang2.name}).on(switcher).get_languages()
 	
