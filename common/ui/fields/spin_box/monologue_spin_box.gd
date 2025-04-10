@@ -1,6 +1,7 @@
 class_name MonologueSpinBox extends MonologueField
 
 
+@export var as_integer: bool = true
 @export var minimum: float = -9999999999
 @export var maximum: float = 9999999999
 @export var step: float = 1
@@ -31,12 +32,15 @@ func propagate(value: Variant) -> void:
 
 
 func _on_focus_exited() -> void:
-	_on_text_submitted(spin_box.value)
+	_on_text_submitted(int(spin_box.value) if as_integer else spin_box.value)
 
 
 func _on_text_submitted(_new_value: Variant) -> void:
-	field_updated.emit(spin_box.value)
+	field_updated.emit(int(spin_box.value) if as_integer else spin_box.value)
 
 
 func _on_value_changed(value: float) -> void:
-	field_changed.emit(value)
+	if as_integer:
+		field_changed.emit(int(value))
+	else:
+		field_changed.emit(value)

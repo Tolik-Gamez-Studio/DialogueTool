@@ -80,7 +80,7 @@ func record_morph(new_value: Variant):
 	
 	# display integer without decimals
 	match get_variable_type(variable.value):
-		"Integer": new_value = int(new_value)
+		"Integer": new_value = int(new_value) if new_value else 0
 	get_value_label().text = str(new_value)
 
 
