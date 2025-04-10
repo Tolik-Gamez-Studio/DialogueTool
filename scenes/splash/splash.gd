@@ -6,7 +6,7 @@ extends Control
 @export var after_blink_time: float = 0.5
 
 @onready var timer = $tMinDisplayTime
-@onready var eye = $CenterContainer/AnimatedSprite2D
+@onready var eye = $CenterContainer/TextureRect/AnimatedSprite2D
 
 
 func _ready() -> void:
