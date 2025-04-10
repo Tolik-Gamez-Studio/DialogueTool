@@ -2,17 +2,16 @@
 class_name MonologueThemeGenerator extends ProgrammaticTheme
 
 
-var PRIMARY_COLOR := Color("313136")
-var SECONDARY_COLOR := Color("36363c")
-var TERTIARY_COLOR := Color("46464d")
-var PRIMARY_TEXT_COLOR := Color("ffffff")
-var PRIMARY_TEXT_COLOR_02 := Color("ffffff05")
-var PRIMARY_TEXT_COLOR_40 := Color("ffffff64")
+var PRIMARY_COLOR := Color("373434")
+var SECONDARY_COLOR := Color("4e4343")
+var PRIMARY_TEXT_COLOR := Color("ebe5e6")
+var PRIMARY_TEXT_COLOR_02 := Color("ebe5e605")
+var PRIMARY_TEXT_COLOR_40 := Color("ebe5e664")
 var SECONDARY_TEXT_COLOR := Color("b3b3b3")
-var ACCENT_COLOR := Color("d55160")
+var ACCENT_COLOR := Color("d15050")
 var ERROR_COLOR := Color("c42e40")
-var BACKGROUND_COLOR := Color("1e1e21")
-var BORDER_COLOR := TERTIARY_COLOR
+var BACKGROUND_COLOR := Color("0b0607")
+var BORDER_COLOR := SECONDARY_COLOR
 
 var DEFAULT_BORDER_WIDTH := 1
 var PRIMARY_CORNER_RADIUS := 30
@@ -41,8 +40,8 @@ var SEPARATOR_STYLE: Dictionary = stylebox_line({
 })
 
 # Button states
-var HOVER_BUTTON := { bg_color = TERTIARY_COLOR }
-var PRESSED_BUTTON := { bg_color = TERTIARY_COLOR }
+var HOVER_BUTTON := { bg_color = SECONDARY_COLOR }
+var PRESSED_BUTTON := { bg_color = SECONDARY_COLOR }
 var EMPTY_BUTTON := { draw_center = false }
 var ACCENT_BUTTON := { bg_color = ACCENT_COLOR }
 var ERROR_BUTTON := { border_color = ERROR_COLOR, borders_ = border_width(DEFAULT_BORDER_WIDTH) }
@@ -297,7 +296,7 @@ func define_popup_menu() -> void:
 		font_size = 16,
 		hover = inherit(GENERAL_NORMAL_STYLEBOX, stylebox_flat({
 			corners_ = corner_radius(TERTIARY_CONTENT_MARGIN),
-			bg_color = TERTIARY_COLOR
+			bg_color = SECONDARY_COLOR
 		})),
 		panel = popupmenu_style,
 		separator = inherit(SEPARATOR_STYLE, stylebox_flat({ vertical = true }))
@@ -322,7 +321,7 @@ func define_scroll_bar() -> void:
 
 # TabBar
 func define_tab_bar() -> void:
-	var hovered_tab = stylebox_flat({ bg_color = TERTIARY_COLOR })
+	var hovered_tab = stylebox_flat({ bg_color = SECONDARY_COLOR })
 	var selected_tab = stylebox_flat({ bg_color = ACCENT_COLOR })
 	var unselected_tab = stylebox_flat({ draw_center = false })
 
@@ -426,7 +425,7 @@ func _button_style_builder(style, node_type, variant_name: String = "") -> void:
 
 func _scroll_bar_builder(node_type, variant_name: String = "") -> void:
 	var grabber_style = stylebox_flat({
-		bg_color = TERTIARY_COLOR,
+		bg_color = SECONDARY_COLOR,
 		corner_ = corner_radius(SECONDARY_CORNER_RADIUS)
 	})
 	var scroll_style = stylebox_flat({

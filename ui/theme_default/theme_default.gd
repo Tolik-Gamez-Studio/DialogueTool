@@ -1,0 +1,2 @@
+@tool
+class_name DefaultTheme extends MonologueThemeGenerator
