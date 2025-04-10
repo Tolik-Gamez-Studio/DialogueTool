@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c7bl8kcyl4fxb" path="res://common/windows/preview_window/preview_window.gd" id="1_15o47"]
 
-[node name="PreviewWindow" type="Window"]
+[node name="PreviewWindow" type="Window" node_paths=PackedStringArray("dns_checkbox")]
 auto_translate_mode = 1
 transparent_bg = true
 initial_position = 2
@@ -18,6 +18,7 @@ transparent = true
 content_scale_mode = 2
 content_scale_aspect = 1
 script = ExtResource("1_15o47")
+dns_checkbox = NodePath("PanelContainer/MarginContainer/VBoxContainer/DNSChecker")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 clip_children = 2
@@ -46,6 +47,10 @@ text = "[center][b]Monologue Preview[/b][/center]
 Monologue is in preview. If you encounter any bugs or issues, please report them on [url=https://github.com/atomic-junky/Monologue/]GitHub[/url] by creating an issue.
 
 Thank you very much for using Monologue!"
+
+[node name="DNSChecker" type="CheckBox" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Don't show this again"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2

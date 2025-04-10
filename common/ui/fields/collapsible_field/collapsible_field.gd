@@ -22,8 +22,9 @@ func _ready() -> void:
 
 
 func add_item(item: Control, force_readable_name: bool = false) -> void:
-	if separate_items and vbox.get_children().size() > 0:
-		vbox.add_child(HSeparator.new())
+	var existing_children = vbox.get_children().filter(_is_not_being_deleted)
+	if separate_items and existing_children.size() > 0:
+		vbox.add_child(HSeparator.new(), true)
 	
 	vbox.add_child(item, force_readable_name)
 
@@ -36,14 +37,17 @@ func get_items() -> Array[Node]:
 	return vbox.get_children().filter(func(c): return c is not HSeparator)
 
 
+func is_open() -> bool:
+	return collapsible_container.visible
+
+
 func clear() -> void:
 	for child in vbox.get_children():
-		vbox.remove_child(child)
 		child.queue_free()
 
 
 func _on_button_pressed() -> void:
-	if collapsible_container.visible:
+	if is_open():
 		close()
 	else:
 		open()
@@ -61,3 +65,7 @@ func close() -> void:
 
 func _on_add_button_pressed() -> void:
 	add_pressed.emit()
+
+
+func _is_not_being_deleted(node: Node) -> bool:
+	return not node.is_queued_for_deletion()

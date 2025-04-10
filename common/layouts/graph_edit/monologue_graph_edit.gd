@@ -372,6 +372,13 @@ func _on_connection_to_empty(node: String, port: int, release: Vector2) -> void:
 	GlobalSignal.emit("enable_picker_mode", [node, port, release, graph_release, center])
 
 
+func _on_gui_input(event: InputEvent) -> void:
+	# when the user clicks on the graph edit, close unnecessary stuff
+	if event is InputEventMouseButton and event.is_pressed() and \
+			event.button_index == MOUSE_BUTTON_LEFT:
+		GlobalSignal.emit("show_languages", [false])
+
+
 func _on_node_selected(node) -> void:
 	if node is MonologueGraphNode:
 		selected_nodes.append(node)

@@ -63,8 +63,8 @@ texture = ExtResource("2_rikux")
 expand_mode = 5
 stretch_mode = 5
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CenterContainer"]
-position = Vector2(559, 479)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CenterContainer/TextureRect"]
+position = Vector2(142, 40)
 scale = Vector2(0.263, 0.26)
 sprite_frames = SubResource("SpriteFrames_tj644")
 animation = &"blink"
