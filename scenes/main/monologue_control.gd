@@ -113,6 +113,8 @@ func refresh(node: MonologueGraphNode = null, affected_properties: PackedStringA
 	# if there is a given node, refresh only the parts that were specified
 	if node:
 		node.reload_preview()
+		if node is not OptionNode:
+			node._update.call_deferred()
 		if side_panel_node.visible:
 			# actual property value updates are handled by PropertyHistory
 			for property_name in affected_properties:
@@ -120,11 +122,13 @@ func refresh(node: MonologueGraphNode = null, affected_properties: PackedStringA
 				if is_instance_valid(field):
 					field.open()
 		else:
-			node.get_graph_edit().set_selected(node)
+			var choice = node.choice_node if node is OptionNode else node
+			node.get_graph_edit().set_selected(choice)
 	# otherwise, remake the entire panel and refresh all node previews
 	else:
 		for each_node in graph_switcher.current.get_nodes():
 			each_node.reload_preview()
+			#each_node._update.call_deferred()
 		if side_panel_node.visible:
 			var current_node = side_panel_node.selected_node
 			side_panel_node.on_graph_node_selected(current_node, true)

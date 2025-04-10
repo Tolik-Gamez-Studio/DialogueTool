@@ -26,21 +26,23 @@ func _init(graph: MonologueGraphEdit, path: NodePath,
 
 
 func change_properties() -> void:
+	var language := str(GlobalVariables.language_switcher.get_current_language())
 	reset_language()
 	var node: MonologueGraphNode = graph_edit.get_node(node_path)
 	for change in changes:
 		node[change.property].propagate(change.after)
 		node[change.property].value = change.after
-	refresh_properties(node)
+	refresh_properties(node, language)
 
 
 func revert_properties() -> void:
+	var language := str(GlobalVariables.language_switcher.get_current_language())
 	reset_language()
 	var node: MonologueGraphNode = graph_edit.get_node(node_path)
 	for change in changes:
 		node[change.property].propagate(change.before)
 		node[change.property].value = change.before
-	refresh_properties(node)
+	refresh_properties(node, language)
 
 
 func reset_language() -> void:
@@ -48,8 +50,7 @@ func reset_language() -> void:
 		GlobalVariables.language_switcher.select_by_locale(locale, false)
 
 
-func refresh_properties(node: MonologueGraphNode) -> void:
-	var language = str(GlobalVariables.language_switcher.get_current_language())
+func refresh_properties(node: MonologueGraphNode, language: String) -> void:
 	var graph_node: MonologueGraphNode = null
 	var properties: PackedStringArray = []
 	# if language is the same, we can do partial refresh with given properties
