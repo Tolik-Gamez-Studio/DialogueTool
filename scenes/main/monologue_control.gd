@@ -111,11 +111,22 @@ func load_project(path: String, new_graph: bool = false) -> void:
 
 
 ## Reload the current graph edit and side panel values.
-func refresh() -> void:
-	for node in graph_switcher.current.get_nodes():
+func refresh(node: MonologueGraphNode = null, affected_properties: PackedStringArray = []) -> void:
+	# if there is a given node, refresh only the parts that were specified
+	if node:
 		node.reload_preview()
-	if side_panel_node.visible:
-		side_panel_node.on_graph_node_selected(side_panel_node.selected_node, true)
+		if side_panel_node.visible:
+			for property_name in affected_properties:
+				var field = side_panel_node.collapsibles.get(property_name)
+				if is_instance_valid(field):
+					field.open()
+	# otherwise, remake the entire panel and refresh all node previews
+	else:
+		for each_node in graph_switcher.current.get_nodes():
+			each_node.reload_preview()
+		if side_panel_node.visible:
+			var current_node = side_panel_node.selected_node
+			side_panel_node.on_graph_node_selected(current_node, true)
 
 
 func save():

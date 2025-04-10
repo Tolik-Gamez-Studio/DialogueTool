@@ -36,6 +36,10 @@ func get_items() -> Array[Node]:
 	return vbox.get_children().filter(func(c): return c is not HSeparator)
 
 
+func is_open() -> bool:
+	return collapsible_container.visible
+
+
 func clear() -> void:
 	for child in vbox.get_children():
 		vbox.remove_child(child)
@@ -43,7 +47,7 @@ func clear() -> void:
 
 
 func _on_button_pressed() -> void:
-	if collapsible_container.visible:
+	if is_open():
 		close()
 	else:
 		open()

@@ -8,6 +8,7 @@ class_name SidePanel extends PanelContainer
 @onready var ribbon_scene = preload("res://common/ui/ribbon/ribbon.tscn")
 @onready var collapsible_field = preload("res://common/ui/fields/collapsible_field/collapsible_field.tscn")
 
+var collapsibles: Dictionary[String, CollapsibleField]
 var id_field: MonologueField
 var selected_node: MonologueGraphNode
 
@@ -22,6 +23,7 @@ func clear():
 		field.free()
 	if is_instance_valid(id_field):
 		id_field.free()
+	collapsibles.clear()
 
 
 func on_graph_node_deselected(_node):
@@ -88,7 +90,8 @@ func on_graph_node_selected(node: MonologueGraphNode, bypass: bool = false):
 					if property.uncollapse:
 						field_obj.open()
 						property.uncollapse = false
-
+					collapsibles[field_name] = field_obj
+	
 	for property_name in property_names:
 		if property_name in already_invoke:
 			continue

@@ -31,8 +31,7 @@ func change_properties() -> void:
 	for change in changes:
 		node[change.property].propagate(change.after)
 		node[change.property].value = change.after
-	
-	GlobalSignal.emit.call_deferred("refresh")
+	refresh_properties(node)
 
 
 func revert_properties() -> void:
@@ -41,10 +40,21 @@ func revert_properties() -> void:
 	for change in changes:
 		node[change.property].propagate(change.before)
 		node[change.property].value = change.before
-	
-	GlobalSignal.emit.call_deferred("refresh")
+	refresh_properties(node)
 
 
 func reset_language() -> void:
 	if GlobalVariables.language_switcher:
 		GlobalVariables.language_switcher.select_by_locale(locale, false)
+
+
+func refresh_properties(node: MonologueGraphNode) -> void:
+	var language = str(GlobalVariables.language_switcher.get_current_language())
+	var graph_node: MonologueGraphNode = null
+	var properties: PackedStringArray = []
+	# if language is the same, we can do partial refresh with given properties
+	# otherwise, full refresh so other controls can reflect the language change
+	if locale == language:
+		graph_node = node
+		properties = changes.map(func(c): return c.property)
+	GlobalSignal.emit.call_deferred("refresh", [graph_node, properties])
