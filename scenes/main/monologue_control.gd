@@ -24,8 +24,6 @@ func _select_new_node() -> void:
 func _input(event):
 	if event.is_action_pressed("Save"):
 		save()
-	elif event.is_action_pressed("Add node"):
-		GlobalSignal.emit("enable_picker_mode")
 
 
 func _to_dict() -> Dictionary:

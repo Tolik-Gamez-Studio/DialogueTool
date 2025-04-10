@@ -13,6 +13,11 @@ func _ready() -> void:
 	preferences.load(Constants.PREFERENCES_PATH)
 
 
+func _shortcut_input(event: InputEvent) -> void:
+	if event.is_action_pressed("Add node"):
+		GlobalSignal.emit("enable_picker_mode")
+
+
 func update_window(update_size: bool = false):
 	var screen_size = DisplayServer.window_get_size()
 	var scale_factor: float = get_auto_display_scale()
