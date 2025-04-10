@@ -27,7 +27,7 @@ func clear():
 
 
 func on_graph_node_deselected(_node):
-	hide()
+	hide.call_deferred()
 
 
 func on_graph_node_selected(node: MonologueGraphNode, bypass: bool = false):
@@ -54,9 +54,10 @@ func on_graph_node_selected(node: MonologueGraphNode, bypass: bool = false):
 		elif focus_owner is LineEdit:
 			refocus_column = focus_owner.get_caret_column()
 	var uncollapse_paths: Array[NodePath] = []
-	for collapsible: CollapsibleField in collapsibles.values():
-		if collapsible.is_open():
-			uncollapse_paths.append(get_path_to(collapsible))
+	if node == selected_node:
+		for collapsible: CollapsibleField in collapsibles.values():
+			if collapsible.is_open():
+				uncollapse_paths.append(get_path_to(collapsible))
 	
 	clear()
 	selected_node = node

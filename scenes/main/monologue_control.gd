@@ -116,10 +116,13 @@ func refresh(node: MonologueGraphNode = null, affected_properties: PackedStringA
 	if node:
 		node.reload_preview()
 		if side_panel_node.visible:
+			# actual property value updates are handled by PropertyHistory
 			for property_name in affected_properties:
 				var field = side_panel_node.collapsibles.get(property_name)
 				if is_instance_valid(field):
 					field.open()
+		else:
+			node.get_graph_edit().set_selected(node)
 	# otherwise, remake the entire panel and refresh all node previews
 	else:
 		for each_node in graph_switcher.current.get_nodes():
