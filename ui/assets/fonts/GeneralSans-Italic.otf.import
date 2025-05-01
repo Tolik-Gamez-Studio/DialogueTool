@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://ck2dbblbnk1sy"
-path="res://.godot/imported/NotoSans-SemiBoldItalic.ttf-015163e62661a859862e10f22d798bd4.fontdata"
+uid="uid://uogpodgt3g3m"
+path="res://.godot/imported/GeneralSans-Italic.otf-8d3d5665dc500c87dfd9955ae8c43026.fontdata"
 
 [deps]
 
-source_file="res://ui/assets/fonts/NotoSans-SemiBoldItalic.ttf"
-dest_files=["res://.godot/imported/NotoSans-SemiBoldItalic.ttf-015163e62661a859862e10f22d798bd4.fontdata"]
+source_file="res://ui/assets/fonts/GeneralSans-Italic.otf"
+dest_files=["res://.godot/imported/GeneralSans-Italic.otf-8d3d5665dc500c87dfd9955ae8c43026.fontdata"]
 
 [params]
 
@@ -22,7 +22,7 @@ msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
 hinting=1
-subpixel_positioning=1
+subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0
 Fallbacks=null

@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://2eq6t1lcw61"
-path="res://.godot/imported/NotoSans-Italic.ttf-96de9a9f96d23f2777e9054915abe3c8.fontdata"
+uid="uid://b0xdcshqi622v"
+path="res://.godot/imported/GeneralSans-Regular.otf-b44d304c66ccd9d04e0f7acf8a30033c.fontdata"
 
 [deps]
 
-source_file="res://ui/assets/fonts/NotoSans-Italic.ttf"
-dest_files=["res://.godot/imported/NotoSans-Italic.ttf-96de9a9f96d23f2777e9054915abe3c8.fontdata"]
+source_file="res://ui/assets/fonts/GeneralSans-Regular.otf"
+dest_files=["res://.godot/imported/GeneralSans-Regular.otf-b44d304c66ccd9d04e0f7acf8a30033c.fontdata"]
 
 [params]
 
@@ -22,7 +22,7 @@ msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
 hinting=1
-subpixel_positioning=1
+subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0
 Fallbacks=null

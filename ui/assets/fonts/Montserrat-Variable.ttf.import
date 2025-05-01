@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://ccaljtcy4n3ce"
-path="res://.godot/imported/NotoSans-Regular.ttf-bb05a16ec6a334411c4a5fef5ff8810f.fontdata"
+uid="uid://cigt33hv8jj1e"
+path="res://.godot/imported/Montserrat-Variable.ttf-e865f9fc0ff57fd1b9724d168bbfb1df.fontdata"
 
 [deps]
 
-source_file="res://ui/assets/fonts/NotoSans-Regular.ttf"
-dest_files=["res://.godot/imported/NotoSans-Regular.ttf-bb05a16ec6a334411c4a5fef5ff8810f.fontdata"]
+source_file="res://ui/assets/fonts/Montserrat-Variable.ttf"
+dest_files=["res://.godot/imported/Montserrat-Variable.ttf-e865f9fc0ff57fd1b9724d168bbfb1df.fontdata"]
 
 [params]
 
@@ -22,7 +22,7 @@ msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
 hinting=1
-subpixel_positioning=1
+subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0
 Fallbacks=null

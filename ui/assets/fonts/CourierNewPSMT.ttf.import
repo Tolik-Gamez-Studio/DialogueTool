@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://bgymaphj77mml"
-path="res://.godot/imported/NotoSans-BoldItalic.ttf-2ad1e23e1cbf6e6f28e9abda5da94913.fontdata"
+uid="uid://dmd74vvvqx340"
+path="res://.godot/imported/CourierNewPSMT.ttf-e136e5a332e0e7367e1329529772002f.fontdata"
 
 [deps]
 
-source_file="res://ui/assets/fonts/NotoSans-BoldItalic.ttf"
-dest_files=["res://.godot/imported/NotoSans-BoldItalic.ttf-2ad1e23e1cbf6e6f28e9abda5da94913.fontdata"]
+source_file="res://ui/assets/fonts/CourierNewPSMT.ttf"
+dest_files=["res://.godot/imported/CourierNewPSMT.ttf-e136e5a332e0e7367e1329529772002f.fontdata"]
 
 [params]
 
@@ -22,7 +22,7 @@ msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
 hinting=1
-subpixel_positioning=1
+subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0
 Fallbacks=null

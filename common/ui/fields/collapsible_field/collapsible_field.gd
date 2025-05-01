@@ -24,7 +24,7 @@ func _ready() -> void:
 func add_item(item: Control, force_readable_name: bool = false) -> void:
 	if separate_items and vbox.get_children().size() > 0:
 		var separator := HSeparator.new()
-		separator.theme_type_variation = "HSeparator_Dotted"
+		separator.theme_type_variation = "HDottedSeparator"
 		vbox.add_child(separator)
 	
 	vbox.add_child(item, force_readable_name)

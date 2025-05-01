@@ -6,7 +6,7 @@
 [node name="SidePanelNodeDetails" type="PanelContainer"]
 offset_right = 158.0
 offset_bottom = 121.0
-theme_type_variation = &"PanelContainer_SidePanel"
+theme_type_variation = &"EditorSidePanel"
 script = ExtResource("1_haagr")
 
 [node name="Scroller" type="ScrollContainer" parent="."]
@@ -37,7 +37,7 @@ stretch_mode = 3
 
 [node name="HSeparator" type="HSeparator" parent="Scroller/VBox"]
 layout_mode = 2
-theme_type_variation = &"HSeparator_Grow10"
+theme_type_variation = &"HSeparatorGrow"
 
 [node name="Fields" type="VBoxContainer" parent="Scroller/VBox"]
 layout_mode = 2

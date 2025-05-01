@@ -49,7 +49,7 @@ text = "+"
 
 [node name="HSeparator" type="HSeparator" parent="."]
 layout_mode = 2
-theme_type_variation = &"HSeparator_Grow10"
+theme_type_variation = &"HSeparatorGrow"
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="CollapsibleContainer/VBox/MarginContainer/AddButton" to="." method="_on_add_button_pressed"]

@@ -1,22 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://bim51g1aibuw0"]
+[gd_scene load_steps=5 format=3 uid="uid://bim51g1aibuw0"]
 
 [ext_resource type="PackedScene" uid="uid://bqjfdabrxujp7" path="res://scenes/main/graph.tscn" id="1_kiov6"]
-[ext_resource type="Script" uid="uid://bsq6lognjqdwu" path="res://scenes/main/custom_title_bar.gd" id="1_sdg01"]
 [ext_resource type="Texture2D" uid="uid://cfc0nhupnhixg" path="res://icon_min.png" id="2_601ss"]
-[ext_resource type="PackedScene" uid="uid://c2k0l1j45eshc" path="res://scenes/main/title_bar_button.tscn" id="3_0m70l"]
 [ext_resource type="Texture2D" uid="uid://hlck6y4i3l5q" path="res://ui/assets/icons/plus.svg" id="3_gcdaj"]
-[ext_resource type="Texture2D" uid="uid://cxek38x4sufp5" path="res://ui/assets/icons/ui_reduce.svg" id="4_b7q52"]
 [ext_resource type="Script" uid="uid://m1wxne1g6kju" path="res://scenes/main/main_menu.gd" id="4_f1t0i"]
-[ext_resource type="Texture2D" uid="uid://c4ib88gq1pbjr" path="res://ui/assets/icons/ui_maximize.svg" id="5_fxbua"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k15gm"]
-bg_color = Color(1, 1, 1, 0.12549)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w73i2"]
-bg_color = Color(1, 1, 1, 0.12549)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1u5fg"]
-bg_color = Color(0.784314, 0.188235, 0.184314, 1)
 
 [node name="App" type="Control"]
 layout_mode = 3
@@ -38,7 +25,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_type_variation = &"PanelContainer_Secondary_Corner0"
+theme_type_variation = &"EditorBackground"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Frame"]
 layout_mode = 2
@@ -48,7 +35,6 @@ theme_override_constants/separation = 0
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_constants/separation = 0
-script = ExtResource("1_sdg01")
 
 [node name="MainPopupMenu" type="MenuButton" parent="Frame/VBoxContainer/CustomTitleBar"]
 custom_minimum_size = Vector2(43, 0)
@@ -73,41 +59,31 @@ clip_tabs = false
 tab_count = 1
 tab_0/icon = ExtResource("3_gcdaj")
 
-[node name="VSeparator2" type="VSeparator" parent="Frame/VBoxContainer/CustomTitleBar"]
-visible = false
-layout_mode = 2
-
-[node name="tbButtonContainer" type="HBoxContainer" parent="Frame/VBoxContainer/CustomTitleBar"]
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="tbReduceButton" parent="Frame/VBoxContainer/CustomTitleBar/tbButtonContainer" instance=ExtResource("3_0m70l")]
-layout_mode = 2
-theme_override_styles/hover = SubResource("StyleBoxFlat_k15gm")
-texture = ExtResource("4_b7q52")
-
-[node name="tbSizeButton" parent="Frame/VBoxContainer/CustomTitleBar/tbButtonContainer" instance=ExtResource("3_0m70l")]
-layout_mode = 2
-theme_override_styles/hover = SubResource("StyleBoxFlat_w73i2")
-texture = ExtResource("5_fxbua")
-
-[node name="tbCloseButton" parent="Frame/VBoxContainer/CustomTitleBar/tbButtonContainer" instance=ExtResource("3_0m70l")]
-layout_mode = 2
-theme_override_styles/hover = SubResource("StyleBoxFlat_1u5fg")
-hover_color = Color(0.784314, 0.188235, 0.184314, 1)
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Frame/VBoxContainer/CustomTitleBar"]
-layout_mode = 2
-
 [node name="HSeparator" type="HSeparator" parent="Frame/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 1
 
 [node name="MonologueControl" parent="Frame/VBoxContainer" instance=ExtResource("1_kiov6")]
 layout_mode = 2
 
-[node name="GraphEditSwitcher" parent="Frame/VBoxContainer/MonologueControl/MarginContainer/MainContainer/GraphEditsArea" index="0" node_paths=PackedStringArray("tab_bar")]
-tab_bar = NodePath("../../../../../CustomTitleBar/HBoxContainer2/TabBar")
+[node name="MainContainer" parent="Frame/VBoxContainer/MonologueControl" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GraphEditSwitcher" parent="Frame/VBoxContainer/MonologueControl/MainContainer/GraphEditsArea" index="0" node_paths=PackedStringArray("tab_bar")]
+tab_bar = NodePath("../../../../CustomTitleBar/HBoxContainer2/TabBar")
+
+[node name="SearchBarContainer" parent="Frame/VBoxContainer/MonologueControl/MainContainer/GraphEditsArea" index="3"]
+offset_left = 39.0
+offset_top = 138.0
+offset_right = 39.0
+offset_bottom = 138.0
 
 [node name="WelcomeWindow" parent="Frame/VBoxContainer/MonologueControl" index="4"]
 size = Vector2i(450, 277)
@@ -116,10 +92,5 @@ transient_to_focused = false
 exclusive = false
 content_scale_mode = 0
 content_scale_aspect = 0
-
-[connection signal="gui_input" from="Frame/VBoxContainer/CustomTitleBar" to="Frame/VBoxContainer/CustomTitleBar" method="_on_gui_input"]
-[connection signal="pressed" from="Frame/VBoxContainer/CustomTitleBar/tbButtonContainer/tbReduceButton" to="Frame/VBoxContainer/CustomTitleBar" method="_on_tb_reduce_button_pressed"]
-[connection signal="pressed" from="Frame/VBoxContainer/CustomTitleBar/tbButtonContainer/tbSizeButton" to="Frame/VBoxContainer/CustomTitleBar" method="_on_tb_size_button_pressed"]
-[connection signal="pressed" from="Frame/VBoxContainer/CustomTitleBar/tbButtonContainer/tbCloseButton" to="Frame/VBoxContainer/CustomTitleBar" method="_on_tb_close_button_pressed"]
 
 [editable path="Frame/VBoxContainer/MonologueControl"]

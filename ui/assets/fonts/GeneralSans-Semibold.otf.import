@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://cnlm7nq25lcm4"
-path="res://.godot/imported/NotoSans-Medium.ttf-aaab1f687b292f1a0541d7b624894b7e.fontdata"
+uid="uid://ddhkk7pj46bsj"
+path="res://.godot/imported/GeneralSans-Semibold.otf-cc72e9b985f04446ae794932fdf46271.fontdata"
 
 [deps]
 
-source_file="res://ui/assets/fonts/NotoSans-Medium.ttf"
-dest_files=["res://.godot/imported/NotoSans-Medium.ttf-aaab1f687b292f1a0541d7b624894b7e.fontdata"]
+source_file="res://ui/assets/fonts/GeneralSans-Semibold.otf"
+dest_files=["res://.godot/imported/GeneralSans-Semibold.otf-cc72e9b985f04446ae794932fdf46271.fontdata"]
 
 [params]
 
@@ -22,7 +22,7 @@ msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
 hinting=1
-subpixel_positioning=1
+subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0
 Fallbacks=null

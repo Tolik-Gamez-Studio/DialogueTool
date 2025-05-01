@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://dhakvb5ulphun"
-path="res://.godot/imported/NotoSans-Bold.ttf-7008770fe55e7bb4e3be76ab7a6daab0.fontdata"
+uid="uid://cx1dohmwi4i8o"
+path="res://.godot/imported/GeneralSans-Light.otf-ecd20e2cd7b16024f5ba0a79cf3190e2.fontdata"
 
 [deps]
 
-source_file="res://ui/assets/fonts/NotoSans-Bold.ttf"
-dest_files=["res://.godot/imported/NotoSans-Bold.ttf-7008770fe55e7bb4e3be76ab7a6daab0.fontdata"]
+source_file="res://ui/assets/fonts/GeneralSans-Light.otf"
+dest_files=["res://.godot/imported/GeneralSans-Light.otf-ecd20e2cd7b16024f5ba0a79cf3190e2.fontdata"]
 
 [params]
 
@@ -22,7 +22,7 @@ msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
 hinting=1
-subpixel_positioning=1
+subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0
 Fallbacks=null
