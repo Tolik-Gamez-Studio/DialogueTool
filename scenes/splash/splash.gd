@@ -7,7 +7,7 @@ extends Control
 
 @onready var timer = $tMinDisplayTime
 @onready var title = $CenterContainer/TextureRect
-@onready var eye = $CenterContainer/AnimatedSprite2D
+@onready var eye = $CenterContainer/TextureRect/AnimatedSprite2D
 
 
 func _ready() -> void:

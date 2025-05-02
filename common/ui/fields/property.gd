@@ -87,7 +87,6 @@ func show(panel: Control, child_index: int = -1, auto_margin: bool = true) -> Mo
 	field = scene.instantiate()
 	
 	field_container = MarginContainer.new()
-	field_container.theme_type_variation = "MarginContainer_Medium"
 	field_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	field_container.add_theme_constant_override("margin_right", 0)
 	field_container.add_theme_constant_override("margin_bottom", 0)

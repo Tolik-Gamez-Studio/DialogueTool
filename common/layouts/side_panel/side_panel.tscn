@@ -18,18 +18,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="TopBox" type="MarginContainer" parent="Scroller/VBox"]
-layout_mode = 2
-theme_type_variation = &"MarginContainer_Medium"
-theme_override_constants/margin_left = 0
-theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 0
-
-[node name="HBox" type="HBoxContainer" parent="Scroller/VBox/TopBox"]
+[node name="TopBox" type="HBoxContainer" parent="Scroller/VBox"]
 layout_mode = 2
 theme_type_variation = &"HBoxContainer_Small"
 
-[node name="RFHButton" type="TextureButton" parent="Scroller/VBox/TopBox/HBox"]
+[node name="RFHButton" type="TextureButton" parent="Scroller/VBox/TopBox"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource("2_34x8o")
@@ -42,4 +35,4 @@ theme_type_variation = &"HSeparatorGrow"
 [node name="Fields" type="VBoxContainer" parent="Scroller/VBox"]
 layout_mode = 2
 
-[connection signal="pressed" from="Scroller/VBox/TopBox/HBox/RFHButton" to="." method="_on_rfh_button_pressed"]
+[connection signal="pressed" from="Scroller/VBox/TopBox/RFHButton" to="." method="_on_rfh_button_pressed"]

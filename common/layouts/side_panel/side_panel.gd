@@ -4,13 +4,12 @@ class_name SidePanel extends PanelContainer
 
 
 @onready var fields_container = $Scroller/VBox/Fields
-@onready var topbox = $Scroller/VBox/TopBox/HBox
+@onready var topbox = $Scroller/VBox/TopBox
 @onready var ribbon_scene = preload("res://common/ui/ribbon/ribbon.tscn")
 @onready var collapsible_field = preload("res://common/ui/fields/collapsible_field/collapsible_field.tscn")
 
-var id_field_container: Control
 var collapsibles: Dictionary[String, CollapsibleField]
-var id_field: MonologueField
+var id_field_container: Control
 var selected_node: MonologueGraphNode
 
 
@@ -22,8 +21,8 @@ func _ready():
 func clear():
 	for field in fields_container.get_children():
 		field.free()
-	if is_instance_valid(id_field):
-		id_field.free()
+	if is_instance_valid(id_field_container):
+		id_field_container.queue_free()
 	collapsibles.clear()
 
 
@@ -103,8 +102,9 @@ func on_graph_node_selected(node: MonologueGraphNode, bypass: bool = false):
 			continue
 
 		if property_name == "id":
-			node.get(property_name).show(topbox, 0, false)
-			id_field_container = node.get(property_name).field_container
+			var field = node.get(property_name)
+			field.show(topbox, 0, false)
+			id_field_container = field.field_container
 		else:
 			var field = node.get(property_name).show(fields_container)
 			field.set_label_text(property_name.capitalize())

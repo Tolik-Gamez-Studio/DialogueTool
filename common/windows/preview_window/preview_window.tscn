@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c7bl8kcyl4fxb" path="res://common/windows/preview_window/preview_window.gd" id="1_15o47"]
 
-[node name="PreviewWindow" type="Window" node_paths=PackedStringArray("dns_checkbox")]
+[node name="PreviewWindow" type="Window"]
 auto_translate_mode = 1
 transparent_bg = true
 initial_position = 2
@@ -18,7 +18,6 @@ transparent = true
 content_scale_mode = 2
 content_scale_aspect = 1
 script = ExtResource("1_15o47")
-dns_checkbox = NodePath("PanelContainer/MarginContainer/VBoxContainer/DNSChecker")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 clip_children = 2
