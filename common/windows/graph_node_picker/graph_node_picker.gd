@@ -56,3 +56,8 @@ func flush() -> void:
 func _on_close_requested() -> void: close()
 func _on_cancel_button_pressed() -> void: close()
 func _on_create_button_pressed() -> void: close()
+
+
+func _on_visibility_changed() -> void:
+	var root_screen: int = get_tree().get_root().current_screen
+	current_screen = root_screen
