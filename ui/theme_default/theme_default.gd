@@ -11,7 +11,7 @@ var primary_color: Color = Color("a9a8c0")
 var secondary_color: Color = Color("665b5d")
 var accent_color: Color = Color("d15050")
 # Constants
-var base_spacing: int = 10
+var base_spacing: int = 8
 var corner_radius: int = 6
 var relationship_line_opacity: float = 0.2
 var border_width: int = 1
@@ -37,6 +37,11 @@ func _generate_theme() -> void:
 	
 	var base_empty_sb: StyleBoxFlat = base_sb.duplicate()
 	base_empty_sb.draw_center = false
+	
+	var base_field_sb: StyleBoxFlat = base_sb.duplicate()
+	base_field_sb.content_margin_top = base_spacing/2
+	base_field_sb.content_margin_bottom = base_spacing/2
+	base_field_sb.bg_color = _get_primary_color(contrast/2)
 	
 	var button_sb: StyleBoxFlat = base_sb.duplicate()
 	button_sb.bg_color = _get_secondary_color(0.25)
@@ -92,9 +97,8 @@ func _generate_theme() -> void:
 	
 	# CheckBox
 	
-	var check_box_sb: StyleBoxFlat = base_sb.duplicate()
+	var check_box_sb: StyleBoxFlat = base_field_sb.duplicate()
 	check_box_sb.set_content_margin_all(base_margin/2)
-	check_box_sb.bg_color = _get_primary_color(contrast/2)
 	
 	var check_box_hover_sb: StyleBoxFlat = check_box_sb.duplicate()
 	check_box_hover_sb.bg_color = _get_primary_color(contrast)
@@ -234,9 +238,11 @@ func _generate_theme() -> void:
 	
 	# HBoxContainer & VBoxContainer
 	
+	set_type_variation("FieldContainer", "VBoxContainer")
+	
 	set_constant("separation", "HBoxContainer", base_spacing)
 	set_constant("separation", "VBoxContainer", base_spacing)
-	
+	set_constant("separation", "FieldContainer", base_spacing/2)
 	# HDottedSeparator & VDottedSeparator
 	
 	set_type_variation("HDottedSeparator", "HSeparator")
@@ -312,8 +318,7 @@ func _generate_theme() -> void:
 	
 	# LineEdit
 	
-	var line_edit_sb: StyleBoxFlat = base_sb.duplicate()
-	line_edit_sb.bg_color = _get_primary_color(contrast/2)
+	var line_edit_sb: StyleBoxFlat = base_field_sb.duplicate()
 	
 	var line_edit_focus_sb: StyleBoxFlat = line_edit_sb.duplicate()
 	line_edit_focus_sb.set_border_width_all(1)
@@ -344,7 +349,7 @@ func _generate_theme() -> void:
 	sb = base_sb.duplicate()
 	sb.bg_color = _get_primary_color(contrast, false)
 	_set_border(sb, _get_color(base_border_color, base_border_color.a, false))
-	var popup_menu_hover_sb: StyleBoxFlat = base_sb.duplicate()
+	var popup_menu_hover_sb: StyleBoxFlat = base_field_sb.duplicate()
 	popup_menu_hover_sb.bg_color = _get_secondary_color(contrast)
 	separator_sb.color = text_color
 	separator_sb.vertical = true
@@ -392,12 +397,12 @@ func _generate_theme() -> void:
 	
 	# SpinBoxLineEdit
 	
-	set_type_variation("SpinBoxLineEdit", "Button")
+	set_type_variation("SpinBoxLineEdit", "LineEdit")
 	
-	var spin_box_line_edit_sb: StyleBoxFlat = base_empty_sb.duplicate()
+	var spin_box_line_edit_sb: StyleBoxFlat = base_field_sb.duplicate()
+	spin_box_line_edit_sb.draw_center = false
 	spin_box_line_edit_sb.set_content_margin_all(0)
-	var spin_box_line_edit_focus_sb: StyleBoxFlat = base_sb.duplicate()
-	spin_box_line_edit_focus_sb.set_content_margin_all(0)
+	var spin_box_line_edit_focus_sb: StyleBoxFlat = spin_box_line_edit_sb.duplicate()
 	spin_box_line_edit_focus_sb.bg_color = _get_primary_color(0.1)
 	spin_box_line_edit_focus_sb.set_corner_radius_all(0)
 	
@@ -458,7 +463,7 @@ func _generate_theme() -> void:
 	
 	# OptionButton
 	
-	var option_button_sb = base_sb.duplicate()
+	var option_button_sb = base_field_sb.duplicate()
 	option_button_sb.bg_color = _get_primary_color(contrast/2)
 	
 	var option_button_hover_sb: StyleBoxFlat = button_sb.duplicate()
@@ -471,6 +476,7 @@ func _generate_theme() -> void:
 	option_button_disabled_sb.bg_color = _get_primary_color(0.05)
 	
 	set_constant("arrow_margin", "OptionButton", base_spacing)
+	set_constant("h_separation", "OptionButton", base_spacing)
 	set_stylebox('disabled', 'OptionButton', option_button_disabled_sb)
 	set_stylebox('disabled_mirrored', 'OptionButton', option_button_disabled_sb)
 	set_stylebox('focus', 'OptionButton', base_empty_sb)

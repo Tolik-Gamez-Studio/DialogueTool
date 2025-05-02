@@ -4,7 +4,7 @@
 
 [node name="RootNode" type="GraphNode" groups=["graph_nodes"]]
 offset_right = 282.0
-offset_bottom = 96.0
+offset_bottom = 78.0
 size_flags_vertical = 0
 title = "RootNode"
 slot/0/left_enabled = false
@@ -26,5 +26,5 @@ alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-theme_type_variation = &"Label_Secondary"
+theme_type_variation = &"NoteLabel"
 text = "Select this node to edit settings"
