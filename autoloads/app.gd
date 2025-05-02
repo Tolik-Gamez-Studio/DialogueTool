@@ -3,11 +3,19 @@ extends Node
 
 # The DPI of a 23.8 inch display with a 1920x1080 resolution
 const BASE_SCALE_DPI = 92.56
+# Application preferences
+var preferences := ConfigFile.new()
 
 
 func _ready() -> void:
 	update_window(true)
 	get_window().connect("size_changed", update_window)
+	preferences.load(Constants.PREFERENCES_PATH)
+
+
+func _shortcut_input(event: InputEvent) -> void:
+	if event.is_action_pressed("Add node"):
+		GlobalSignal.emit("enable_picker_mode")
 
 
 func update_window(update_size: bool = false):

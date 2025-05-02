@@ -99,8 +99,8 @@ func show(panel: Control, child_index: int = -1, auto_margin: bool = true) -> Mo
 		field.set(property, setters.get(property))
 	
 	field_container.add_child(field)
-	
 	panel.add_child(field_container)
+  
 	if child_index >= 0:
 		panel.move_child(field_container, child_index)
 	

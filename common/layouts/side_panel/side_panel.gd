@@ -9,6 +9,8 @@ class_name SidePanel extends PanelContainer
 @onready var collapsible_field = preload("res://common/ui/fields/collapsible_field/collapsible_field.tscn")
 
 var id_field_container: Control
+var collapsibles: Dictionary[String, CollapsibleField]
+var id_field: MonologueField
 var selected_node: MonologueGraphNode
 
 
@@ -19,13 +21,14 @@ func _ready():
 
 func clear():
 	for field in fields_container.get_children():
-		field.queue_free()
-	if is_instance_valid(id_field_container):
-		id_field_container.queue_free()
+		field.free()
+	if is_instance_valid(id_field):
+		id_field.free()
+	collapsibles.clear()
 
 
 func on_graph_node_deselected(_node):
-	hide()
+	hide.call_deferred()
 
 
 func on_graph_node_selected(node: MonologueGraphNode, bypass: bool = false):
@@ -38,6 +41,24 @@ func on_graph_node_selected(node: MonologueGraphNode, bypass: bool = false):
 		else:
 			graph_edit.active_graphnode = null
 			return
+	
+	# hack to preserve focus if the side panel contains the same node paths
+	var focus_owner = get_viewport().gui_get_focus_owner()
+	var refocus_path: NodePath = ""
+	var refocus_line: int = -1
+	var refocus_column: int = -1
+	if focus_owner:
+		refocus_path = get_path_to(focus_owner)
+		if focus_owner is TextEdit:
+			refocus_line = focus_owner.get_caret_line()
+			refocus_column = focus_owner.get_caret_column()
+		elif focus_owner is LineEdit:
+			refocus_column = focus_owner.get_caret_column()
+	var uncollapse_paths: Array[NodePath] = []
+	if node == selected_node:
+		for collapsible: CollapsibleField in collapsibles.values():
+			if collapsible.is_open():
+				uncollapse_paths.append(get_path_to(collapsible))
 	
 	clear()
 	selected_node = node
@@ -59,7 +80,7 @@ func on_graph_node_selected(node: MonologueGraphNode, bypass: bool = false):
 			for group in item:
 				var fields = item[group]
 				var field_obj: CollapsibleField = collapsible_field.instantiate()
-				fields_container.add_child(field_obj)
+				fields_container.add_child(field_obj, true)
 				field_obj.set_title(group)
 				
 				for field_name in fields:
@@ -75,7 +96,8 @@ func on_graph_node_selected(node: MonologueGraphNode, bypass: bool = false):
 					if property.uncollapse:
 						field_obj.open()
 						property.uncollapse = false
-
+					collapsibles[field_name] = field_obj
+	
 	for property_name in property_names:
 		if property_name in already_invoke:
 			continue
@@ -88,6 +110,9 @@ func on_graph_node_selected(node: MonologueGraphNode, bypass: bool = false):
 			field.set_label_text(property_name.capitalize())
 	
 	show()
+	restore_collapsible_state(uncollapse_paths)
+	# if focus was preserved, restore it
+	restore_focus(refocus_path, refocus_line, refocus_column)
 
 
 ## If the side panel for the node is visible, release the focus so that
@@ -98,6 +123,27 @@ func refocus(node: MonologueGraphNode) -> void:
 		if focus_owner:
 			focus_owner.release_focus()
 			focus_owner.grab_focus()
+
+
+## If any collapsible fields were opened before the side panel was refreshed,
+## this method will reopen them via their node paths.
+func restore_collapsible_state(uncollapse_paths: Array[NodePath]) -> void:
+	for path in uncollapse_paths:
+		var field = get_node_or_null(path)
+		if is_instance_valid(field) and field is CollapsibleField:
+			field.open()
+
+
+## Hacky improvement for #52 to maintain focus on side panel refresh.
+func restore_focus(node_path: NodePath, line: int, column: int) -> void:
+	if node_path:
+		var node = get_node_or_null(node_path)
+		if is_instance_valid(node) and node is Control:
+			node.grab_focus()
+			if line >= 0:
+				node.set_caret_line(line)
+			if column >= 0:
+				node.set_caret_column(column)
 
 
 func _on_rfh_button_pressed() -> void:
