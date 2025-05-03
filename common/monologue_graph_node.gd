@@ -56,7 +56,7 @@ func _update_slot_icons() -> void:
 
 func _harmonize_size() -> void:
 	size.x = ceil(size.x/30)*30
-	size.y = ceil(size.y/30)*30
+	size.y = get_combined_minimum_size().y
 
 
 func _set_titlebar_color(val: Color):

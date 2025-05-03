@@ -94,7 +94,7 @@ func show(panel: Control, child_index: int = -1) -> MonologueField:
 	for property in setters.keys():
 		field.set(property, setters.get(property))
 	
-	panel.add_child(field)
+	panel.add_child(field, true)
 	if child_index >= 0:
 		panel.move_child(field, child_index)
 	

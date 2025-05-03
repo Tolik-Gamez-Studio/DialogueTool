@@ -21,6 +21,8 @@ const NODE_SCENES = {
 	"Wait": preload("res://nodes/wait_node/wait_node.tscn"),
 	"Reroute": preload("res://nodes/reroute_node/reroute_node.tscn")
 }
+const HISTORY_PATH = "user://history.save"
+const PREFERENCES_PATH = "user://preferences.cfg"
 const PROPERTY_CLASSES = ["Property", "Localizable"]
 const UNSAVED_FILE_SUFFIX: String = "*"
 

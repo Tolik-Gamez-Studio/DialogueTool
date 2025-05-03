@@ -63,6 +63,15 @@ func _create() -> void:
 	GlobalSignal.emit("add_graph_node", [node_type, window])
 
 
+func _on_item_activated() -> void:
+	var item: TreeItem = get_selected()
+	if item.get_child_count() > 0:
+		item.collapsed = !item.collapsed
+	else:
+		_create()
+		window.close()
+
+
 func _on_item_selected() -> void:
 	var item: TreeItem = get_selected()
 	create_btn.disabled = item.get_child_count() > 0
