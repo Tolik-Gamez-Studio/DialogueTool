@@ -20,6 +20,7 @@ func _ready() -> void:
 		{ "id": 0, "text": "Image"     },
 		{ "id": 1, "text": "Animation" },
 	]]
+	portrait_type.change.connect(_on_portrait_type_change)
 	super._ready()
 
 
@@ -34,6 +35,7 @@ func _from_dict(dict: Dictionary = {}) -> void:
 		var portrait_dict: Dictionary = portrait_list[portrait_index]["Portrait"]
 		super._from_dict(portrait_dict)
 		timeline_section._from_dict(portrait_dict.get("Animation", {}))
+	_on_portrait_type_change()
 
 
 func _to_dict() -> Dictionary:
@@ -55,3 +57,10 @@ func _to_dict() -> Dictionary:
 
 func _on_check_button_toggled(toggled_on: bool) -> void:
 	preview_section.update_mirror(toggled_on)
+
+
+func _on_portrait_type_change(_old_value: Variant = null, _new_value: Variant = null) -> void:
+	var _process_type_change = func():
+		timeline_section.visible = portrait_type.value == "Animation"
+	
+	_process_type_change.call_deferred()

@@ -112,7 +112,7 @@ func _on_portrait_option_name_submitted(portrait_option: PortraitOption) -> void
 		if option == portrait_option:
 			var index = all_options.find(option)
 			references[index].portrait_name.value = portrait_option.line_edit.text
-			print(portrait_option.line_edit.text)
+
 
 func _update_option(selected_option: PortraitOption) -> void:
 	for option: PortraitOption in get_portrait_options():
@@ -124,6 +124,7 @@ func _update_option(selected_option: PortraitOption) -> void:
 			option.release_active()
 	portrait_selected.emit()
 	_update_portrait()
+
 
 func _sync_references() -> void:
 	var data_list: Array = portraits.value
