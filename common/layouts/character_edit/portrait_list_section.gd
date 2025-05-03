@@ -27,6 +27,7 @@ func _ready() -> void:
 
 
 func add_portrait(option_dict: Dictionary = {}) -> AbstractPortraitOption:
+	_sync_references()
 	var new_portrait := AbstractPortraitOption.new(self)
 	if option_dict:
 		new_portrait._from_dict(option_dict)
@@ -114,6 +115,16 @@ func _update_option(selected_option: PortraitOption) -> void:
 			option.release_active()
 	portrait_selected.emit()
 	_update_portrait()
+
+func _sync_references() -> void:
+	var data_list: Array = portraits.value
+	for ref: AbstractPortraitOption in references:
+		var ref_candidates: Array = data_list.filter(func(p: Dictionary): return p.get("EditorIndex", -1) == ref.idx.value)
+		if ref_candidates.size() <= 0:
+			continue
+		
+		var data: Dictionary = ref_candidates[0]
+		ref._from_dict(data)
 
 
 func _update_portrait() -> void:

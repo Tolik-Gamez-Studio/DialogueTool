@@ -25,7 +25,7 @@ func set_property(node: Variant, property: String, value: Variant) -> void:
 	super.set_property(node, property, value)
 	var character_dict = graph_edit.speakers[character_index]["Character"]
 	var key = Util.to_key_name(property)
-	character_dict["Portraits"][portrait_index][key] = value
+	character_dict["Portraits"][portrait_index]["Portrait"][key] = value
 
 
 func _display_portrait() -> void:

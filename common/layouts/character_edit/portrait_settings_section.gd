@@ -31,7 +31,7 @@ func _set_base_path(val: String) -> void:
 func _from_dict(dict: Dictionary = {}) -> void:
 	var portrait_list: Array = dict.get("Portraits", [])
 	if portrait_index >= 0 and portrait_index < portrait_list.size():
-		var portrait_dict: Dictionary = portrait_list[portrait_index]
+		var portrait_dict: Dictionary = portrait_list[portrait_index]["Portrait"]
 		super._from_dict(portrait_dict)
 		timeline_section._from_dict(portrait_dict.get("Animation", {}))
 

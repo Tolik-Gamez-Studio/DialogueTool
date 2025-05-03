@@ -36,4 +36,4 @@ func _on_focus_exited() -> void:
 
 
 func _on_spin_box_value_changed(_value: float = 0.0) -> void:
-	field_changed.emit([x_spin_box.value, y_spin_box.value])
+	field_updated.emit([x_spin_box.value, y_spin_box.value])
