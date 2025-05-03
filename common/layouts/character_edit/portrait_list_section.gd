@@ -37,6 +37,7 @@ func add_portrait(option_dict: Dictionary = {}) -> AbstractPortraitOption:
 	new_portrait.idx.value = references.size()
 	new_portrait.portrait.connecters[_on_portrait_option_pressed] = "pressed"
 	new_portrait.portrait.connecters[_on_portrait_option_set_to_default] = "set_to_default"
+	new_portrait.portrait.connecters[_on_portrait_option_name_submitted] = "name_submitted"
 	references.append(new_portrait)
 	
 	if new_portrait.idx.value == selected:
@@ -104,6 +105,14 @@ func _on_portrait_option_set_to_default(portrait_option: PortraitOption) -> void
 		else:
 			option.release_default()
 
+
+func _on_portrait_option_name_submitted(portrait_option: PortraitOption) -> void:
+	var all_options := get_portrait_options()
+	for option: PortraitOption in all_options:
+		if option == portrait_option:
+			var index = all_options.find(option)
+			references[index].portrait_name.value = portrait_option.line_edit.text
+			print(portrait_option.line_edit.text)
 
 func _update_option(selected_option: PortraitOption) -> void:
 	for option: PortraitOption in get_portrait_options():

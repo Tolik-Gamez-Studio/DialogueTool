@@ -43,6 +43,7 @@ func line_edit_unfocus() -> void:
 	
 	button.show()
 	add_theme_stylebox_override("focus", line_edit_unfocus_stylebox)
+	name_submitted.emit(self)
 
 
 func _on_btn_edit_pressed() -> void:
@@ -58,7 +59,7 @@ func _on_btn_edit_pressed() -> void:
 
 
 func _on_line_edit_text_changed(_new_text: String) -> void:
-	pass # Replace with function body.
+	name_submitted.emit(self)
 
 
 func _on_line_edit_focus_exited() -> void:

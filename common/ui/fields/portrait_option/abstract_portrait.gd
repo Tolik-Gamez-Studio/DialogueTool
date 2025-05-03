@@ -8,9 +8,6 @@ var portrait := Property.new(PORTRAIT_FIELD, {}, {})
 var id := Property.new(MonologueGraphNode.LINE, {}, IDGen.generate(5))
 var idx := Property.new(MonologueGraphNode.SPINBOX, {}, 0)
 
-#var custom_delete_button :
-	#get: return portrait.field.delete_button
-
 var graph: MonologueGraphEdit
 var root: PortraitListSection
 
