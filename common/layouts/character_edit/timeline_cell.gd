@@ -38,6 +38,25 @@ func _update() -> void:
 
 func lose_focus() -> void:
 	button.button_pressed = false
+
+
+func get_base_sb() -> StyleBoxFlat:
+	# TODO: Use theme variation instead
+	var sb: StyleBox = StyleBoxFlat.new()
+	sb.bg_color = Color("d651613f")
+	sb.border_color = Color("1e1e21")
+	sb.border_width_right = 1
+	return sb
+
+
+func sub_select() -> void:
+	add_theme_stylebox_override("panel", get_base_sb())
+
+func reset_style() -> void:
+	var sb: StyleBox = get_base_sb()
+	sb.draw_center = false
+	add_theme_stylebox_override("panel", sb)
+
  
 func _on_timeline_zoom(cell_width: int) -> void:
 	custom_minimum_size.x = cell_width

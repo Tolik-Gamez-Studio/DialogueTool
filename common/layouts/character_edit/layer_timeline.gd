@@ -27,6 +27,10 @@ func add_cell() -> TimelineCell:
 
 
 func _on_cell_button_down(cell: TimelineCell) -> void:
+	var cell_idx: int = hbox.get_children().find(cell)
+	var timeline_idx: int = timeline_section.layer_timeline_vbox.get_children().find(self)
+	timeline_section.sub_select(cell_idx, timeline_idx)
+	
 	for child in get_all_cells():
 		if child == cell:
 			continue

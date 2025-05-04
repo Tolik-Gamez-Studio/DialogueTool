@@ -153,3 +153,25 @@ func _on_file_selected(path: String) -> void:
 	
 	selected_cell.image_path = Path.absolute_to_relative(path, base_path)
 	_update_preview()
+
+
+func sub_select(col_idx: int, row_idx: int) -> void:
+	for cell in cell_number_hbox.get_children():
+		cell.reset_style()
+	
+	var timeline_idx: int = 0
+	for t in layer_timeline_vbox.get_children():
+		var cell_idx: int = 0
+		for cell in t.hbox.get_children():
+			if cell_idx == col_idx:
+				cell.sub_select()
+				if row_idx != timeline_idx:
+					cell.lose_focus()
+			else:
+				cell.reset_style()
+				cell.lose_focus()
+			cell_idx += 1
+		timeline_idx += 1
+	
+	cell_number_hbox.get_child(col_idx).sub_select()
+	
