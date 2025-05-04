@@ -25,6 +25,8 @@ func _set_image_path(value: String) -> void:
 
 func _ready() -> void:
 	texture_rect.texture = empty_cell_texture
+	GlobalSignal.add_listener("timeline_zoom_in", _on_timeline_zoom)
+	GlobalSignal.add_listener("timeline_zoom_out", _on_timeline_zoom)
 
 
 func _update() -> void:
@@ -36,7 +38,9 @@ func _update() -> void:
 
 func lose_focus() -> void:
 	button.button_pressed = false
-
+ 
+func _on_timeline_zoom(cell_width: int) -> void:
+	custom_minimum_size.x = cell_width
 
 func _on_button_button_down() -> void: button_down.emit()
 func _on_button_button_up() -> void: button_up.emit()

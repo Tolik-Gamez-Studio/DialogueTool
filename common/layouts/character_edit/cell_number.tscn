@@ -16,10 +16,20 @@ script/source = "extends PanelContainer
 
 func _ready() -> void:
 	label.text = str(cell_number)
+	GlobalSignal.add_listener(\"timeline_zoom_in\", _on_timeline_zoom)
+	GlobalSignal.add_listener(\"timeline_zoom_out\", _on_timeline_zoom)
 
 
 func _on_button_pressed() -> void:
 	pass
+
+ 
+func _on_timeline_zoom(cell_width: int) -> void:
+	custom_minimum_size.x = cell_width
+
+
+func _on_minimum_size_changed() -> void:
+	custom_minimum_size.x = max(custom_minimum_size.x, 27.0)
 "
 
 [sub_resource type="LabelSettings" id="LabelSettings_jbxed"]
@@ -71,4 +81,5 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_vog8c")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_fi15l")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_x14x4")
 
+[connection signal="minimum_size_changed" from="." to="." method="_on_minimum_size_changed"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://cdpox07h3wlf3"]
 
 [ext_resource type="Texture2D" uid="uid://bjra4bs2l0m6x" path="res://ui/assets/icons/cell_single.svg" id="1_1jxcg"]
-[ext_resource type="Script" path="res://common/layouts/character_edit/timeline_cell.gd" id="1_wpwcu"]
+[ext_resource type="Script" uid="uid://bstbijin8qrmw" path="res://common/layouts/character_edit/timeline_cell.gd" id="1_wpwcu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y3h2k"]
 draw_center = false

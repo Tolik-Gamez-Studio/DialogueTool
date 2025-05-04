@@ -18,6 +18,7 @@ func add_cell() -> TimelineCell:
 	var new_cell := timeline_cell.instantiate()
 	hbox.add_child(new_cell)
 	new_cell.timeline = self
+	new_cell.custom_minimum_size.x = timeline_section.get_cell_width()
 	new_cell.connect("button_down", _on_cell_button_down.bind(new_cell))
 	new_cell.connect("button_up", _on_cell_button_up.bind(new_cell))
 	new_cell.connect("button_focus_exited", _on_cell_focus_exited)

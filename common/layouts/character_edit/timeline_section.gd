@@ -11,6 +11,7 @@ var filters: Array = ["*.bmp", "*.jpg", "*.jpeg", "*.png", "*.svg", "*.webp"]
 @onready var cell_number_hbox := %CellNumberHBox
 @onready var preview_section := %PreviewSection
 @onready var fps_spinbox := %FpsSpinBox
+@onready var layer_container := %LayerContainer
 
 @onready var layer := preload("res://common/layouts/character_edit/layer.tscn")
 @onready var layer_timeline := preload("res://common/layouts/character_edit/layer_timeline.tscn")
@@ -63,6 +64,10 @@ func _clear() -> void:
 		child.queue_free()
 
 
+func get_cell_width() -> int:
+	return layer_container.cell_width
+
+
 func add_timeline() -> void:
 	var new_layer := layer.instantiate()
 	var new_layer_timeline: LayerTimeline = layer_timeline.instantiate()
@@ -82,6 +87,7 @@ func _update_cell_number() -> void:
 	for i in range(cell_count):
 		var new_cell := cell_number.instantiate()
 		new_cell.cell_number = i+1
+		new_cell.custom_minimum_size.x = get_cell_width()
 		cell_number_hbox.add_child(new_cell)
 
 
