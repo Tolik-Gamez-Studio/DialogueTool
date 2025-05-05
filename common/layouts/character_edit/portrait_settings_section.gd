@@ -4,7 +4,7 @@ class_name PortraitSettingsSection extends PortraitEditSection
 signal changed
 
 var portrait_type := Property.new(MonologueGraphNode.DROPDOWN, {}, "Image")
-var image_path := Property.new(MonologueGraphNode.FILE, {})
+var image_path := Property.new(MonologueGraphNode.FILE, { "filters": FilePicker.IMAGE })
 var offset := Property.new(MonologueGraphNode.VECTOR, {}, [0, 0])
 var mirror := Property.new(MonologueGraphNode.TOGGLE, {}, false)
 
@@ -21,6 +21,9 @@ func _ready() -> void:
 		{ "id": 1, "text": "Animation" },
 	]]
 	portrait_type.change.connect(_on_portrait_type_change)
+	image_path.change.connect(_on_image_path_change)
+	offset.change.connect(_on_offset_change)
+	mirror.change.connect(_on_mirror_change)
 	super._ready()
 
 
@@ -64,3 +67,25 @@ func _on_portrait_type_change(_old_value: Variant = null, _new_value: Variant = 
 		timeline_section.visible = portrait_type.value == "Animation"
 	
 	_process_type_change.call_deferred()
+
+
+func _on_image_path_change(_old_value: Variant = null, new_value: Variant = null) -> void:
+	if not new_value:
+		return
+	
+	var is_valid: bool = image_path.field.validate(image_path.value)
+	if is_valid:
+		var im: Image = Image.new()
+		im.load(new_value)
+		var texture: ImageTexture = ImageTexture.create_from_image(im)
+		preview_section.update_preview(texture)
+		return
+	preview_section.update_preview(ImageTexture.new())
+
+
+func _on_offset_change(_old_value: Variant = null, new_value: Variant = null) -> void:
+	preview_section.update_offset(new_value)
+
+
+func _on_mirror_change(_old_value: Variant = null, new_value: Variant = null) -> void:
+	preview_section.update_mirror(new_value)

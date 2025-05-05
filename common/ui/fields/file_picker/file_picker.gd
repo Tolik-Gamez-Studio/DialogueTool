@@ -8,8 +8,8 @@ const IMAGE = ["*.bmp,*.jpg,*.jpeg,*.png,*.svg,*.webp;Image Files"]
 @export var filters: PackedStringArray
 
 @onready var label: Label = $Label
-@onready var line_edit: LineEdit = $VBox/LineEdit
-@onready var picker_button: Button = $VBox/LineEdit/HBoxContainer/FilePickerButton
+@onready var line_edit: LineEdit = $VBox/HBox/LineEdit
+@onready var picker_button: Button = $VBox/HBox/FilePickerButton
 @onready var warn_label: Label = $VBox/WarnLabel
 
 
