@@ -15,4 +15,6 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="PopupMenu" type="PopupMenu" parent="OptionButton"]
+
 [connection signal="item_selected" from="OptionButton" to="." method="_on_item_selected"]
