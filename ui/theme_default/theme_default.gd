@@ -10,6 +10,7 @@ var background_color: Color = Color("19191c")
 var primary_color: Color = Color("a9a8c0")
 var secondary_color: Color = Color("665b5d")
 var accent_color: Color = Color("d15050")
+var warn_color: Color = Color("c42e40")
 # Constants
 var base_spacing: int = 8
 var corner_radius: int = 6
@@ -94,6 +95,35 @@ func _generate_theme() -> void:
 	set_stylebox('normal_mirrored', 'Button', button_sb)
 	set_stylebox('pressed', 'Button', button_pressed_sb)
 	set_stylebox('pressed_mirrored', 'Button', button_pressed_sb)
+	
+	# ButtonWarning
+	
+	set_type_variation("ButtonWarning", "Button")
+	
+	var delete_button_sb: StyleBoxFlat = button_sb.duplicate()
+	delete_button_sb.bg_color = _get_color(warn_color, 0.25)
+	
+	var delete_button_hover_sb: StyleBoxFlat = button_sb.duplicate()
+	delete_button_hover_sb.bg_color = _get_color(warn_color, 0.35)
+	
+	var delete_button_pressed_sb: StyleBoxFlat = button_sb.duplicate()
+	delete_button_pressed_sb.bg_color = _get_color(warn_color, 0.5)
+	
+	var delete_button_disabled_sb: StyleBoxFlat = button_sb.duplicate()
+	delete_button_disabled_sb.bg_color = _get_color(warn_color, 0.05)
+	
+	set_constant("outline_size", "ButtonWarning", 0)
+	set_stylebox('disabled', 'ButtonWarning', delete_button_disabled_sb)
+	set_stylebox('disabled_mirrored', 'ButtonWarning', delete_button_disabled_sb)
+	set_stylebox('focus', 'ButtonWarning', base_empty_sb)
+	set_stylebox('hover', 'ButtonWarning', delete_button_hover_sb)
+	set_stylebox('hover_mirrored', 'ButtonWarning', delete_button_hover_sb)
+	set_stylebox('hover_pressed', 'ButtonWarning', delete_button_pressed_sb)
+	set_stylebox('hover_pressed_mirrored', 'ButtonWarning', delete_button_pressed_sb)
+	set_stylebox('normal', 'ButtonWarning', delete_button_sb)
+	set_stylebox('normal_mirrored', 'ButtonWarning', delete_button_sb)
+	set_stylebox('pressed', 'ButtonWarning', delete_button_pressed_sb)
+	set_stylebox('pressed_mirrored', 'ButtonWarning', delete_button_pressed_sb)
 	
 	# CheckBox
 	
@@ -326,7 +356,7 @@ func _generate_theme() -> void:
 	set_color("font_color", "Label", text_color)
 	set_color("font_color", "NodeValue", text_color)
 	set_color("font_color", "NoteLabel", _get_text_color(0.6))
-	set_color("font_color", "WarnLabel", Color("c42e40"))
+	set_color("font_color", "WarnLabel", warn_color)
 	set_stylebox("normal", "NodeValue", sb)
 	
 	# LineEdit
@@ -459,7 +489,7 @@ func _generate_theme() -> void:
 	set_type_variation("SpinBoxPanel", "PanelContainer")
 	sb = base_sb.duplicate()
 	sb.bg_color = _get_primary_color(contrast/2)
-	sb.set_content_margin_all(base_spacing/2)
+	sb.set_content_margin_all(0)
 	set_stylebox("panel", "SpinBoxPanel", sb)
 	
 	# TabBar

@@ -50,17 +50,19 @@ func create_item_vbox(panel: PanelContainer) -> VBoxContainer:
 
 
 func create_delete_button(field_box: VBoxContainer, id: Variant) -> void:
-	var delete_container = MarginContainer.new()
-	#delete_container.add_theme_constant_override("margin_top", 5)
+	# var delete_container = MarginContainer.new()
+	# delete_container.add_theme_constant_override("margin_top", 0)
+	# delete_container.add_theme_constant_override("margin_right", 0)
+	# delete_container.add_theme_constant_override("margin_bottom", 0)
 	var delete_button = delete_scene.instantiate()
 	delete_button.connect("pressed", _on_delete_button_pressed.bind(id))
-	delete_container.add_child(delete_button, true)
+	# delete_container.add_child(delete_button, true)
 	
 	var first_hbox = _find_first_hbox(field_box)
 	if first_hbox:
-		first_hbox.add_child(delete_container, true)
+		first_hbox.add_child(delete_button, true)
 	else:
-		delete_container.queue_free()
+		delete_button.queue_free()
 
 
 func set_label_text(text: String) -> void:
