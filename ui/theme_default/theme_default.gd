@@ -412,7 +412,7 @@ func _generate_theme() -> void:
 	set_stylebox("hover", "PopupMenu", popup_menu_hover_sb)
 	set_stylebox("separator", "PopupMenu", separator_sb)
 	
-	# SCrollBar
+	# ScrollBar
 	var _side_panel_bg_color: Color = _get_primary_color(contrast, false)
 	var _scroll_bar_color: Color = _get_color(base_border_color, base_border_color.a, false, _side_panel_bg_color)
 	
@@ -538,6 +538,30 @@ func _generate_theme() -> void:
 	set_stylebox("normal", "TextEdit", text_edit_sb)
 	set_stylebox("focus", "TextEdit", text_edit_focus_sb)
 	set_stylebox("read_only", "TextEdit", text_edit_disabled_sb)
+	
+	# Tree
+	
+	var tree_sb: StyleBoxFlat = base_sb.duplicate()
+	var tree_focus_sb: StyleBoxFlat = base_empty_sb.duplicate()
+	
+	set_constant("icon_max_width", "Tree", 14)
+	set_constant("h_separation", "Tree", base_spacing)
+	set_constant("v_separation", "Tree", base_spacing/2)
+	set_stylebox("panel", "Tree", tree_sb)
+	set_stylebox("focus", "Tree", tree_focus_sb)
+	set_stylebox("hovered", "Tree", button_hover_sb)
+	set_stylebox("hovered_dimmed", "Tree", button_hover_sb)
+	set_stylebox("selected", "Tree", button_pressed_sb)
+	set_stylebox("selected_focus", "Tree", button_pressed_sb)
+	
+	# TreeContainer
+	
+	set_type_variation("TreeContainer", "PanelContainer")
+	
+	sb = base_sb.duplicate()
+	sb.set_corner_radius_all(0)
+	sb.bg_color = _get_primary_color(contrast, false)
+	set_stylebox("panel", "TreeContainer", sb)
 	
 	# OptionButton
 	
