@@ -164,6 +164,18 @@ func _generate_theme() -> void:
 	sb.border_width_left = 1
 	set_stylebox("panel", "EditorSidePanel", sb)
 	
+	# EditorSidePanelTopBox
+	
+	set_type_variation("EditorSidePanelTopBox", "PanelContainer")
+	sb = base_sb.duplicate()
+	sb.bg_color = _get_primary_color(contrast, false)
+	sb.set_corner_radius_all(0)
+	sb.set_border_width_all(0)
+	sb.set_content_margin_all(0)
+	sb.set_expand_margin_all(base_spacing)
+	sb.expand_margin_left -= 1
+	set_stylebox("panel", "EditorSidePanelTopBox", sb)
+	
 	# FlatButton
 	
 	set_color('font_color', 'FlatButton', _get_text_color(0.8))

@@ -3,8 +3,8 @@
 class_name SidePanel extends PanelContainer
 
 
-@onready var fields_container = $Scroller/VBox/Fields
-@onready var topbox = $Scroller/VBox/TopBox
+@onready var fields_container = %Fields
+@onready var topbox = %TopBox
 @onready var ribbon_scene = preload("res://common/ui/ribbon/ribbon.tscn")
 @onready var collapsible_field = preload("res://common/ui/fields/collapsible_field/collapsible_field.tscn")
 
