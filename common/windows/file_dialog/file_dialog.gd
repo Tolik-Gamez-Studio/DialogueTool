@@ -31,7 +31,7 @@ func _core_request(callable: Callable, filter_list: PackedStringArray = [],
 		root_subdir: String = "") -> void:
 	_callback = callable
 	filters = filter_list
-	root_subfolder = root_subdir
+	current_path = root_subdir
 	
 	popup_centered()
 

@@ -1,12 +1,16 @@
-[gd_scene load_steps=7 format=3 uid="uid://cdpox07h3wlf3"]
+[gd_scene load_steps=11 format=3 uid="uid://cdpox07h3wlf3"]
 
-[ext_resource type="Texture2D" uid="uid://bjra4bs2l0m6x" path="res://ui/assets/icons/cell_single.svg" id="1_1jxcg"]
 [ext_resource type="Script" uid="uid://bstbijin8qrmw" path="res://common/layouts/character_edit/timeline_cell.gd" id="1_wpwcu"]
+[ext_resource type="Script" uid="uid://dqhwi718vnyxk" path="res://common/layouts/character_edit/alpha_bg.gd" id="2_pjgsv"]
+[ext_resource type="Texture2D" uid="uid://2avo8aox8ls2" path="res://ui/assets/icons/minus_min.svg" id="3_7wlkg"]
+[ext_resource type="Texture2D" uid="uid://xiahr3jughjg" path="res://ui/assets/icons/plus_min.svg" id="3_xo2vn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y3h2k"]
 draw_center = false
 border_width_right = 1
 border_color = Color(0.117647, 0.117647, 0.129412, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xo2vn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1614f"]
 draw_center = false
@@ -34,20 +38,50 @@ corner_radius_bottom_left = 2
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5et5j"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7wlkg"]
+bg_color = Color(0.117647, 0.117647, 0.129412, 1)
+
 [node name="Cell" type="PanelContainer"]
-custom_minimum_size = Vector2(26, 26)
+custom_minimum_size = Vector2(27, 52)
+offset_right = 27.0
+offset_bottom = 52.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_y3h2k")
 script = ExtResource("1_wpwcu")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="LineIndicator" type="ColorRect" parent="VBox"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+
+[node name="TextureContainer" type="PanelContainer" parent="."]
+clip_contents = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_xo2vn")
+
+[node name="TextureRect" type="TextureRect" parent="TextureContainer"]
 custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
-texture = ExtResource("1_1jxcg")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Button" type="Button" parent="."]
+[node name="AlphaBG" type="ColorRect" parent="TextureContainer"]
 layout_mode = 2
+script = ExtResource("2_pjgsv")
+
+[node name="IncExposureContainer" type="Control" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Button" type="Button" parent="IncExposureContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
 theme_override_styles/focus = SubResource("StyleBoxFlat_1614f")
 theme_override_styles/hover = SubResource("StyleBoxFlat_y37jy")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_1614f")
@@ -55,6 +89,53 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_5et5j")
 toggle_mode = true
 keep_pressed_outside = true
 
-[connection signal="button_down" from="Button" to="." method="_on_button_button_down"]
-[connection signal="button_up" from="Button" to="." method="_on_button_button_up"]
-[connection signal="toggled" from="Button" to="." method="_on_button_toggled"]
+[node name="HFlowContainer" type="HFlowContainer" parent="IncExposureContainer"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -12.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+last_wrap_alignment = 2
+
+[node name="DecHBox" type="HBoxContainer" parent="IncExposureContainer/HFlowContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DecExposureButton" type="Button" parent="IncExposureContainer/HFlowContainer/DecHBox"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_7wlkg")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7wlkg")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_7wlkg")
+theme_override_styles/normal = SubResource("StyleBoxFlat_7wlkg")
+icon = ExtResource("3_7wlkg")
+expand_icon = true
+
+[node name="IncHBox" type="HBoxContainer" parent="IncExposureContainer/HFlowContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="IncExposureButton" type="Button" parent="IncExposureContainer/HFlowContainer/IncHBox"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+mouse_filter = 1
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_7wlkg")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7wlkg")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_7wlkg")
+theme_override_styles/normal = SubResource("StyleBoxFlat_7wlkg")
+icon = ExtResource("3_xo2vn")
+expand_icon = true
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="button_down" from="IncExposureContainer/Button" to="." method="_on_button_button_down"]
+[connection signal="button_up" from="IncExposureContainer/Button" to="." method="_on_button_button_up"]
+[connection signal="toggled" from="IncExposureContainer/Button" to="." method="_on_button_toggled"]
+[connection signal="pressed" from="IncExposureContainer/HFlowContainer/DecHBox/DecExposureButton" to="." method="_on_dec_exposure_button_pressed"]
+[connection signal="pressed" from="IncExposureContainer/HFlowContainer/IncHBox/IncExposureButton" to="." method="_on_inc_exposure_button_pressed"]

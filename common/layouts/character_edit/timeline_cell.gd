@@ -11,10 +11,13 @@ signal button_focus_exited
 @onready var right_cell_texture := preload("res://ui/assets/icons/cell_right.svg")
 @onready var middle_cell_texture := preload("res://ui/assets/icons/cell_middle.svg")
 
-@onready var button := $Button
-@onready var texture_rect := $TextureRect
+@onready var button := %Button
+@onready var line_indicator := %LineIndicator
+@onready var texture_rect := $TextureContainer/TextureRect
+@onready var texture_container := $TextureContainer
 
 var image_path: String : set = _set_image_path
+var is_exposure: bool = false # If is the same frame as the previous one
 var timeline: LayerTimeline
 
 
@@ -24,16 +27,22 @@ func _set_image_path(value: String) -> void:
 
 
 func _ready() -> void:
-	texture_rect.texture = empty_cell_texture
 	GlobalSignal.add_listener("timeline_zoom_in", _on_timeline_zoom)
 	GlobalSignal.add_listener("timeline_zoom_out", _on_timeline_zoom)
+	_update()
 
 
 func _update() -> void:
-	texture_rect.texture = empty_cell_texture
+	if not image_path.is_empty() and is_exposure:
+		var im: Image = load(image_path)
+		im.resize(128, (im.get_size().y*128)/im.get_size().x, Image.INTERPOLATE_CUBIC)
+		var tx: ImageTexture = ImageTexture.create_from_image(im)
+		texture_rect.texture = tx
+	else:
+		texture_rect.texture = ImageTexture.new()
 	
-	if not image_path.is_empty():
-		texture_rect.texture = single_cell_texture
+	texture_container.visible = !is_exposure
+	line_indicator.visible = is_exposure
 
 
 func lose_focus() -> void:
@@ -65,3 +74,15 @@ func _on_button_button_down() -> void: button_down.emit()
 func _on_button_button_up() -> void: button_up.emit()
 func _on_button_toggled(toggled_on: bool) -> void:
 	if toggled_on == false: button_focus_exited.emit()
+
+
+func _on_inc_exposure_button_pressed() -> void:
+	timeline.add_exposure(self)
+
+
+func _on_mouse_entered() -> void: $IncExposureContainer.show()
+func _on_mouse_exited() -> void: $IncExposureContainer.hide()
+
+
+func _on_dec_exposure_button_pressed() -> void:
+	timeline.remove_cell(self)

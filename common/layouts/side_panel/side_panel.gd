@@ -71,31 +71,7 @@ func on_graph_node_selected(node: MonologueGraphNode, bypass: bool = false):
 	var property_names = node.get_property_names()
 
 	for item in items:
-		if item is String:
-			var field = node.get(item).show(fields_container)
-			field.set_label_text(item.capitalize())
-			already_invoke.append(item)
-		else:
-			for group in item:
-				var fields = item[group]
-				var field_obj: CollapsibleField = collapsible_field.instantiate()
-				fields_container.add_child(field_obj, true)
-				field_obj.set_title(group)
-				
-				for field_name in fields:
-					var property = node.get(field_name)
-					var field = property.show(fields_container)
-					field.set_label_text(field_name.capitalize())
-
-					fields_container.remove_child(field)
-					field_obj.add_item(field)
-					already_invoke.append(field_name)
-					
-					field.collapsible_field = field_obj
-					if property.uncollapse:
-						field_obj.open()
-						property.uncollapse = false
-					collapsibles[field_name] = field_obj
+		_load_groups(item, node, already_invoke)
 	
 	for property_name in property_names:
 		if property_name in already_invoke:
@@ -111,6 +87,21 @@ func on_graph_node_selected(node: MonologueGraphNode, bypass: bool = false):
 	restore_collapsible_state(uncollapse_paths)
 	# if focus was preserved, restore it
 	restore_focus(refocus_path, refocus_line, refocus_column)
+
+func _load_groups(item, graph_node: MonologueGraphNode, already_invoke) -> void:
+	if item is String:
+		var property = graph_node.get(item)
+		var field = property.show(fields_container)
+
+		if property.custom_label != null:
+			field.set_label_text(property.custom_label)
+		else:
+			field.set_label_text(item.capitalize())
+
+		already_invoke.append(item)
+	else:
+		for group in item:
+			_recursive_build_collapsible_field(fields_container, item, group, graph_node, already_invoke)
 
 
 func _recursive_build_collapsible_field(parent: Control, item: Dictionary, group: String, graph_node: MonologueGraphNode, already_invoke: Array) -> CollapsibleField:

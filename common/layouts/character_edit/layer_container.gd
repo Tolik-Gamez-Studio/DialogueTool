@@ -6,7 +6,7 @@ const MIN_CELL_WIDTH: int = 26
 @onready var layer_timeline_scroll_container := $LayerTimelineContainer/ScrollContainer
 
 var mouse_hover: bool = false
-var cell_width: int = 26
+var cell_width: int = 75
 
 
 func _input(event: InputEvent) -> void:

@@ -28,8 +28,7 @@ func _get_fps() -> int:
 
 
 func _ready() -> void:
-	add_timeline()
-	_update_cell_number()
+	pass
 
 
 func _from_dict(dict: Dictionary) -> void:
@@ -106,9 +105,6 @@ func _update_preview() -> void:
 func add_cell() -> void:
 	cell_count += 1
 	_update_cell_number()
-	for t in layer_timeline_vbox.get_children():
-		t.add_cell()
-
 	_update_preview()
 
 func _to_dict() -> Dictionary:

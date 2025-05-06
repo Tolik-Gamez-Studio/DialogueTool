@@ -1,9 +1,9 @@
 class_name LayerTimeline extends PanelContainer
 
 
-@onready var hbox := $HBox
+@onready var hbox := %HBox
 
-var timeline_section: Control
+var timeline_section: TimelineSection
 var timeline_cell := preload("res://common/layouts/character_edit/cell.tscn")
 var placement_indicator := preload("res://common/layouts/character_edit/placement_indicator.tscn")
 
@@ -15,13 +15,21 @@ func _ready() -> void:
 
 
 func add_cell() -> TimelineCell:
+	var cells := get_all_cells()
+	var is_exposure: bool = cells.size() > 0
+	
 	var new_cell := timeline_cell.instantiate()
 	hbox.add_child(new_cell)
 	new_cell.timeline = self
+	new_cell.is_exposure = is_exposure
 	new_cell.custom_minimum_size.x = timeline_section.get_cell_width()
+	new_cell._update()
 	new_cell.connect("button_down", _on_cell_button_down.bind(new_cell))
 	new_cell.connect("button_up", _on_cell_button_up.bind(new_cell))
 	new_cell.connect("button_focus_exited", _on_cell_focus_exited)
+	
+	if get_all_cells().size() > timeline_section.cell_count:
+		timeline_section.add_cell()
 	
 	return new_cell
 
@@ -68,10 +76,18 @@ func _process(_delta: float) -> void:
 		hbox.move_child(current_indicator, indicator_index+1)
 
 
-func remove_cell(pos: int) -> void:
+func remove_cell(cell: TimelineCell) -> void:
 	var cells: Array = get_all_cells()
-	hbox.remove_child(cells[pos])
-	cells[pos].queue_free()
+	var index: int = cells.find(cell)
+	
+	if not cell.is_exposure and have_exposure_after(cell):
+		var c_after: TimelineCell = cells[index+1]
+		c_after.is_exposure = false
+		c_after.image_path = cell.image_path
+		c_after._update()
+		
+	hbox.remove_child(cell)
+	cell.queue_free()
 
 
 func fill() -> void:
@@ -109,7 +125,7 @@ func _to_dict() -> Dictionary:
 func get_all_cells() -> Array:
 	var cells: Array = []
 	for child in hbox.get_children():
-		if child is not TimelineCell:
+		if child is not TimelineCell or child.is_queued_for_deletion():
 			continue
 		cells.append(child)
 	
@@ -132,3 +148,26 @@ func _to_sprite_frames() -> SpriteFrames:
 		sprite_frames.add_frame("default", texture, 1.0, idx)
 		
 	return sprite_frames
+
+func add_exposure(of_cell: TimelineCell):
+	var index: int = get_all_cells().find(of_cell)
+	
+	var cell: TimelineCell = add_cell()
+	cell.is_exposure = true
+	hbox.move_child(cell, index+1)
+	cell._on_mouse_exited()
+
+
+func _on_button_pressed() -> void:
+	var cell: TimelineCell = add_cell()
+	cell.is_exposure = false
+	cell._update()
+
+
+func have_exposure_after(cell: TimelineCell) -> bool:
+	var cells := get_all_cells()
+	var index: int = cells.find(cell)
+	if index == cells.size() - 1:
+		return false
+	
+	return cells[index+1].is_exposure
