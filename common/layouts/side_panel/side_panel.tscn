@@ -23,16 +23,19 @@ layout_mode = 2
 theme_type_variation = &"HBoxContainer_Small"
 
 [node name="RFHButton" type="TextureButton" parent="Scroller/VBox/TopBox"]
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource("2_34x8o")
-stretch_mode = 3
+ignore_texture_size = true
+stretch_mode = 5
 
 [node name="HSeparator" type="HSeparator" parent="Scroller/VBox"]
 layout_mode = 2
 theme_type_variation = &"HSeparatorGrow"
 
 [node name="Fields" type="VBoxContainer" parent="Scroller/VBox"]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
 [connection signal="pressed" from="Scroller/VBox/TopBox/RFHButton" to="." method="_on_rfh_button_pressed"]

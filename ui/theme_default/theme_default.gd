@@ -98,7 +98,7 @@ func _generate_theme() -> void:
 	# CheckBox
 	
 	var check_box_sb: StyleBoxFlat = base_field_sb.duplicate()
-	check_box_sb.set_content_margin_all(base_margin/2)
+	check_box_sb.set_content_margin_all(0)
 	
 	var check_box_hover_sb: StyleBoxFlat = check_box_sb.duplicate()
 	check_box_hover_sb.bg_color = _get_primary_color(contrast)
@@ -243,6 +243,7 @@ func _generate_theme() -> void:
 	set_constant("separation", "HBoxContainer", base_spacing)
 	set_constant("separation", "VBoxContainer", base_spacing)
 	set_constant("separation", "FieldContainer", base_spacing/2)
+	
 	# HDottedSeparator & VDottedSeparator
 	
 	set_type_variation("HDottedSeparator", "HSeparator")
@@ -364,6 +365,37 @@ func _generate_theme() -> void:
 	set_stylebox("panel", "PopupMenu", sb)
 	set_stylebox("hover", "PopupMenu", popup_menu_hover_sb)
 	set_stylebox("separator", "PopupMenu", separator_sb)
+	
+	# SCrollBar
+	var _side_panel_bg_color: Color = _get_primary_color(contrast, false)
+	var _scroll_bar_color: Color = _get_color(base_border_color, base_border_color.a, false, _side_panel_bg_color)
+	
+	var scroll_sb: StyleBoxFlat = base_empty_sb.duplicate()
+	scroll_sb.border_color = _scroll_bar_color
+	scroll_sb.set_content_margin_all(2)
+	scroll_sb.set_corner_radius_all(0)
+	
+	# ScrollBar's focus stylebox is not working.
+	var scroll_focus_sb: StyleBoxFlat = scroll_sb.duplicate()
+	scroll_focus_sb.draw_center = true
+	
+	var grabber_sb: StyleBoxFlat = base_sb.duplicate()
+	grabber_sb.set_corner_radius_all(5)
+	grabber_sb.bg_color = _scroll_bar_color
+	
+	set_stylebox("scroll", "VScrollBar", scroll_sb)
+	set_stylebox("scroll_focus", "VScrollBar", scroll_focus_sb)
+	set_stylebox("grabber", "VScrollBar", grabber_sb)
+	set_stylebox("grabber", "VScrollBar", grabber_sb)
+	set_stylebox("grabber_highlight", "VScrollBar", grabber_sb)
+	set_stylebox("grabber_pressed", "VScrollBar", grabber_sb)
+	
+	set_stylebox("scroll", "HScrollBar", scroll_sb)
+	set_stylebox("scroll_focus", "HScrollBar", scroll_focus_sb)
+	set_stylebox("grabber", "HScrollBar", grabber_sb)
+	set_stylebox("grabber", "HScrollBar", grabber_sb)
+	set_stylebox("grabber_highlight", "HScrollBar", grabber_sb)
+	set_stylebox("grabber_pressed", "HScrollBar", grabber_sb)
 	
 	# SpinBoxButton
 	
@@ -508,10 +540,10 @@ func _get_secondary_color(alpha: float = 1.0, transparent: bool = true) -> Color
 func _get_text_color(alpha: float = 1.0, transparent: bool = true) -> Color:
 	return _get_color(text_color, alpha, transparent)
 
-func _get_color(color: Color, alpha: float = 1.0, transparent: bool = true) -> Color:
+func _get_color(color: Color, alpha: float = 1.0, transparent: bool = true, blend_with: Color = background_color) -> Color:
 	if transparent:
 		return Color(color, alpha)
-	return Color(background_color).blend(Color(color, alpha))
+	return Color(blend_with).blend(Color(color, alpha))
 
 
 # Shorthand content margin setter
