@@ -171,3 +171,11 @@ func sub_select(col_idx: int, row_idx: int) -> void:
 	
 	cell_number_hbox.get_child(col_idx).sub_select()
 	
+
+
+func _on_layer_scroll_container_gui_input(event: InputEvent) -> void:
+	%LayerTimelineScrollContainer.scroll_vertical = %LayerScrollContainer.scroll_vertical
+
+
+func _on_layer_timeline_scroll_container_gui_input(event: InputEvent) -> void:
+	%LayerScrollContainer.scroll_vertical = %LayerTimelineScrollContainer.scroll_vertical

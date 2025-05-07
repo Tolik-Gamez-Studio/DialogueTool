@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://d2ekvpgbp07fe"]
+[gd_scene load_steps=10 format=3 uid="uid://d2ekvpgbp07fe"]
 
-[ext_resource type="Texture2D" uid="uid://bv81uyypsna2u" path="res://ui/assets/icons/dots_grid.svg" id="1_3wu84"]
 [ext_resource type="Script" uid="uid://bodradtjajfd7" path="res://common/layouts/character_edit/layer.gd" id="1_teuw3"]
+[ext_resource type="Texture2D" uid="uid://du0bedfddmsrg" path="res://ui/assets/icons/arrow_up.svg" id="2_cpp16"]
 [ext_resource type="PackedScene" uid="uid://dfwf55ovgwir3" path="res://common/ui/buttons/delete_button.tscn" id="2_ta0kq"]
+[ext_resource type="Texture2D" uid="uid://cweh5vxhmobip" path="res://ui/assets/icons/arrow_down.svg" id="3_n1rfn"]
+[ext_resource type="Texture2D" uid="uid://dh2il37b3nhyo" path="res://ui/assets/icons/eye.svg" id="5_osgny"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_38dgm"]
 bg_color = Color(0.27451, 0.27451, 0.301961, 0.25098)
@@ -15,7 +17,9 @@ draw_center = false
 border_width_right = 1
 border_color = Color(0.117647, 0.117647, 0.129412, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6xlvw"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ku6lt"]
+content_margin_left = 3.0
+content_margin_right = 3.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_86o0e"]
 line_spacing = 0.0
@@ -32,18 +36,37 @@ size_flags_vertical = 3
 theme_override_constants/separation = 0
 
 [node name="PanelContainer5" type="PanelContainer" parent="HBoxContainer"]
-visible = false
 custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_y3h2k")
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/PanelContainer5"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer5"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-mouse_filter = 0
-texture = ExtResource("1_3wu84")
-stretch_mode = 3
+theme_override_constants/separation = 0
+
+[node name="Button2" type="Button" parent="HBoxContainer/PanelContainer5/VBoxContainer"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ku6lt")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_ku6lt")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ku6lt")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ku6lt")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ku6lt")
+icon = ExtResource("2_cpp16")
+flat = true
+expand_icon = true
+
+[node name="Button" type="Button" parent="HBoxContainer/PanelContainer5/VBoxContainer"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ku6lt")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_ku6lt")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ku6lt")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ku6lt")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ku6lt")
+icon = ExtResource("3_n1rfn")
+flat = true
+expand_icon = true
 
 [node name="PanelContainer3" type="PanelContainer" parent="HBoxContainer"]
 visible = false
@@ -62,34 +85,41 @@ stretch_mode = 5
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_y3h2k")
 
-[node name="TextureButton" type="TextureButton" parent="HBoxContainer/PanelContainer"]
-custom_minimum_size = Vector2(26, 26)
+[node name="EyeButton" type="Button" parent="HBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(26, 0)
 layout_mode = 2
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="PanelContainer2" type="PanelContainer" parent="HBoxContainer"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_y3h2k")
-
-[node name="TextureButton" type="TextureButton" parent="HBoxContainer/PanelContainer2"]
-custom_minimum_size = Vector2(26, 26)
-layout_mode = 2
-ignore_texture_size = true
-stretch_mode = 5
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_ku6lt")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_ku6lt")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ku6lt")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ku6lt")
+toggle_mode = true
+button_pressed = true
+icon = ExtResource("5_osgny")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="PanelContainer4" type="PanelContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxEmpty_6xlvw")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ku6lt")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/PanelContainer4"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/PanelContainer4"]
 layout_mode = 2
-theme_override_constants/margin_top = 0
-theme_override_constants/margin_bottom = 0
 
-[node name="Label" type="Label" parent="HBoxContainer/PanelContainer4/MarginContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/PanelContainer4/HBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Layer 1"
 label_settings = SubResource("LabelSettings_86o0e")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer4/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="DeleteButton" parent="HBoxContainer/PanelContainer4/HBoxContainer/VBoxContainer" instance=ExtResource("2_ta0kq")]
+layout_mode = 2
+
+[connection signal="toggled" from="HBoxContainer/PanelContainer/EyeButton" to="." method="_on_eye_button_toggled"]

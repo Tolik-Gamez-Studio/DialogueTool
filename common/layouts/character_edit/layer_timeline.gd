@@ -11,7 +11,7 @@ var current_indicator: Control
 
 
 func _ready() -> void:
-	fill()
+	add_cell()
 
 
 func add_cell() -> TimelineCell:

@@ -29,6 +29,7 @@ script = ExtResource("1_c26rn")
 
 [node name="BaseContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
+theme_override_constants/separation = 0
 
 [node name="HBox" type="HBoxContainer" parent="BaseContainer"]
 unique_name_in_owner = true
