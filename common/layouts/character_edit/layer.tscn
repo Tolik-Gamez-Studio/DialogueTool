@@ -1,9 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://d2ekvpgbp07fe"]
+[gd_scene load_steps=11 format=3 uid="uid://d2ekvpgbp07fe"]
 
 [ext_resource type="Script" uid="uid://bodradtjajfd7" path="res://common/layouts/character_edit/layer.gd" id="1_teuw3"]
-[ext_resource type="Texture2D" uid="uid://du0bedfddmsrg" path="res://ui/assets/icons/arrow_up.svg" id="2_cpp16"]
 [ext_resource type="PackedScene" uid="uid://dfwf55ovgwir3" path="res://common/ui/buttons/delete_button.tscn" id="2_ta0kq"]
-[ext_resource type="Texture2D" uid="uid://cweh5vxhmobip" path="res://ui/assets/icons/arrow_down.svg" id="3_n1rfn"]
 [ext_resource type="Texture2D" uid="uid://dh2il37b3nhyo" path="res://ui/assets/icons/eye.svg" id="5_osgny"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_38dgm"]
@@ -25,6 +23,32 @@ content_margin_right = 3.0
 line_spacing = 0.0
 font_size = 14
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cpp16"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6c6x0"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.84, 0.3192, 0.37996, 0.498039)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j41u5"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.835294, 0.317647, 0.376471, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
 [node name="Layer" type="PanelContainer"]
 custom_minimum_size = Vector2(0, 52)
 theme_override_styles/panel = SubResource("StyleBoxFlat_38dgm")
@@ -34,52 +58,6 @@ script = ExtResource("1_teuw3")
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 0
-
-[node name="PanelContainer5" type="PanelContainer" parent="HBoxContainer"]
-custom_minimum_size = Vector2(26, 26)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_y3h2k")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer5"]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="Button2" type="Button" parent="HBoxContainer/PanelContainer5/VBoxContainer"]
-custom_minimum_size = Vector2(26, 26)
-layout_mode = 2
-theme_override_styles/focus = SubResource("StyleBoxEmpty_ku6lt")
-theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_ku6lt")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_ku6lt")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_ku6lt")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_ku6lt")
-icon = ExtResource("2_cpp16")
-flat = true
-expand_icon = true
-
-[node name="Button" type="Button" parent="HBoxContainer/PanelContainer5/VBoxContainer"]
-custom_minimum_size = Vector2(26, 26)
-layout_mode = 2
-theme_override_styles/focus = SubResource("StyleBoxEmpty_ku6lt")
-theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_ku6lt")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_ku6lt")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_ku6lt")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_ku6lt")
-icon = ExtResource("3_n1rfn")
-flat = true
-expand_icon = true
-
-[node name="PanelContainer3" type="PanelContainer" parent="HBoxContainer"]
-visible = false
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_y3h2k")
-
-[node name="DeleteButton" parent="HBoxContainer/PanelContainer3" instance=ExtResource("2_ta0kq")]
-custom_minimum_size = Vector2(26, 16)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-ignore_texture_size = true
-stretch_mode = 5
 
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
 layout_mode = 2
@@ -112,14 +90,32 @@ layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Layer 1"
 label_settings = SubResource("LabelSettings_86o0e")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer4/HBoxContainer"]
+[node name="Control" type="Control" parent="HBoxContainer/PanelContainer4"]
+layout_mode = 2
+
+[node name="HoverButton" type="Button" parent="HBoxContainer/PanelContainer4/Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_cpp16")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6c6x0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_j41u5")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_cpp16")
+keep_pressed_outside = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="DeleteButton" parent="HBoxContainer/PanelContainer4/HBoxContainer/VBoxContainer" instance=ExtResource("2_ta0kq")]
+[node name="DeleteButton" parent="HBoxContainer/VBoxContainer" instance=ExtResource("2_ta0kq")]
 layout_mode = 2
 
 [connection signal="toggled" from="HBoxContainer/PanelContainer/EyeButton" to="." method="_on_eye_button_toggled"]

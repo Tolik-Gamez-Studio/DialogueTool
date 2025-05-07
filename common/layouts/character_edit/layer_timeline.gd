@@ -5,7 +5,7 @@ class_name LayerTimeline extends PanelContainer
 
 var timeline_section: TimelineSection
 var timeline_cell := preload("res://common/layouts/character_edit/cell.tscn")
-var placement_indicator := preload("res://common/layouts/character_edit/placement_indicator.tscn")
+var placement_indicator := preload("res://common/layouts/character_edit/vertical_placement_indicator.tscn")
 
 var current_indicator: Control
 
@@ -51,13 +51,16 @@ func _on_cell_button_down(cell: TimelineCell) -> void:
 
 
 func _on_cell_button_up(cell: TimelineCell) -> void:
-	hbox.move_child(cell, current_indicator.get_index())
+	var indicator_idx = current_indicator.get_index()
+	hbox.move_child(cell, indicator_idx)
 	
 	current_indicator.queue_free()
 	current_indicator = null
 	timeline_section.selected_cell = cell
 	
-	# Hide all animation player except the one releated to this timeline and show set the frame to this one
+	var first_cell: TimelineCell = get_all_cells()[0]
+	if first_cell.is_exposure:
+		first_cell.is_exposure = false
 
 
 func _on_cell_focus_exited() -> void:
@@ -70,9 +73,10 @@ func _process(_delta: float) -> void:
 	
 	var indicator_dist: float = current_indicator.global_position.x - get_global_mouse_position().x
 	var indicator_index: int = current_indicator.get_index()
-	if indicator_dist > 13:
+	var dist: float = timeline_section.get_cell_width() / 2
+	if indicator_dist > dist:
 		hbox.move_child(current_indicator, indicator_index-1)
-	elif indicator_dist <= -13:
+	elif indicator_dist <= -dist:
 		hbox.move_child(current_indicator, indicator_index+1)
 
 

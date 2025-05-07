@@ -2,6 +2,7 @@ class_name TimelineSection extends PortraitEditSection
 
 
 const IMAGE = ["*.bmp,*.jpg,*.jpeg,*.png,*.svg,*.webp;Image Files"]
+const DEFAULT_LAYER_NAME: String = "new layer %s"
 
 var filters: Array = ["*.bmp", "*.jpg", "*.jpeg", "*.png", "*.svg", "*.webp"]
 
@@ -16,19 +17,29 @@ var filters: Array = ["*.bmp", "*.jpg", "*.jpeg", "*.png", "*.svg", "*.webp"]
 @onready var layer := preload("res://common/layouts/character_edit/layer.tscn")
 @onready var layer_timeline := preload("res://common/layouts/character_edit/layer_timeline.tscn")
 @onready var cell_number := preload("res://common/layouts/character_edit/cell_number.tscn")
+@onready var placement_indicator := preload("res://common/layouts/character_edit/horizontal_placement_indicator.tscn")
 
 var cell_count: int = 1
 var base_path: String
 var selected_cell: TimelineCell
 var fps: int : get = _get_fps
+var current_indicator: Control
 
 
 func _get_fps() -> int:
 	return fps_spinbox.value
 
 
-func _ready() -> void:
-	pass
+func _process(_delta: float) -> void:
+	if current_indicator == null:
+		return
+	
+	var indicator_dist: float = current_indicator.global_position.y - get_global_mouse_position().y
+	var indicator_index: int = current_indicator.get_index()
+	if indicator_dist > 26:
+		layer_vbox.move_child(current_indicator, indicator_index-1)
+	elif indicator_dist <= -26:
+		layer_vbox.move_child(current_indicator, indicator_index+1)
 
 
 func _from_dict(dict: Dictionary) -> void:
@@ -68,13 +79,17 @@ func get_cell_width() -> int:
 
 
 func add_timeline() -> void:
-	var new_layer := layer.instantiate()
+	var new_layer: Layer = layer.instantiate()
 	var new_layer_timeline: LayerTimeline = layer_timeline.instantiate()
 	
 	new_layer_timeline.timeline_section = self
 	
 	layer_vbox.add_child(new_layer)
 	layer_timeline_vbox.add_child(new_layer_timeline)
+	
+	new_layer.timeline_label.text = DEFAULT_LAYER_NAME % layer_vbox.get_child_count()
+	new_layer.hover_button.connect("button_down", _on_layer_button_down.bind(new_layer))
+	new_layer.hover_button.connect("button_up", _on_layer_button_up.bind(new_layer))
 	
 	_update_preview()
 
@@ -173,9 +188,27 @@ func sub_select(col_idx: int, row_idx: int) -> void:
 	
 
 
-func _on_layer_scroll_container_gui_input(event: InputEvent) -> void:
+func _on_layer_scroll_container_gui_input(_event: InputEvent) -> void:
 	%LayerTimelineScrollContainer.scroll_vertical = %LayerScrollContainer.scroll_vertical
 
 
-func _on_layer_timeline_scroll_container_gui_input(event: InputEvent) -> void:
+func _on_layer_timeline_scroll_container_gui_input(_event: InputEvent) -> void:
 	%LayerScrollContainer.scroll_vertical = %LayerTimelineScrollContainer.scroll_vertical
+
+
+func _on_layer_button_down(target_layer: Layer) -> void:
+	var layer_idx: int = layer_vbox.get_children().find(target_layer)
+	
+	current_indicator = placement_indicator.instantiate()
+	layer_vbox.add_child(current_indicator)
+	layer_vbox.move_child(current_indicator, layer_idx+1)
+
+
+func _on_layer_button_up(target_layer: Layer) -> void:
+	var layer_idx: int = layer_vbox.get_children().find(target_layer)
+	var layer_timeline: LayerTimeline = layer_timeline_vbox.get_child(layer_idx-1)
+	layer_vbox.move_child(target_layer, current_indicator.get_index())
+	layer_timeline_vbox.move_child(layer_timeline, current_indicator.get_index()-1)
+	
+	current_indicator.queue_free()
+	current_indicator = null

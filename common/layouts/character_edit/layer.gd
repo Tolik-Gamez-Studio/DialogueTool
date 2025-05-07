@@ -3,6 +3,7 @@ class_name Layer extends PanelContainer
 
 @onready var timeline_label := %Label
 @onready var eye_button := %EyeButton
+@onready var hover_button := %HoverButton
 
 var eye_open := preload("res://ui/assets/icons/eye.svg")
 var eye_closed := preload("res://ui/assets/icons/eye_closed.svg")

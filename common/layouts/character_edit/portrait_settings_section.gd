@@ -1,6 +1,6 @@
 class_name PortraitSettingsSection extends PortraitEditSection
 
-
+@warning_ignore("unused_signal")
 signal changed
 
 var portrait_type := Property.new(MonologueGraphNode.DROPDOWN, {}, "Image")

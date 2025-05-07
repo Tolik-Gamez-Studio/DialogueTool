@@ -15,6 +15,7 @@ signal button_focus_exited
 @onready var line_indicator := %LineIndicator
 @onready var texture_rect := $TextureContainer/TextureRect
 @onready var texture_container := $TextureContainer
+@onready var hflow := %HFlow
 
 var image_path: String : set = _set_image_path
 var is_exposure: bool = false # If is the same frame as the previous one
@@ -80,8 +81,10 @@ func _on_inc_exposure_button_pressed() -> void:
 	timeline.add_exposure(self)
 
 
-func _on_mouse_entered() -> void: $IncExposureContainer.show()
-func _on_mouse_exited() -> void: $IncExposureContainer.hide()
+func _on_mouse_entered() -> void:
+	if timeline.current_indicator == null:
+		hflow.show()
+func _on_mouse_exited() -> void: hflow.hide()
 
 
 func _on_dec_exposure_button_pressed() -> void:

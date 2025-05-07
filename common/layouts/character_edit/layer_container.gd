@@ -3,13 +3,13 @@ extends HSplitContainer
 const MAX_CELL_WIDTH: int = 150
 const MIN_CELL_WIDTH: int = 26
 
-@onready var layer_timeline_scroll_container := $LayerTimelineContainer/ScrollContainer
+@onready var layer_timeline_scroll_container := %LayerTimelineScrollContainer
 
 var mouse_hover: bool = false
 var cell_width: int = 75
 
 
-func _input(event: InputEvent) -> void:
+func _input(_event: InputEvent) -> void:
 	# Disable scroll container if Ctrl is pressed
 	if Input.is_action_just_pressed("Ctrl"):
 		layer_timeline_scroll_container.mouse_filter = MOUSE_FILTER_IGNORE
