@@ -2,8 +2,6 @@
 
 ![GitHub stars](https://img.shields.io/github/stars/monologue-tool/monologue?style=flat-square) ![Latest Release](https://img.shields.io/github/v/release/monologue-tool/monologue?style=flat-square) ![Godot Engine 4.x](https://img.shields.io/badge/Godot-4.x-blue?style=flat-square) ![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
-# Monologue — Dialogue Editor for Narrative Games
-
 Monologue is a **dynamic, flexible, open-source dialogue editor** for creating branching, non-linear conversations in games. It provides a **graph-based nterface** that makes it easy to visually craft modular dialogue flows. The editor is “engine agnostic”, which means you can prototype and export your story (in JSON) for use in any game engine or framework (as long as an interpreter is written for that engine or you write it).
 
 ## Features
