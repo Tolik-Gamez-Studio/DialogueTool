@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://bim51g1aibuw0"]
 
+[ext_resource type="Texture2D" uid="uid://dd8v3hpxxk33d" path="res://ui/assets/icons/logo_white.svg" id="1_1u5fg"]
 [ext_resource type="PackedScene" uid="uid://bqjfdabrxujp7" path="res://scenes/main/graph.tscn" id="1_kiov6"]
-[ext_resource type="Texture2D" uid="uid://cfc0nhupnhixg" path="res://icon_min.png" id="2_601ss"]
 [ext_resource type="Texture2D" uid="uid://hlck6y4i3l5q" path="res://ui/assets/icons/plus.svg" id="3_gcdaj"]
 [ext_resource type="Script" uid="uid://m1wxne1g6kju" path="res://scenes/main/main_menu.gd" id="4_f1t0i"]
 [ext_resource type="Shader" uid="uid://de1ql8ahad2ts" path="res://common/blur.gdshader" id="5_1u5fg"]
@@ -50,7 +50,7 @@ theme_override_constants/separation = 0
 [node name="MainPopupMenu" type="MenuButton" parent="Frame/VBoxContainer/CustomTitleBar"]
 custom_minimum_size = Vector2(43, 0)
 layout_mode = 2
-icon = ExtResource("2_601ss")
+icon = ExtResource("1_1u5fg")
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("4_f1t0i")

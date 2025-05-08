@@ -117,4 +117,4 @@ func show(panel: Control, child_index: int = -1, auto_margin: bool = true) -> Mo
 
 func _check_visibility():
 	if is_instance_valid(field):
-		field.visible = visible
+		field_container.visible = visible

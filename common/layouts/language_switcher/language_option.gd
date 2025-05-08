@@ -62,7 +62,7 @@ func _on_line_edit_text_submitted(new_text: String) -> void:
 
 
 func select() -> void:
-	theme_type_variation = "Button_Accent"
+	theme_type_variation = "ButtonAccent"
 
 func unselect() -> void:
 	theme_type_variation = ""

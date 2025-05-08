@@ -6,6 +6,7 @@
 custom_minimum_size = Vector2(34, 29)
 offset_right = 34.0
 offset_bottom = 29.0
+size_flags_vertical = 0
 theme_type_variation = &"ButtonWarning"
 icon = ExtResource("1_xsgmh")
 expand_icon = true

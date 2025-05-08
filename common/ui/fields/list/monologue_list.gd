@@ -40,6 +40,7 @@ func clear_list():
 
 func create_item_container() -> PanelContainer:
 	var item_container = PanelContainer.new()
+	item_container.theme_type_variation = "ItemContainer"
 	return item_container
 
 

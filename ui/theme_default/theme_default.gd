@@ -96,6 +96,25 @@ func _generate_theme() -> void:
 	set_stylebox('pressed', 'Button', button_pressed_sb)
 	set_stylebox('pressed_mirrored', 'Button', button_pressed_sb)
 	
+	# ButtonAccent
+	
+	set_type_variation("ButtonAccent", "Button")
+	
+	var button_accent_base_sb: StyleBoxFlat = base_sb.duplicate()
+	button_accent_base_sb.bg_color = accent_color
+	
+	set_stylebox('disabled', 'ButtonAccent', button_accent_base_sb)
+	set_stylebox('disabled_mirrored', 'ButtonAccent', button_accent_base_sb)
+	set_stylebox('focus', 'ButtonAccent', button_accent_base_sb)
+	set_stylebox('hover', 'ButtonAccent', button_accent_base_sb)
+	set_stylebox('hover_mirrored', 'ButtonAccent', button_accent_base_sb)
+	set_stylebox('hover_pressed', 'ButtonAccent', button_accent_base_sb)
+	set_stylebox('hover_pressed_mirrored', 'ButtonAccent', button_accent_base_sb)
+	set_stylebox('normal', 'ButtonAccent', button_accent_base_sb)
+	set_stylebox('normal_mirrored', 'ButtonAccent', button_accent_base_sb)
+	set_stylebox('pressed', 'ButtonAccent', button_accent_base_sb)
+	set_stylebox('pressed_mirrored', 'ButtonAccent', button_accent_base_sb)
+	
 	# ButtonWarning
 	
 	set_type_variation("ButtonWarning", "Button")
@@ -353,6 +372,13 @@ func _generate_theme() -> void:
 	set_stylebox("grabber_area", "HSlider", grabber_area)
 	set_stylebox("grabber_area_highlight", "HSlider", grabber_area)
 	
+	# ItemContainer
+	
+	set_type_variation("ItemContainer", "PanelContainer")
+	
+	sb = base_empty_sb.duplicate()
+	set_stylebox("panel", "ItemContainer", sb)
+	
 	# Label
 	
 	set_type_variation("NodeValue", "Label")
@@ -554,9 +580,20 @@ func _generate_theme() -> void:
 	var tree_sb: StyleBoxFlat = base_sb.duplicate()
 	var tree_focus_sb: StyleBoxFlat = base_empty_sb.duplicate()
 	
+	set_color("relashion_ship_line_color", "Tree", Color(base_border_color, base_border_color.a/2))
+	#set_color("guide_color", "Tree", Color(base_border_color, base_border_color.a/2))
 	set_constant("icon_max_width", "Tree", 14)
 	set_constant("h_separation", "Tree", base_spacing)
 	set_constant("v_separation", "Tree", base_spacing/2)
+	set_constant("inner_item_margin_bottom", "Tree", base_spacing)
+	set_constant("inner_item_margin_left", "Tree", base_spacing)
+	set_constant("inner_item_margin_top", "Tree", base_spacing)
+	set_constant("inner_item_margin_right", "Tree", base_spacing)
+	set_constant("draw_relationship_lines", "Tree", 1)
+	set_constant("draw_guides", "Tree", 0)
+	set_constant("relationship_line_width", "Tree", 0)
+	set_constant("parent_hl_line_width", "Tree", border_width)
+	set_constant("children_hl_line_width", "Tree", 0)
 	set_icon("checked", "Tree", preload("res://ui/theme_default/assets/checked.svg"))
 	set_icon("unchecked", "Tree", preload("res://ui/theme_default/assets/unchecked.svg"))
 	set_icon("checked_disabled", "Tree", preload("res://ui/theme_default/assets/checked_disabled.svg"))
