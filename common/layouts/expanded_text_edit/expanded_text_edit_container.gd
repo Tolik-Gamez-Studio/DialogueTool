@@ -1,6 +1,8 @@
 extends MarginContainer
 
 
+@export var window_overlay: ColorRect
+
 @onready var text_edit: TextEdit = %TextEdit
 var little_text_edit: TextEdit
 
@@ -25,3 +27,10 @@ func _on_button_pressed() -> void:
 func _on_text_edit_text_changed() -> void:
 	little_text_edit.text = text_edit.text
 	little_text_edit.text_changed.emit()
+
+
+func _on_visibility_changed() -> void:
+	if window_overlay == null:
+		return
+	
+	window_overlay.visible = visible
