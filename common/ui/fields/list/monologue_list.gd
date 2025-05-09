@@ -53,7 +53,9 @@ func clear_list():
 
 func create_item_container() -> PanelContainer:
 	var item_container = PanelContainer.new()
-	var container_stylebox: StyleBox = stylebox if not flat else StyleBoxEmpty.new()
+	var container_stylebox: StyleBox = stylebox
+	if flat: container_stylebox = StyleBoxEmpty.new()
+	
 	item_container.add_theme_stylebox_override("panel", container_stylebox)
 	return item_container
 

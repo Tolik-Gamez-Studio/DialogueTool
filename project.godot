@@ -36,6 +36,10 @@ Path="*res://autoloads/path.gd"
 IDGen="*res://autoloads/id_gen.gd"
 Cursor="*res://autoloads/cursor.gd"
 
+[debug]
+
+gdscript/warnings/integer_division=0
+
 [display]
 
 window/size/viewport_width=1400

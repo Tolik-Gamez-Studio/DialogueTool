@@ -35,9 +35,7 @@ func add_cell() -> TimelineCell:
 
 
 func _on_cell_button_down(cell: TimelineCell) -> void:
-	var cell_idx: int = hbox.get_children().find(cell)
-	var timeline_idx: int = timeline_section.layer_timeline_vbox.get_children().find(self)
-	timeline_section.sub_select(cell_idx, timeline_idx)
+	timeline_section.cell_selected(cell, self)
 	
 	for child in get_all_cells():
 		if child == cell:
@@ -64,7 +62,8 @@ func _on_cell_button_up(cell: TimelineCell) -> void:
 
 
 func _on_cell_focus_exited() -> void:
-	timeline_section.selected_cell = null
+	timeline_section.selected_cell.reset_style()
+	timeline_section.cell_deselected()
 
 
 func _process(_delta: float) -> void:
@@ -73,7 +72,7 @@ func _process(_delta: float) -> void:
 	
 	var indicator_dist: float = current_indicator.global_position.x - get_global_mouse_position().x
 	var indicator_index: int = current_indicator.get_index()
-	var dist: float = timeline_section.get_cell_width() / 2
+	var dist: float = timeline_section.get_cell_width() / 2.0
 	if indicator_dist > dist:
 		hbox.move_child(current_indicator, indicator_index-1)
 	elif indicator_dist <= -dist:
@@ -142,16 +141,34 @@ func _to_sprite_frames() -> SpriteFrames:
 	
 	var cells: Array = get_all_cells()
 	for cell: TimelineCell in cells:
+		if cell.is_exposure:
+			continue
+		
 		var idx = cells.find(cell)
 		var texture: Texture2D = PlaceholderTexture2D.new()
+		
 		if FileAccess.file_exists(cell.image_path):
 			var img := Image.load_from_file(cell.image_path)
 			if img != null:
 				texture = ImageTexture.create_from_image(img)
 		
-		sprite_frames.add_frame("default", texture, 1.0, idx)
+		sprite_frames.add_frame("default", texture, get_frame_duration(idx), idx)
 		
 	return sprite_frames
+
+
+func get_frame_duration(frame_idx: int) -> float:
+	var duration: float = 1.0
+	
+	var cells: Array = get_all_cells().slice(frame_idx+1)
+	for cell: TimelineCell in cells:
+		if cell.is_exposure:
+			duration += 1.0
+			continue
+		break
+	
+	return duration
+
 
 func add_exposure(of_cell: TimelineCell):
 	var index: int = get_all_cells().find(of_cell)

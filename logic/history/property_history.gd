@@ -59,11 +59,9 @@ func set_property(node: Variant, property: String, value: Variant) -> void:
 func refresh_properties(node: Variant, language: String) -> void:
 	var properties: PackedStringArray = []
 	if node is MonologueGraphNode:
-		var graph_node: MonologueGraphNode = null
 		# if language is the same, we can do partial refresh with given properties
 		# otherwise, full refresh so other controls can reflect the language change
 		if locale == language:
-			graph_node = node
 			properties = changes.map(func(c): return c.property)
 	else:
 		properties = changes.map(func(c): return c.property)

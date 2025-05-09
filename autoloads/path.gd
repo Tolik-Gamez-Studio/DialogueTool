@@ -16,7 +16,7 @@ func absolute_to_relative(path: String, root_file_path: String) -> String:
 	var root_array: PackedStringArray = split_path(root_file_path)
 	var path_array: PackedStringArray = split_path(path)
 	
-	if not path.is_absolute_path() or root_array[0] != path_array[0]:
+	if not path.is_absolute_path() or root_array.size() <= 0 or root_array[0] != path_array[0]:
 		return path
 	
 	var final_path = []

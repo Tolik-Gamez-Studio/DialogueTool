@@ -13,6 +13,7 @@ var filters: Array = ["*.bmp", "*.jpg", "*.jpeg", "*.png", "*.svg", "*.webp"]
 @onready var preview_section := %PreviewSection
 @onready var fps_spinbox := %FpsSpinBox
 @onready var layer_container := %LayerContainer
+@onready var import_frame_button := %ImportFrameButton
 
 @onready var layer := preload("res://common/layouts/character_edit/layer.tscn")
 @onready var layer_timeline := preload("res://common/layouts/character_edit/layer_timeline.tscn")
@@ -163,18 +164,41 @@ func _on_file_selected(path: String) -> void:
 		return
 	
 	selected_cell.image_path = Path.absolute_to_relative(path, base_path)
+	selected_cell._update()
 	_update_preview()
 
 
+func cell_selected(s_cell: TimelineCell, s_timeline: LayerTimeline) -> void:
+	var cell_idx: int = s_timeline.hbox.get_children().find(s_cell)
+	var timeline_idx: int = layer_timeline_vbox.get_children().find(s_timeline)
+	sub_select(cell_idx, timeline_idx)
+	
+	if not s_cell.is_exposure:
+		import_frame_button.disabled = false
+
+
+func cell_deselected() -> void:
+	var disable_func: Callable = func() -> void:
+		if import_frame_button.has_focus():
+			return
+			
+		import_frame_button.disabled = true
+		selected_cell = null
+		sub_select(-1, -1)
+	
+	disable_func.call_deferred()
+
+
 func sub_select(col_idx: int, row_idx: int) -> void:
+	var deselect: bool = col_idx <= -1 and row_idx <= -1
 	for cell in cell_number_hbox.get_children():
 		cell.reset_style()
 	
 	var timeline_idx: int = 0
-	for t in layer_timeline_vbox.get_children():
+	for t: LayerTimeline in layer_timeline_vbox.get_children():
 		var cell_idx: int = 0
-		for cell in t.hbox.get_children():
-			if cell_idx == col_idx:
+		for cell in t.get_all_cells():
+			if cell_idx == col_idx and not deselect:
 				cell.sub_select()
 				if row_idx != timeline_idx:
 					cell.lose_focus()
@@ -184,8 +208,8 @@ func sub_select(col_idx: int, row_idx: int) -> void:
 			cell_idx += 1
 		timeline_idx += 1
 	
-	cell_number_hbox.get_child(col_idx).sub_select()
-	
+	if not deselect:
+		cell_number_hbox.get_child(col_idx).sub_select()
 
 
 func _on_layer_scroll_container_gui_input(_event: InputEvent) -> void:
@@ -206,9 +230,9 @@ func _on_layer_button_down(target_layer: Layer) -> void:
 
 func _on_layer_button_up(target_layer: Layer) -> void:
 	var layer_idx: int = layer_vbox.get_children().find(target_layer)
-	var layer_timeline: LayerTimeline = layer_timeline_vbox.get_child(layer_idx-1)
+	var t_layer_timeline: LayerTimeline = layer_timeline_vbox.get_child(layer_idx-1)
 	layer_vbox.move_child(target_layer, current_indicator.get_index())
-	layer_timeline_vbox.move_child(layer_timeline, current_indicator.get_index()-1)
+	layer_timeline_vbox.move_child(t_layer_timeline, current_indicator.get_index()-1)
 	
 	current_indicator.queue_free()
 	current_indicator = null

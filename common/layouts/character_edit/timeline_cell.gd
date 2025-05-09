@@ -36,7 +36,7 @@ func _ready() -> void:
 func _update() -> void:
 	if not image_path.is_empty() and is_exposure:
 		var im: Image = load(image_path)
-		im.resize(128, (im.get_size().y*128)/im.get_size().x, Image.INTERPOLATE_CUBIC)
+		im.resize(128, im.get_size().y*128/im.get_size().x, Image.INTERPOLATE_CUBIC)
 		var tx: ImageTexture = ImageTexture.create_from_image(im)
 		texture_rect.texture = tx
 	else:
@@ -89,3 +89,7 @@ func _on_mouse_exited() -> void: hflow.hide()
 
 func _on_dec_exposure_button_pressed() -> void:
 	timeline.remove_cell(self)
+
+
+func _on_button_focus_exited() -> void:
+	button_focus_exited.emit()
