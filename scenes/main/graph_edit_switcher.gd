@@ -7,7 +7,6 @@ class_name GraphEditSwitcher extends VBoxContainer
 @export var side_panel: SidePanel
 ## Reference to the tab bar for switching graph edits.
 @export var tab_bar: TabBar
-@export var window_overlay: ColorRect
 
 var current: MonologueGraphEdit: get = get_current_graph_edit
 var graph_edit_scene = preload("res://common/layouts/graph_edit/monologue_graph_edit.tscn")
@@ -94,7 +93,6 @@ func _on_tab_close_pressed(tab: int) -> void:
 		GlobalSignal.emit("disable_picker_mode")
 		tab_bar.current_tab = tab
 		var save_prompt = prompt_scene.instantiate()
-		save_prompt.window_overlay = window_overlay
 		save_prompt.connect("confirmed", _close_tab.bind(ge, tab, true))
 		save_prompt.connect("cancelled", set.bind("is_closing_all_tabs", false))
 		save_prompt.connect("denied", _close_tab.bind(ge, tab))

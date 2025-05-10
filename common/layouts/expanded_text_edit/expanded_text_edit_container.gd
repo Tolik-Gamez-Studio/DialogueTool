@@ -1,8 +1,6 @@
 extends MarginContainer
 
 
-@export var window_overlay: ColorRect
-
 @onready var text_edit: TextEdit = %TextEdit
 var little_text_edit: TextEdit
 
@@ -30,7 +28,7 @@ func _on_text_edit_text_changed() -> void:
 
 
 func _on_visibility_changed() -> void:
-	if window_overlay == null:
+	if visible:
+		GlobalSignal.emit("show_dimmer", [self])
 		return
-	
-	window_overlay.visible = visible
+	GlobalSignal.emit("hide_dimmer", [self])

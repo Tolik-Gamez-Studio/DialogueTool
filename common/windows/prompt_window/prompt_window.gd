@@ -18,7 +18,6 @@ func prompt_save(filename: String) -> void:
 	if title_label:
 		title_label.text = SAVE_PROMPT % Util.truncate_filename(filename.get_file())
 		description_label.text = "The document you have opened will be closed. Do you want to save the changes?"
-	GlobalSignal.emit("show_dimmer")
 	show()
 
 
@@ -38,4 +37,4 @@ func _on_cancel_button_pressed() -> void:
 
 
 func _on_tree_exited() -> void:
-	GlobalSignal.emit("hide_dimmer")
+	GlobalSignal.emit("hide_dimmer", [self])

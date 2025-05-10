@@ -26,7 +26,7 @@ theme_override_constants/margin_right = 0
 
 [node name="PanelContainer" type="PanelContainer" parent="CollapsibleContainer"]
 layout_mode = 2
-theme_type_variation = &"SpinBoxPanel"
+theme_type_variation = &"CollapsibleFieldPanel"
 
 [node name="VBox" type="VBoxContainer" parent="CollapsibleContainer/PanelContainer"]
 layout_mode = 2

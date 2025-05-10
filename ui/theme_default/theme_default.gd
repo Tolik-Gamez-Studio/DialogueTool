@@ -8,7 +8,7 @@ var contrast: float = 0.15
 var text_color: Color = Color("e3e4eb")
 var background_color: Color = Color("19191c")
 var primary_color: Color = Color("a9a8c0")
-var secondary_color: Color = Color("665b5d")
+var secondary_color: Color = Color("676278")
 var accent_color: Color = Color("d15050")
 var warn_color: Color = Color("c42e40")
 # Constants
@@ -42,20 +42,20 @@ func _generate_theme() -> void:
 	var base_field_sb: StyleBoxFlat = base_sb.duplicate()
 	base_field_sb.content_margin_top = base_spacing/2
 	base_field_sb.content_margin_bottom = base_spacing/2
-	base_field_sb.bg_color = _get_primary_color(contrast/2)
+	base_field_sb.bg_color = _get_secondary_color(contrast)
 	
 	var button_sb: StyleBoxFlat = base_sb.duplicate()
-	button_sb.bg_color = _get_secondary_color(0.25)
+	button_sb.bg_color = _get_secondary_color(contrast)
 	button_sb.content_margin_left = base_margin
 	button_sb.content_margin_top = base_margin * 0.5
 	button_sb.content_margin_right = base_margin
 	button_sb.content_margin_bottom = base_margin * 0.5
 	
 	var button_hover_sb: StyleBoxFlat = button_sb.duplicate()
-	button_hover_sb.bg_color = _get_secondary_color(0.35)
+	button_hover_sb.bg_color = _get_secondary_color(contrast + 0.05)
 	
 	var button_pressed_sb: StyleBoxFlat = button_sb.duplicate()
-	button_pressed_sb.bg_color = _get_secondary_color(0.5)
+	button_pressed_sb.bg_color = _get_secondary_color(contrast + 0.1)
 	
 	var button_disabled_sb: StyleBoxFlat = button_sb.duplicate()
 	button_disabled_sb.bg_color = _get_secondary_color(0.05)
@@ -63,15 +63,15 @@ func _generate_theme() -> void:
 	var flat_button_sb: StyleBoxFlat = base_sb.duplicate()
 	flat_button_sb.bg_color = Color.TRANSPARENT
 	flat_button_sb.set_border_width_all(border_width)
-	_set_border(flat_button_sb, _get_text_color(0.3))
+	_set_border(flat_button_sb, _get_text_color(contrast))
 	
 	var flat_button_hover_sb: StyleBoxFlat = flat_button_sb.duplicate()
 	flat_button_hover_sb.bg_color = _get_secondary_color(0.1)
-	_set_border(flat_button_hover_sb, _get_text_color(0.35))
+	_set_border(flat_button_hover_sb, _get_text_color(contrast + 0.05))
 	
 	var flat_button_pressed_sb: StyleBoxFlat = flat_button_sb.duplicate()
-	button_pressed_sb.bg_color = _get_secondary_color(0.2)
-	_set_border(flat_button_hover_sb, _get_text_color(0.45))
+	button_pressed_sb.bg_color = _get_secondary_color(contrast/2)
+	_set_border(flat_button_hover_sb, _get_text_color(contrast + 0.1))
 	
 	# Button
 	
@@ -120,13 +120,13 @@ func _generate_theme() -> void:
 	set_type_variation("ButtonWarning", "Button")
 	
 	var delete_button_sb: StyleBoxFlat = button_sb.duplicate()
-	delete_button_sb.bg_color = _get_color(warn_color, 0.25)
+	delete_button_sb.bg_color = _get_color(warn_color, contrast)
 	
 	var delete_button_hover_sb: StyleBoxFlat = button_sb.duplicate()
-	delete_button_hover_sb.bg_color = _get_color(warn_color, 0.35)
+	delete_button_hover_sb.bg_color = _get_color(warn_color, contrast + 0.05)
 	
 	var delete_button_pressed_sb: StyleBoxFlat = button_sb.duplicate()
-	delete_button_pressed_sb.bg_color = _get_color(warn_color, 0.5)
+	delete_button_pressed_sb.bg_color = _get_color(warn_color, contrast + 0.1)
 	
 	var delete_button_disabled_sb: StyleBoxFlat = button_sb.duplicate()
 	delete_button_disabled_sb.bg_color = _get_color(warn_color, 0.05)
@@ -160,7 +160,7 @@ func _generate_theme() -> void:
 	
 	set_color('font_hover_pressed_color', 'CheckBox', text_color)
 	set_color('font_pressed_color', 'CheckBox', _get_text_color(0.7))
-	set_constant("h_separation", "CheckBox", base_margin)
+	set_constant("h_separation", "CheckBox", int(base_margin))
 	set_icon("checked", "CheckBox", preload("res://ui/theme_default/assets/checked.svg"))
 	set_icon("unchecked", "CheckBox", preload("res://ui/theme_default/assets/unchecked.svg"))
 	set_icon("radio_checked", "CheckBox", preload("res://ui/theme_default/assets/radio_checked.svg"))
@@ -200,10 +200,17 @@ func _generate_theme() -> void:
 	set_stylebox("normal", "CheckButton", check_box_sb)
 	set_stylebox("normal_mirrored", "CheckButton", check_box_sb)
 	
+	# CollapsibleFieldPanel
+	
+	set_type_variation("CollapsibleFieldPanel", "PanelContainer")
+	var sb: StyleBoxFlat = base_sb.duplicate()
+	sb.bg_color = _get_secondary_color(contrast/2)
+	set_stylebox("panel", "CollapsibleFieldPanel", sb)
+	
 	# EditorBackground
 	
 	set_type_variation("EditorBackground", "PanelContainer")
-	var sb: StyleBoxFlat = base_sb.duplicate()
+	sb = base_sb.duplicate()
 	sb.bg_color = _get_primary_color(contrast, false)
 	sb.set_corner_radius_all(0)
 	sb.set_content_margin_all(0)
@@ -259,8 +266,8 @@ func _generate_theme() -> void:
 	sb.set_content_margin_all(0)
 	sb.set_corner_radius_all(0)
 	sb.set_border_width_all(0)
-	set_color("grid_major", "GraphEdit", _get_text_color(0.1))
-	set_color("grid_minor", "GraphEdit", _get_text_color(0.1))
+	set_color("grid_major", "GraphEdit", _get_text_color(contrast))
+	set_color("grid_minor", "GraphEdit", _get_text_color(contrast))
 	set_stylebox("panel", "GraphEdit", sb)
 	
 	# GraphNode
@@ -360,7 +367,7 @@ func _generate_theme() -> void:
 	var slider_sb: StyleBoxFlat = StyleBoxFlat.new()
 	slider_sb.content_margin_top = 5
 	slider_sb.set_corner_radius_all(5)
-	slider_sb.bg_color = _get_primary_color(0.1)
+	slider_sb.bg_color = _get_primary_color(contrast)
 	
 	var grabber_area: StyleBoxFlat = slider_sb.duplicate()
 	grabber_area.bg_color = accent_color
@@ -396,10 +403,11 @@ func _generate_theme() -> void:
 	var line_edit_sb: StyleBoxFlat = base_field_sb.duplicate()
 	
 	var line_edit_focus_sb: StyleBoxFlat = line_edit_sb.duplicate()
+	line_edit_focus_sb.draw_center = false
 	line_edit_focus_sb.set_border_width_all(1)
 	
 	var line_edit_disabled_sb: StyleBoxFlat = line_edit_sb.duplicate()
-	line_edit_disabled_sb.bg_color = _get_secondary_color(0.1)
+	line_edit_disabled_sb.bg_color = _get_primary_color(0.05)
 	
 	set_stylebox("normal", "LineEdit", line_edit_sb)
 	set_stylebox("focus", "LineEdit", line_edit_focus_sb)
@@ -407,10 +415,10 @@ func _generate_theme() -> void:
 	
 	# MarginContainer
 	
-	set_constant("margin_left", "MarginContainer", base_margin)
-	set_constant("margin_top", "MarginContainer", base_margin)
-	set_constant("margin_right", "MarginContainer", base_margin)
-	set_constant("margin_bottom", "MarginContainer", base_margin)
+	set_constant("margin_left", "MarginContainer", int(base_margin))
+	set_constant("margin_top", "MarginContainer", int(base_margin))
+	set_constant("margin_right", "MarginContainer", int(base_margin))
+	set_constant("margin_bottom", "MarginContainer", int(base_margin))
 	
 	# Panel
 	
@@ -488,7 +496,7 @@ func _generate_theme() -> void:
 	spin_box_button_sb.set_content_margin_all(base_spacing/2)
 	var spin_box_button_pressed_sb: StyleBoxFlat = base_sb.duplicate()
 	spin_box_button_pressed_sb.set_content_margin_all(base_spacing/2)
-	spin_box_button_pressed_sb.bg_color = _get_primary_color(0.1)
+	spin_box_button_pressed_sb.bg_color = _get_primary_color(contrast)
 	spin_box_button_pressed_sb.corner_radius_top_right = 0
 	spin_box_button_pressed_sb.corner_radius_bottom_right = 0
 	
@@ -517,7 +525,7 @@ func _generate_theme() -> void:
 	spin_box_line_edit_sb.draw_center = false
 	spin_box_line_edit_sb.set_content_margin_all(0)
 	var spin_box_line_edit_focus_sb: StyleBoxFlat = spin_box_line_edit_sb.duplicate()
-	spin_box_line_edit_focus_sb.bg_color = _get_primary_color(0.1)
+	spin_box_line_edit_focus_sb.bg_color = _get_primary_color(contrast)
 	spin_box_line_edit_focus_sb.set_corner_radius_all(0)
 	
 	set_stylebox("normal", "SpinBoxLineEdit", spin_box_line_edit_sb)
@@ -617,16 +625,16 @@ func _generate_theme() -> void:
 	# OptionButton
 	
 	var option_button_sb = base_field_sb.duplicate()
-	option_button_sb.bg_color = _get_primary_color(contrast/2)
+	option_button_sb.bg_color = _get_secondary_color(contrast)
 	
 	var option_button_hover_sb: StyleBoxFlat = button_sb.duplicate()
-	option_button_hover_sb.bg_color = _get_primary_color(contrast)
+	option_button_hover_sb.bg_color = _get_secondary_color(contrast + 0.05)
 	
 	var option_button_pressed_sb: StyleBoxFlat = button_sb.duplicate()
-	option_button_pressed_sb.bg_color = _get_primary_color(contrast*2)
+	option_button_pressed_sb.bg_color = _get_secondary_color(contrast + 0.1)
 	
 	var option_button_disabled_sb: StyleBoxFlat = button_sb.duplicate()
-	option_button_disabled_sb.bg_color = _get_primary_color(0.05)
+	option_button_disabled_sb.bg_color = _get_secondary_color(0.05)
 	
 	set_constant("arrow_margin", "OptionButton", base_spacing)
 	set_constant("h_separation", "OptionButton", base_spacing)
@@ -647,15 +655,17 @@ func _generate_theme() -> void:
 	set_type_variation("OuterPanel", "PanelContainer")
 	sb = base_sb.duplicate()
 	sb.bg_color = _get_primary_color(contrast, false)
-	sb.set_corner_radius_all(outer_radius)
+	sb.set_corner_radius_all(int(outer_radius))
 	_set_border(sb, _get_color(base_border_color, base_border_color.a, false))
 	set_stylebox("panel", "OuterPanel", sb)
 
 
 func _get_primary_color(alpha: float = 1.0, transparent: bool = true) -> Color:
+	#return _get_color(secondary_color, alpha, transparent)
 	return _get_color(primary_color, alpha, transparent)
 	
 func _get_secondary_color(alpha: float = 1.0, transparent: bool = true) -> Color:
+	#return _get_color(primary_color, alpha, transparent)
 	return _get_color(secondary_color, alpha, transparent)
 
 func _get_text_color(alpha: float = 1.0, transparent: bool = true) -> Color:

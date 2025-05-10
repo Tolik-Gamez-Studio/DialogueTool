@@ -1,9 +1,6 @@
 class_name MonologueWindow extends Window
 
 
-@export var window_overlay: ColorRect
-
-
 func _ready() -> void:
 	get_parent().connect("resized", _on_resized)
 	update_size.call_deferred()
@@ -21,7 +18,7 @@ func _on_resized():
 
 
 func _on_visibility_changed():
-	if window_overlay == null:
+	if visible:
+		GlobalSignal.emit("show_dimmer", [self])
 		return
-	
-	window_overlay.visible = visible
+	GlobalSignal.emit("hide_dimmer", [self])
