@@ -10,7 +10,6 @@ var _data =  [
 		{"text": "Narration", "children": [
 			{"text": "Sentence", "icon": "text.svg"},
 			{"text": "Choice", "icon": "choice.svg"},
-			{"text": "Character", "icon": "text.svg"},
 		]},
 		{"text": "Logic", "children": [
 			{"text": "Action", "icon": "action.svg"},
@@ -27,6 +26,7 @@ var _data =  [
 		{"text": "Audio and Visuals", "children": [
 			{"text": "Audio", "icon": "recording.svg"},
 			{"text": "Background", "icon": "picture.svg"},
+			{"text": "Character", "icon": "character.svg"},
 		]},
 		{"text": "Helpers", "children": [
 			{"text": "Comment", "icon": "comment.svg"},
