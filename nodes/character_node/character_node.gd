@@ -8,14 +8,15 @@ var _position        := Property.new(DROPDOWN, {}, "Left")
 var join_animation   := Property.new(DROPDOWN, {}, "Default", "Animation Type")
 var leave_animation  := Property.new(DROPDOWN, {}, "Default", "Animation Type")
 var update_animation := Property.new(DROPDOWN, {}, "Default", "Animation Type")
+var portrait         := Property.new(DROPDOWN, {})
 var duration         := Property.new(SPINBOX, { "step": 0.1, "minimum": 0.0 }, 0.5)
 var _z_index         := Property.new(SPINBOX, { "step": 1 }, 0)
 var mirrored         := Property.new(TOGGLE, {}, false)
 
 var _control_groups = {
-	"Join": [_z_index, join_animation, _position, mirrored],
+	"Join": [portrait, _z_index, join_animation, _position, mirrored],
 	"Leave": [leave_animation],
-	"Update": [_z_index, update_animation, _position, mirrored],
+	"Update": [portrait, _z_index, update_animation, _position, mirrored],
 }
 
 @onready var action_type_label := $CharacterContainer/HBoxContainer/ActionTypeLabel
@@ -82,7 +83,10 @@ func _update(value: Variant = null) -> void:
 	await get_tree().process_frame
 	
 	var action: Variant = action_type.value
-	character.callers["set_items"] = [get_graph_edit().speakers, "Character/Name", "EditorIndex"]
+	var characters: Array = get_graph_edit().speakers
+	character.callers["set_items"] = [characters, "Character/Name", "EditorIndex"]
+	if characters[character.value] and characters[character.value]["Character"].has("Portraits"):
+		portrait.callers["set_items"] = [characters[character.value]["Character"]["Portraits"], "Name"]
 	
 	display_container.visible = action != "Leave"
 	action_type_label.text = action
@@ -103,4 +107,4 @@ func _show_group(act_type: Variant = action_type.value) -> void:
 
 
 func _get_field_groups() -> Array:
-	return ["character", "action_type", {"Display Settings": ["_z_index", {"Animation": ["join_animation", "leave_animation", "update_animation", "duration"]}, "_position", "mirrored"]}]
+	return ["character", "action_type", {"Display Settings": ["portrait", "_z_index", {"Animation": ["join_animation", "leave_animation", "update_animation", "duration"]}, "_position", "mirrored"]}]
