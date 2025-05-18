@@ -34,8 +34,8 @@ func _ready() -> void:
 
 
 func _update() -> void:
-	if not image_path.is_empty() and is_exposure:
-		var im: Image = load(image_path)
+	if not image_path.is_empty() and not is_exposure:
+		var im: Image = Image.load_from_file(image_path)
 		im.resize(128, im.get_size().y*128/im.get_size().x, Image.INTERPOLATE_CUBIC)
 		var tx: ImageTexture = ImageTexture.create_from_image(im)
 		texture_rect.texture = tx
