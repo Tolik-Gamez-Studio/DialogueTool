@@ -168,8 +168,8 @@ func get_selected_cell() -> Variant:
 	if selected_cell_idx <= -1 and selected_cell_layer_idx <= -1:
 		return null
 	
-	var layer_timeline: LayerTimeline = layer_timeline_vbox.get_children()[selected_cell_layer_idx]
-	return layer_timeline.get_all_cells()[selected_cell_idx]
+	var s_layer_timeline: LayerTimeline = layer_timeline_vbox.get_children()[selected_cell_layer_idx]
+	return s_layer_timeline.get_all_cells()[selected_cell_idx]
 
 func _on_file_selected(path: String) -> void:
 	if selected_cell_idx <= -1 and selected_cell_layer_idx <= -1:
