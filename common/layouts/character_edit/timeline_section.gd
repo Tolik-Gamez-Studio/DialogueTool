@@ -12,8 +12,8 @@ var base_path: String : set = _set_base_path
 func _ready() -> void:
 	super._ready()
 	animation.setters["preview_section"] = %PreviewSection
-	
-	
+
+
 func _set_base_path(val: String) -> void:
 	base_path = val
 	animation.setters["base_path"] = val
@@ -21,3 +21,7 @@ func _set_base_path(val: String) -> void:
 
 func _from_dict(dict: Dictionary = {}) -> void:
 	super._from_dict(dict)
+
+
+func _to_dict() -> Dictionary:
+	return super._to_dict()

@@ -57,7 +57,8 @@ func _on_cell_button_up(cell: TimelineCell) -> void:
 	
 	current_indicator.queue_free()
 	current_indicator = null
-	timeline.selected_cell = cell
+	timeline.selected_cell_idx = get_all_cells().find(cell)
+	timeline.selected_cell_layer_idx = timeline.layer_timeline_vbox.get_children().find(self)
 	
 	var first_cell: TimelineCell = get_all_cells()[0]
 	if first_cell.is_exposure:
@@ -67,7 +68,7 @@ func _on_cell_button_up(cell: TimelineCell) -> void:
 
 
 func _on_cell_focus_exited() -> void:
-	timeline.selected_cell.reset_style()
+	get_all_cells()[timeline.selected_cell_idx].reset_style()
 	timeline.cell_deselected()
 
 
@@ -114,10 +115,13 @@ func _clear() -> void:
 func _from_dict(dict: Dictionary) -> void:
 	_clear()
 	var frames: Dictionary = dict.get("Frames")
-	for frame_idx: int in frames.keys():
-		var frame_data: Dictionary = frames[frame_idx]
-		var cell := add_cell()
-		cell.image_path = frame_data.get("ImagePath", "")
+	for frame_idx in frames.keys():
+		for i in range(frames[frame_idx].get("Exposure", 1)):
+			var frame_data: Dictionary = frames[frame_idx]
+			var cell := add_cell()
+			cell.is_exposure = i > 0
+			if i <= 0:
+				cell.image_path = frame_data.get("ImagePath", "")
 
 
 func _to_dict() -> Dictionary:

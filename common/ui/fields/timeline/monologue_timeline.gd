@@ -20,7 +20,8 @@ var filters: Array = ["*.bmp", "*.jpg", "*.jpeg", "*.png", "*.svg", "*.webp"]
 
 var cell_count: int = 1
 var base_path: String
-var selected_cell: TimelineCell
+var selected_cell_idx: int = -1
+var selected_cell_layer_idx: int = -1
 var current_indicator: Control
 var preview_section
 
@@ -57,13 +58,13 @@ func _from_dict(dict: Dictionary) -> void:
 	_clear()
 	cell_count = dict.get("FrameCount", 1)
 	fps_spinbox.value = dict.get("Fps", 12)
-	selected_cell = null
+	selected_cell_idx = -1
+	selected_cell_layer_idx = -1
 
 	var default_layer_data := [
 		{
 			"LayerName": "Layer 1",
 			"Visible": true,
-			"EditorLock": false,
 			"Frames": {0: {"ImagePath": "", "Exposure": 1}}
 		}
 	]
@@ -89,7 +90,6 @@ func _to_dict() -> Dictionary:
 		dict["Layers"].append({
 			"LayerName": l.timeline_label.text,
 			"Visible": true,
-			"EditorLock": false,
 			"Frames": l_timeline._to_dict()
 		})
 	return dict
@@ -145,7 +145,6 @@ func _on_timeline_updated(_layer_timeline: LayerTimeline) -> void:
 
 
 func _update_field() -> void:
-	print(_to_dict())
 	field_updated.emit(_to_dict())
 
 
@@ -160,16 +159,23 @@ func _on_btn_add_layer_pressed() -> void:
 
 
 func _on_import_frame_button_pressed() -> void:
-	if selected_cell == null:
+	if selected_cell_idx <= -1 and selected_cell_layer_idx <= -1:
 		return
 	GlobalSignal.emit("open_file_request", [_on_file_selected, IMAGE, base_path.get_base_dir()])
 
 
+func get_selected_cell() -> Variant:
+	if selected_cell_idx <= -1 and selected_cell_layer_idx <= -1:
+		return null
+	
+	var layer_timeline: LayerTimeline = layer_timeline_vbox.get_children()[selected_cell_layer_idx]
+	return layer_timeline.get_all_cells()[selected_cell_idx]
+
 func _on_file_selected(path: String) -> void:
-	if selected_cell == null:
+	if selected_cell_idx <= -1 and selected_cell_layer_idx <= -1:
 		return
-	selected_cell.image_path = Path.absolute_to_relative(path, base_path)
-	selected_cell._update()
+	get_selected_cell().image_path = Path.absolute_to_relative(path, base_path)
+	get_selected_cell()._update()
 	_update_preview()
 
 
@@ -186,7 +192,8 @@ func cell_deselected() -> void:
 		if import_frame_button.has_focus():
 			return
 		import_frame_button.disabled = true
-		selected_cell = null
+		selected_cell_idx = -1
+		selected_cell_layer_idx = -1
 		sub_select(-1, -1)
 	disable_func.call_deferred()
 

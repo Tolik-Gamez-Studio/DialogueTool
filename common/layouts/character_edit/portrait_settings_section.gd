@@ -9,7 +9,7 @@ var offset := Property.new(MonologueGraphNode.VECTOR, {}, [0, 0])
 var mirror := Property.new(MonologueGraphNode.TOGGLE, {}, false)
 
 @onready var preview_section := %PreviewSection
-@onready var timeline_section := %TimelineSection
+@onready var timeline_section: TimelineSection = %TimelineSection
 
 var id: String
 var base_path: String : set = _set_base_path
@@ -34,10 +34,10 @@ func _set_base_path(val: String) -> void:
 
 func _from_dict(dict: Dictionary = {}) -> void:
 	var portrait_list: Array = dict.get("Portraits", [])
-	if portrait_index >= 0 and portrait_index < portrait_list.size():
+	if portrait_index >= 0 and portrait_index < portrait_list.size() and portrait_index == %PortraitListSection.selected:
 		var portrait_dict: Dictionary = portrait_list[portrait_index]["Portrait"]
 		super._from_dict(portrait_dict)
-		timeline_section._from_dict(portrait_dict)
+		timeline_section._from_dict.bind(portrait_dict).call_deferred()
 		timeline_section.portrait_index = portrait_index
 		timeline_section.character_index = character_index
 		timeline_section.base_path = base_path
@@ -45,19 +45,6 @@ func _from_dict(dict: Dictionary = {}) -> void:
 
 
 func _to_dict() -> Dictionary:
-	#var portrait_type_string: String = portrait_type_field.value
-	#var dict: Dictionary = {
-		#"PortraitType": portrait_type_string,
-		#"Offset": offset_vector_field.value,
-		#"Mirror": mirror_cb.button_pressed
-	#}
-	#
-	#match portrait_type_string:
-		#"Image":
-			#dict["ImagePath"] = image_path_fp.value
-		#"Animation":
-			#dict["Animation"] = timeline_section._to_dict()
-	#
 	return super._to_dict()
 
 
