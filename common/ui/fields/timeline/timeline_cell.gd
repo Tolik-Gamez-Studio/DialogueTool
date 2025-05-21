@@ -62,6 +62,7 @@ func get_base_sb() -> StyleBoxFlat:
 func sub_select() -> void:
 	add_theme_stylebox_override("panel", get_base_sb())
 
+
 func reset_style() -> void:
 	var sb: StyleBox = get_base_sb()
 	sb.draw_center = false
@@ -70,6 +71,7 @@ func reset_style() -> void:
  
 func _on_timeline_zoom(cell_width: int) -> void:
 	custom_minimum_size.x = cell_width
+
 
 func _on_button_button_down() -> void: button_down.emit()
 func _on_button_button_up() -> void: button_up.emit()
@@ -82,8 +84,7 @@ func _on_inc_exposure_button_pressed() -> void:
 
 
 func _on_mouse_entered() -> void:
-	if timeline.current_indicator == null:
-		hflow.show()
+	if timeline.current_indicator == null: hflow.show()
 func _on_mouse_exited() -> void: hflow.hide()
 
 

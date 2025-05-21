@@ -63,6 +63,7 @@ func _on_cell_button_up(cell: TimelineCell) -> void:
 	var first_cell: TimelineCell = get_all_cells()[0]
 	if first_cell.is_exposure:
 		first_cell.is_exposure = false
+		first_cell._update()
 	
 	timeline_updated.emit()
 
@@ -126,11 +127,12 @@ func _from_dict(dict: Dictionary) -> void:
 
 func _to_dict() -> Dictionary:
 	var dict: Dictionary = {}
-	for cell: TimelineCell in get_all_cells():
+	var cells: Array = get_all_cells()
+	for cell: TimelineCell in cells:
 		if cell.is_exposure: 
 			continue
 		
-		var cell_idx: int = cell.get_index()
+		var cell_idx: int = cells.find(cell)
 		dict[cell_idx] = {
 			"ImagePath": cell.image_path,
 			"Exposure": get_frame_duration(cell_idx)
@@ -157,7 +159,6 @@ func _to_sprite_frames() -> SpriteFrames:
 	for cell: TimelineCell in cells:
 		if cell.is_exposure:
 			continue
-		
 		var idx = cells.find(cell)
 		var texture: Texture2D = PlaceholderTexture2D.new()
 		
