@@ -18,6 +18,7 @@ const LINE = preload("res://common/ui/fields/line_edit/monologue_line_edit.tscn"
 const LIST = preload("res://common/ui/fields/list/monologue_list.tscn")
 const SLIDER = preload("res://common/ui/fields/slider/monologue_slider.tscn")
 const SPINBOX = preload("res://common/ui/fields/spin_box/monologue_spin_box.tscn")
+const TIMELINE = preload("res://common/ui/fields/timeline/monologue_timeline.tscn")
 const TEXT = preload("res://common/ui/fields/text/monologue_text.tscn")
 const TOGGLE = preload("res://common/ui/fields/toggle/monologue_toggle.tscn")
 const VECTOR = preload("res://common/ui/fields/vector/monologue_vector.tscn")

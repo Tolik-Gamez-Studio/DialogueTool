@@ -37,7 +37,10 @@ func _from_dict(dict: Dictionary = {}) -> void:
 	if portrait_index >= 0 and portrait_index < portrait_list.size():
 		var portrait_dict: Dictionary = portrait_list[portrait_index]["Portrait"]
 		super._from_dict(portrait_dict)
-		timeline_section._from_dict(portrait_dict.get("Animation", {}))
+		timeline_section._from_dict(portrait_dict)
+		timeline_section.portrait_index = portrait_index
+		timeline_section.character_index = character_index
+		timeline_section.base_path = base_path
 	_on_portrait_type_change()
 
 

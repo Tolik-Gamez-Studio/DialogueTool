@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://c7cf7rfwnhf77"]
+[gd_scene load_steps=11 format=3 uid="uid://c7cf7rfwnhf77"]
 
 [ext_resource type="Script" uid="uid://ci3lk3sx5wxx7" path="res://common/layouts/character_edit/character_edit.gd" id="1_mo23b"]
 [ext_resource type="LabelSettings" uid="uid://cu53lojswyksx" path="res://common/layouts/character_edit/theme/title_label_settings.tres" id="2_50fu3"]
@@ -6,20 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://c7ee44ql1gv6b" path="res://ui/assets/icons/offset_cross.svg" id="6_q7cn4"]
 [ext_resource type="Script" uid="uid://bhrgrnvpc1gqw" path="res://common/layouts/character_edit/portrait_settings_section.gd" id="7_gu775"]
 [ext_resource type="Script" uid="uid://djgxd3whcbthm" path="res://common/layouts/character_edit/timeline_section.gd" id="9_shsbx"]
-[ext_resource type="Script" uid="uid://bqqjre8f0yujm" path="res://common/layouts/character_edit/timeline_field.gd" id="9_t1qxj"]
 [ext_resource type="Texture2D" uid="uid://hmjhxdsk3pwj" path="res://ui/assets/icons/trash.svg" id="10_m01ot"]
-[ext_resource type="Texture2D" uid="uid://xiahr3jughjg" path="res://ui/assets/icons/plus_min.svg" id="11_l8sbu"]
 [ext_resource type="Script" uid="uid://ta4lilswattg" path="res://common/layouts/character_edit/preview_section.gd" id="13_nmxnm"]
-[ext_resource type="PackedScene" uid="uid://c3kq4oc8yxco7" path="res://common/layouts/character_edit/cell_number.tscn" id="14_3yl0d"]
-[ext_resource type="Texture2D" uid="uid://fcpb4fd7uma3" path="res://ui/assets/icons/trash_min.svg" id="15_k1uba"]
-[ext_resource type="Texture2D" uid="uid://08g8utdd2kai" path="res://ui/assets/icons/media_play_backward.svg" id="16_s56o1"]
-[ext_resource type="Script" uid="uid://csoamuetoupw0" path="res://common/layouts/character_edit/layer_container.gd" id="17_cheqk"]
-[ext_resource type="Texture2D" uid="uid://bowdhs0emx5i2" path="res://ui/assets/icons/media_skip_backward.svg" id="17_jr3lv"]
-[ext_resource type="Texture2D" uid="uid://c07ekrem76mk3" path="res://ui/assets/icons/improt_cell.svg" id="17_t1qxj"]
-[ext_resource type="Texture2D" uid="uid://ctm64x2sdw2y2" path="res://ui/assets/icons/media_stop.svg" id="18_p1a7q"]
-[ext_resource type="Texture2D" uid="uid://hlck6y4i3l5q" path="res://ui/assets/icons/plus.svg" id="19_t1qxj"]
-[ext_resource type="Texture2D" uid="uid://8cxo7ofybuix" path="res://ui/assets/icons/media_skip_forward.svg" id="19_whfty"]
-[ext_resource type="Texture2D" uid="uid://bficqn5yhfmah" path="res://ui/assets/icons/media_play.svg" id="20_v15um"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ng6uw"]
 content_margin_left = 10.0
@@ -29,86 +17,6 @@ content_margin_bottom = 10.0
 bg_color = Color(0.275, 0.275, 0.302, 0.25)
 
 [sub_resource type="ImageTexture" id="ImageTexture_qnpab"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2pjie"]
-bg_color = Color(0.27451, 0.27451, 0.301961, 0.25098)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wlqpu"]
-draw_center = false
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.835294, 0.317647, 0.376471, 1)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v62g1"]
-draw_center = false
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.84, 0.3192, 0.37996, 0.498039)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ap2m"]
-draw_center = false
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.835294, 0.317647, 0.376471, 1)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4f5yu"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xe0nk"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_arqpt"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7j2ls"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_argys"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_38dgm"]
-bg_color = Color(0.27451, 0.27451, 0.301961, 0.25098)
-border_width_bottom = 1
-border_color = Color(0.117647, 0.117647, 0.129412, 1)
-border_blend = true
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6xlvw"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_86o0e"]
-line_spacing = 0.0
-font_size = 14
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vknlb"]
-bg_color = Color(0.117647, 0.117647, 0.129412, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xe0nk"]
-bg_color = Color(0.117647, 0.117647, 0.129412, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_arqpt"]
-bg_color = Color(0.117647, 0.117647, 0.129412, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7j2ls"]
-bg_color = Color(0.117647, 0.117647, 0.129412, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rv6o0"]
-bg_color = Color(0.27451, 0.27451, 0.301961, 0.25098)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_omduo"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t1qxj"]
 
 [node name="CharacterEdit" type="MarginContainer" node_paths=PackedStringArray("field_vbox", "linked_sections")]
 anchors_preset = 15
@@ -330,10 +238,11 @@ step = 0.01
 value = 1.0
 exp_edit = true
 
-[node name="TimelineSection" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer"]
+[node name="TimelineSection" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer" node_paths=PackedStringArray("field_vbox")]
 unique_name_in_owner = true
 layout_mode = 2
 script = ExtResource("9_shsbx")
+field_vbox = NodePath("TimelineContainer/FieldVBox")
 
 [node name="SectionLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection"]
 layout_mode = 2
@@ -349,235 +258,8 @@ theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
 
-[node name="Timeline" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer"]
+[node name="FieldVBox" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ng6uw")
-script = ExtResource("9_t1qxj")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline"]
-layout_mode = 2
-theme_override_constants/separation = 5
-
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_2pjie")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/PanelContainer"]
-custom_minimum_size = Vector2(0, 26)
-layout_mode = 2
-
-[node name="btnAddLayer" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/PanelContainer/HBoxContainer"]
-visible = false
-custom_minimum_size = Vector2(26, 26)
-layout_mode = 2
-theme_override_styles/focus = SubResource("StyleBoxFlat_wlqpu")
-theme_override_styles/hover = SubResource("StyleBoxFlat_v62g1")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_8ap2m")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_4f5yu")
-icon = ExtResource("11_l8sbu")
-expand_icon = true
-
-[node name="btnDelete" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/PanelContainer/HBoxContainer"]
-visible = false
-custom_minimum_size = Vector2(26, 26)
-layout_mode = 2
-theme_override_styles/focus = SubResource("StyleBoxFlat_wlqpu")
-theme_override_styles/hover = SubResource("StyleBoxFlat_v62g1")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_8ap2m")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_4f5yu")
-icon = ExtResource("15_k1uba")
-expand_icon = true
-
-[node name="VSeparator" type="VSeparator" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/PanelContainer/HBoxContainer"]
-visible = false
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/PanelContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="FpsSpinBox" type="SpinBox" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/PanelContainer/HBoxContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-value = 25.0
-allow_greater = true
-alignment = 2
-suffix = "fps"
-
-[node name="TextureButton" type="TextureButton" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/PanelContainer/HBoxContainer"]
-layout_mode = 2
-texture_normal = ExtResource("16_s56o1")
-stretch_mode = 5
-
-[node name="TextureButton2" type="TextureButton" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/PanelContainer/HBoxContainer"]
-layout_mode = 2
-texture_normal = ExtResource("17_jr3lv")
-stretch_mode = 5
-
-[node name="TextureButton3" type="TextureButton" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/PanelContainer/HBoxContainer"]
-layout_mode = 2
-texture_normal = ExtResource("18_p1a7q")
-stretch_mode = 5
-
-[node name="TextureButton4" type="TextureButton" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/PanelContainer/HBoxContainer"]
-layout_mode = 2
-texture_normal = ExtResource("19_whfty")
-stretch_mode = 5
-
-[node name="TextureButton5" type="TextureButton" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/PanelContainer/HBoxContainer"]
-layout_mode = 2
-texture_normal = ExtResource("20_v15um")
-stretch_mode = 5
-
-[node name="VSeparator2" type="VSeparator" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/PanelContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="ImportFrameButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/PanelContainer/HBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(26, 26)
-layout_mode = 2
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_xe0nk")
-theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_xe0nk")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_arqpt")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_7j2ls")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_argys")
-disabled = true
-icon = ExtResource("17_t1qxj")
-flat = true
-icon_alignment = 1
-expand_icon = true
-
-[node name="LayerContainer" type="HSplitContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 5
-script = ExtResource("17_cheqk")
-
-[node name="LayerContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_2pjie")
-
-[node name="MainLayerVBox" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerContainer/MainLayerVBox"]
-custom_minimum_size = Vector2(0, 25)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_38dgm")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerContainer/MainLayerVBox/PanelContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 0
-
-[node name="PanelContainer4" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerContainer/MainLayerVBox/PanelContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxEmpty_6xlvw")
-
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerContainer/MainLayerVBox/PanelContainer/HBoxContainer/PanelContainer4"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-label_settings = SubResource("LabelSettings_86o0e")
-
-[node name="LayerScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerContainer/MainLayerVBox"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_vertical = 3
-vertical_scroll_mode = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerContainer/MainLayerVBox/LayerScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 0
-
-[node name="LayerVBox" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerContainer/MainLayerVBox/LayerScrollContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="btnAddLayer" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerContainer/MainLayerVBox/LayerScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-theme_override_constants/icon_max_width = 10
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vknlb")
-theme_override_styles/hover = SubResource("StyleBoxFlat_xe0nk")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_arqpt")
-theme_override_styles/normal = SubResource("StyleBoxFlat_7j2ls")
-icon = ExtResource("19_t1qxj")
-icon_alignment = 1
-
-[node name="LayerTimelineContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer"]
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_rv6o0")
-
-[node name="LayerTimelineVBox" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerTimelineContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="FrameCountTimeline" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerTimelineContainer/LayerTimelineVBox"]
-custom_minimum_size = Vector2(0, 25)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_38dgm")
-
-[node name="HBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerTimelineContainer/LayerTimelineVBox/FrameCountTimeline"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 0
-
-[node name="CellNumberHBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerTimelineContainer/LayerTimelineVBox/FrameCountTimeline/HBox"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="CellNumber" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerTimelineContainer/LayerTimelineVBox/FrameCountTimeline/HBox/CellNumberHBox" instance=ExtResource("14_3yl0d")]
-layout_mode = 2
-
-[node name="PanelContainer6" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerTimelineContainer/LayerTimelineVBox/FrameCountTimeline/HBox"]
-custom_minimum_size = Vector2(27, 26)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_omduo")
-
-[node name="btnAddCell" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerTimelineContainer/LayerTimelineVBox/FrameCountTimeline/HBox/PanelContainer6"]
-layout_mode = 2
-theme_override_styles/focus = SubResource("StyleBoxFlat_wlqpu")
-theme_override_styles/hover = SubResource("StyleBoxFlat_v62g1")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_8ap2m")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_4f5yu")
-icon = ExtResource("11_l8sbu")
-expand_icon = true
-
-[node name="LayerTimelineScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerTimelineContainer/LayerTimelineVBox"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-follow_focus = true
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerTimelineContainer/LayerTimelineVBox/LayerTimelineScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/separation = 0
-
-[node name="LayerTimelineVBox" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerTimelineContainer/LayerTimelineVBox/LayerTimelineScrollContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 0
-
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerTimelineContainer/LayerTimelineVBox/LayerTimelineScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 24)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_t1qxj")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -588,12 +270,4 @@ layout_mode = 2
 text = "Done"
 
 [connection signal="value_changed" from="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/HSplitContainer/PreviewSection/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/HSlider" to="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/HSplitContainer/PreviewSection" method="_on_h_slider_value_changed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/PanelContainer/HBoxContainer/btnAddLayer" to="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection" method="_on_btn_add_layer_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/PanelContainer/HBoxContainer/ImportFrameButton" to="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection" method="_on_button_pressed"]
-[connection signal="mouse_entered" from="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer" to="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer" to="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer" method="_on_mouse_exited"]
-[connection signal="gui_input" from="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerContainer/MainLayerVBox/LayerScrollContainer" to="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection" method="_on_layer_scroll_container_gui_input"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerContainer/MainLayerVBox/LayerScrollContainer/VBoxContainer/btnAddLayer" to="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection" method="_on_btn_add_layer_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerTimelineContainer/LayerTimelineVBox/FrameCountTimeline/HBox/PanelContainer6/btnAddCell" to="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection" method="_on_btn_add_cell_pressed"]
-[connection signal="gui_input" from="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection/TimelineContainer/Timeline/VBoxContainer/LayerContainer/LayerTimelineContainer/LayerTimelineVBox/LayerTimelineScrollContainer" to="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection" method="_on_layer_timeline_scroll_container_gui_input"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/Button" to="." method="close"]

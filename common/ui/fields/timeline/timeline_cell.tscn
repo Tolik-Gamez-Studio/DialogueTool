@@ -1,9 +1,9 @@
 [gd_scene load_steps=11 format=3 uid="uid://cdpox07h3wlf3"]
 
-[ext_resource type="Script" uid="uid://bstbijin8qrmw" path="res://common/layouts/character_edit/timeline_cell.gd" id="1_wpwcu"]
-[ext_resource type="Script" uid="uid://dqhwi718vnyxk" path="res://common/layouts/character_edit/alpha_bg.gd" id="2_pjgsv"]
-[ext_resource type="Texture2D" uid="uid://2avo8aox8ls2" path="res://ui/assets/icons/minus_min.svg" id="3_7wlkg"]
-[ext_resource type="Texture2D" uid="uid://xiahr3jughjg" path="res://ui/assets/icons/plus_min.svg" id="3_xo2vn"]
+[ext_resource type="Script" uid="uid://bstbijin8qrmw" path="res://common/ui/fields/timeline/timeline_cell.gd" id="1_w2yvg"]
+[ext_resource type="Script" uid="uid://dqhwi718vnyxk" path="res://common/layouts/character_edit/alpha_bg.gd" id="2_04ohn"]
+[ext_resource type="Texture2D" uid="uid://2avo8aox8ls2" path="res://ui/assets/icons/minus_min.svg" id="3_tep1x"]
+[ext_resource type="Texture2D" uid="uid://xiahr3jughjg" path="res://ui/assets/icons/plus_min.svg" id="4_ob7f1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y3h2k"]
 draw_center = false
@@ -46,7 +46,7 @@ custom_minimum_size = Vector2(27, 52)
 offset_right = 27.0
 offset_bottom = 52.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_y3h2k")
-script = ExtResource("1_wpwcu")
+script = ExtResource("1_w2yvg")
 
 [node name="VBox" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -65,7 +65,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_xo2vn")
 
 [node name="AlphaBG" type="ColorRect" parent="TextureContainer"]
 layout_mode = 2
-script = ExtResource("2_pjgsv")
+script = ExtResource("2_04ohn")
 
 [node name="TextureRect" type="TextureRect" parent="TextureContainer"]
 custom_minimum_size = Vector2(26, 26)
@@ -121,7 +121,7 @@ theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_7wlkg")
 theme_override_styles/hover = SubResource("StyleBoxFlat_7wlkg")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_7wlkg")
 theme_override_styles/normal = SubResource("StyleBoxFlat_7wlkg")
-icon = ExtResource("3_7wlkg")
+icon = ExtResource("3_tep1x")
 expand_icon = true
 
 [node name="IncHBox" type="HBoxContainer" parent="IncExposureContainer/HFlow"]
@@ -138,7 +138,7 @@ theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_7wlkg")
 theme_override_styles/hover = SubResource("StyleBoxFlat_7wlkg")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_7wlkg")
 theme_override_styles/normal = SubResource("StyleBoxFlat_7wlkg")
-icon = ExtResource("3_xo2vn")
+icon = ExtResource("4_ob7f1")
 expand_icon = true
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
