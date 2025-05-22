@@ -25,9 +25,7 @@ var selected_cell_layer_idx: int = -1
 var current_indicator: Control
 var preview_section
 
-var fps: int:
-	get:
-		return fps_spinbox.value
+var fps: float = 12.0
 
 
 func _process(_delta: float) -> void:
@@ -264,3 +262,10 @@ func _on_layer_delete_button_pressed(target_layer: Layer) -> void:
 	t_layer_timeline.queue_free()
 	target_layer.queue_free()
 	_update_field.call_deferred()
+
+
+func _on_fps_spin_box_value_changed(value: float) -> void:
+	if value != fps:
+		fps = value
+		_update_field.call_deferred()
+	

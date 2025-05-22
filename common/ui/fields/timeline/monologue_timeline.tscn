@@ -333,6 +333,7 @@ custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_t1qxj")
 
+[connection signal="value_changed" from="VBoxContainer/PanelContainer/HBoxContainer/HBoxContainer/FpsSpinBox" to="." method="_on_fps_spin_box_value_changed"]
 [connection signal="pressed" from="VBoxContainer/PanelContainer/HBoxContainer/ImportFrameButton" to="." method="_on_import_frame_button_pressed"]
 [connection signal="mouse_entered" from="VBoxContainer/LayerContainer" to="VBoxContainer/LayerContainer" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="VBoxContainer/LayerContainer" to="VBoxContainer/LayerContainer" method="_on_mouse_exited"]
