@@ -84,8 +84,10 @@ func _to_dict() -> Dictionary:
 		"FrameCount": cell_count,
 		"Layers": []
 	}
-	for l: Layer in layer_vbox.get_children():
-		var layer_idx: int = l.get_index()
+	var layers: Array = get_all_layers()
+	
+	for l: Layer in layers:
+		var layer_idx: int = layers.find(l)
 		var l_timeline: LayerTimeline = layer_timeline_vbox.get_child(layer_idx)
 		dict["Layers"].append({
 			"LayerName": l.timeline_label.text,
@@ -93,6 +95,16 @@ func _to_dict() -> Dictionary:
 			"Frames": l_timeline._to_dict()
 		})
 	return dict
+
+
+func get_all_layers() -> Array:
+	var layer: Array = []
+	for child in layer_vbox.get_children():
+		if child is not Layer or child.is_queued_for_deletion():
+			continue
+		layer.append(child)
+	
+	return layer
 
 
 func get_cell_width() -> int:
@@ -116,6 +128,7 @@ func add_timeline() -> void:
 	new_layer.timeline_label.text = DEFAULT_LAYER_NAME % layer_vbox.get_child_count()
 	new_layer.hover_button.connect("button_down", _on_layer_button_down.bind(new_layer))
 	new_layer.hover_button.connect("button_up", _on_layer_button_up.bind(new_layer))
+	new_layer.delete_button_pressed.connect(_on_layer_delete_button_pressed.bind(new_layer))
 	new_layer_timeline.connect("timeline_updated", _on_timeline_updated.bind(new_layer_timeline))
 
 	_update_preview()
@@ -177,6 +190,7 @@ func _on_file_selected(path: String) -> void:
 	get_selected_cell().image_path = Path.absolute_to_relative(path, base_path)
 	get_selected_cell()._update()
 	_update_preview()
+	_update_field.call_deferred()
 
 
 func cell_selected(s_cell: TimelineCell, s_timeline: LayerTimeline) -> void:
@@ -241,4 +255,12 @@ func _on_layer_button_up(target_layer: Layer) -> void:
 	layer_timeline_vbox.move_child(t_layer_timeline, current_indicator.get_index() - 1)
 	current_indicator.queue_free()
 	current_indicator = null
+	_update_field.call_deferred()
+
+
+func _on_layer_delete_button_pressed(target_layer: Layer) -> void:
+	var layer_idx: int = layer_vbox.get_children().find(target_layer)
+	var t_layer_timeline: LayerTimeline = layer_timeline_vbox.get_child(layer_idx - 1)
+	t_layer_timeline.queue_free()
+	target_layer.queue_free()
 	_update_field.call_deferred()

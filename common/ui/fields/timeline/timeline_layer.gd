@@ -1,6 +1,8 @@
 class_name Layer extends PanelContainer
 
 
+signal delete_button_pressed
+
 @onready var timeline_label := %Label
 @onready var eye_button := %EyeButton
 @onready var hover_button := %HoverButton
@@ -14,3 +16,7 @@ func _on_eye_button_toggled(toggled_on: bool) -> void:
 		eye_button.icon = eye_open
 	else:
 		eye_button.icon = eye_closed
+
+
+func _on_delete_button_pressed() -> void:
+	delete_button_pressed.emit()
