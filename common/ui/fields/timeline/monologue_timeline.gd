@@ -24,6 +24,7 @@ var selected_cell_idx: int = -1
 var selected_cell_layer_idx: int = -1
 var current_indicator: Control
 var preview_section
+var image_cache: Dictionary = {}
 
 var fps: float = 12.0
 
@@ -96,13 +97,13 @@ func _to_dict() -> Dictionary:
 
 
 func get_all_layers() -> Array:
-	var layer: Array = []
+	var layers: Array = []
 	for child in layer_vbox.get_children():
 		if child is not Layer or child.is_queued_for_deletion():
 			continue
-		layer.append(child)
+		layers.append(child)
 	
-	return layer
+	return layers
 
 
 func get_cell_width() -> int:
@@ -268,4 +269,22 @@ func _on_fps_spin_box_value_changed(value: float) -> void:
 	if value != fps:
 		fps = value
 		_update_field.call_deferred()
+
+func load_image(image_path: String, is_exposure: bool, callback: Callable):
+	var thread: Thread = Thread.new()
+	thread.start(_get_image_thread.bind([image_path, is_exposure, callback]))
+	thread.wait_to_finish()
+
+
+func _get_image_thread(image_path: String, is_exposure: bool, callback: Callable) -> void:
+	var tx: ImageTexture = image_cache.get(image_path, ImageTexture.new())
 	
+	if not image_path.is_empty() and not is_exposure:
+		var im: Image = Image.load_from_file(image_path)
+		im.resize(128, im.get_size().y*128/im.get_size().x, Image.INTERPOLATE_CUBIC)
+		tx = ImageTexture.create_from_image(im)
+		
+		image_cache[image_path] = tx
+	
+	if callback.is_valid():
+		callback.call(tx)

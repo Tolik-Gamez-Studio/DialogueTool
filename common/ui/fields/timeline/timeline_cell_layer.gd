@@ -22,8 +22,8 @@ func add_cell() -> TimelineCell:
 	var is_exposure: bool = cells.size() > 0
 	
 	var new_cell := timeline_cell.instantiate()
-	hbox.add_child(new_cell)
 	new_cell.timeline = self
+	hbox.add_child(new_cell)
 	new_cell.is_exposure = is_exposure
 	new_cell.custom_minimum_size.x = timeline.get_cell_width()
 	new_cell._update()
