@@ -7,12 +7,18 @@ var portrait_type := Property.new(MonologueGraphNode.DROPDOWN, {}, "Image")
 var image_path := Property.new(MonologueGraphNode.FILE, { "filters": FilePicker.IMAGE })
 var offset := Property.new(MonologueGraphNode.VECTOR, {}, [0, 0])
 var mirror := Property.new(MonologueGraphNode.TOGGLE, {}, false)
+var one_shot := Property.new(MonologueGraphNode.TOGGLE, {}, false)
 
 @onready var preview_section := %PreviewSection
 @onready var timeline_section: TimelineSection = %TimelineSection
 
 var id: String
 var base_path: String : set = _set_base_path
+
+var _control_groups = {
+	"Image": [portrait_type, image_path, offset, mirror],
+	"Animation": [portrait_type, image_path, offset, mirror, one_shot],
+}
 
 
 func _ready() -> void:
@@ -21,6 +27,7 @@ func _ready() -> void:
 		{ "id": 1, "text": "Animation" },
 	]]
 	portrait_type.change.connect(_on_portrait_type_change)
+	portrait_type.connect("preview", _show_group)
 	image_path.change.connect(_on_image_path_change)
 	offset.change.connect(_on_offset_change)
 	mirror.change.connect(_on_mirror_change)
@@ -59,6 +66,7 @@ func _on_portrait_type_change(_old_value: Variant = null, _new_value: Variant = 
 			preview_section.update_animation([])
 		else:
 			_on_image_path_change(null, image_path.value)
+		_show_group()
 	
 	_process_type_change.call_deferred()
 
@@ -83,3 +91,14 @@ func _on_offset_change(_old_value: Variant = null, new_value: Variant = null) ->
 
 func _on_mirror_change(_old_value: Variant = null, new_value: Variant = null) -> void:
 	preview_section.update_mirror(new_value)
+
+
+func _show_group(prt_type: Variant = portrait_type.value) -> void:
+	for key in _control_groups.keys():
+		for property: Property in _control_groups.get(key):
+			property.set_visible(true)
+			
+	var group = _control_groups.get(prt_type)
+	for key in _control_groups.keys():
+		for property: Property in _control_groups.get(key):
+			property.set_visible(group.has(property))

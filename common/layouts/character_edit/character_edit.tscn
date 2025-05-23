@@ -123,7 +123,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 20
 script = ExtResource("7_gu775")
-field_vbox = NodePath("MarginContainer/FieldVBox")
+field_vbox = NodePath("MarginContainer/VBoxContainer/FieldVBox")
 
 [node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/HSplitContainer/PortraitSettingsSection"]
 layout_mode = 2
@@ -137,21 +137,24 @@ theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
 
-[node name="FieldVBox" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/HSplitContainer/PortraitSettingsSection/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/HSplitContainer/PortraitSettingsSection/MarginContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/HSplitContainer/PortraitSettingsSection/MarginContainer/FieldVBox"]
+[node name="FieldVBox" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/HSplitContainer/PortraitSettingsSection/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/HSplitContainer/PortraitSettingsSection/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/HSplitContainer/PortraitSettingsSection/MarginContainer/FieldVBox/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/HSplitContainer/PortraitSettingsSection/MarginContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
 alignment = 2
 
-[node name="Button" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/HSplitContainer/PortraitSettingsSection/MarginContainer/FieldVBox/MarginContainer/HBoxContainer"]
+[node name="Button" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/HSplitContainer/PortraitSettingsSection/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/h_separation = 10
 text = "Delete this portrait"
@@ -190,7 +193,7 @@ stretch = true
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(2, 2)
+size = Vector2i(369, 286)
 size_2d_override_stretch = true
 render_target_update_mode = 4
 
