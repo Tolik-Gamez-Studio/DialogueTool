@@ -17,6 +17,7 @@ signal name_submitted(this_option: PortraitOption)
 
 var is_active: bool = false
 var line_edit_unfocus_stylebox := StyleBoxEmpty.new()
+var custom_delete_button: Button = Button.new()
 
 
 func _ready() -> void:

@@ -18,8 +18,8 @@ func open(graph: MonologueGraphEdit, index: int) -> void:
 	if index >= 0:
 		graph_edit = graph
 		character_index = index
-		_from_dict(graph.speakers[index])
 		%PortraitSettingsSection.base_path = graph.file_path
+		_from_dict(graph.speakers[index])
 		show()
 	else:
 		close()

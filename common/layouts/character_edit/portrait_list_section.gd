@@ -22,6 +22,7 @@ func _ready() -> void:
 	portraits.setters["get_callback"] = get_portraits
 	portraits.setters["flat"] = true
 	portraits.connect("preview", load_portraits)
+	portraits.connect("change", _on_portraits_change)
 	default_portrait.visible = false
 	super._ready()
 
@@ -52,6 +53,16 @@ func get_portraits() -> Array:
 	return references
 
 
+func _on_portraits_change(old_value: Variant, new_value: Variant) -> void:
+	if new_value.size() <= 0:
+		select_option(-1)
+	elif new_value.size() < old_value.size():
+		select_option(0)
+	elif new_value.size() > old_value.size() and false:
+		select_option(references.size())
+	_update_portrait()
+
+
 func get_portrait_options() -> Array:
 	return get_portraits().map(func(i: AbstractPortraitOption): return i.portrait.field)
 
@@ -75,11 +86,16 @@ func load_portraits(new_portrait_list: Array) -> void:
 
 ## Selects portrait option by index.
 func select_option(index: int) -> void:
-	if selected != index and index >= 0:
-		var all_options := get_portrait_options()
-		if index < all_options.size():
-			selected = index
-			_update_option(all_options[index])
+	if selected == index:
+		return
+	
+	selected = index
+	if index < 0:
+		return
+	
+	var all_options := get_portrait_options()
+	if index < all_options.size():
+		_update_option(all_options[index])
 
 
 func _from_dict(dict: Dictionary) -> void:
@@ -88,6 +104,7 @@ func _from_dict(dict: Dictionary) -> void:
 	default_portrait.value = dict.get("DefaultPortrait", "")
 	load_portraits(dict.get("Portraits", []))
 	portraits.propagate(portraits.value)
+	_update_portrait()
 
 
 func _on_portrait_option_pressed(portrait_option: PortraitOption) -> void:
@@ -141,9 +158,8 @@ func _sync_references() -> void:
 func _update_portrait() -> void:
 	var show_portrait_sections: bool = selected >= 0
 	portrait_settings_section.visible = show_portrait_sections
-	var character_dict = graph_edit.speakers[character_index]["Character"]
-	portrait_settings_section._from_dict(character_dict)
-	
 	preview_section.visible = show_portrait_sections
-	if not show_portrait_sections:
-		timeline_section.hide()
+	timeline_section.visible = show_portrait_sections
+	if show_portrait_sections:
+		var character_dict = graph_edit.speakers[character_index]["Character"]
+		portrait_settings_section._from_dict(character_dict)

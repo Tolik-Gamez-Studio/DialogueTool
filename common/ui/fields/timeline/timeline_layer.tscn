@@ -11,6 +11,8 @@ border_color = Color(0.117647, 0.117647, 0.129412, 1)
 border_blend = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y3h2k"]
+content_margin_left = 5.0
+content_margin_right = 5.0
 draw_center = false
 border_width_right = 1
 border_color = Color(0.117647, 0.117647, 0.129412, 1)
@@ -88,7 +90,6 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="HBoxContainer/PanelContainer4/HBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Layer 1"

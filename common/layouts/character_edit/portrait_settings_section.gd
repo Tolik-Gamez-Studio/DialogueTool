@@ -102,3 +102,7 @@ func _show_group(prt_type: Variant = portrait_type.value) -> void:
 	for key in _control_groups.keys():
 		for property: Property in _control_groups.get(key):
 			property.set_visible(group.has(property))
+
+
+func _on_delete_button_pressed() -> void:
+	%PortraitListSection.references[portrait_index].custom_delete_button.pressed.emit()

@@ -2,7 +2,7 @@ class_name MonologueTimeline extends MonologueField
 
 
 const IMAGE = ["*.bmp,*.jpg,*.jpeg,*.png,*.svg,*.webp;Image Files"]
-const DEFAULT_LAYER_NAME: String = "new layer %s"
+const DEFAULT_LAYER_NAME: String = "Layer %s"
 
 var filters: Array = ["*.bmp", "*.jpg", "*.jpeg", "*.png", "*.svg", "*.webp"]
 
@@ -61,7 +61,7 @@ func _from_dict(dict: Dictionary) -> void:
 
 	var default_layer_data := [
 		{
-			"LayerName": "Layer 1",
+			"LayerName": DEFAULT_LAYER_NAME % 1,
 			"Visible": true,
 			"Frames": {0: {"ImagePath": "", "Exposure": 1}}
 		}
@@ -245,7 +245,6 @@ func sub_select(col_idx: int, row_idx: int) -> void:
 			cell_idx += 1
 		timeline_idx += 1
 	if not deselect:
-		print(col_idx)
 		cell_number_hbox.get_child(col_idx).sub_select()
 
 
