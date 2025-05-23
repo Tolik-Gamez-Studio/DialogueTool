@@ -39,14 +39,6 @@ func add_cell(image_path = "") -> TimelineCell:
 
 
 func _on_cell_button_down(cell: TimelineCell) -> void:
-	timeline.cell_selected(cell, self)
-	
-	for child in get_all_cells():
-		if child == cell:
-			continue
-		
-		child.lose_focus()
-	
 	current_indicator = placement_indicator.instantiate()
 	hbox.add_child(current_indicator)
 	hbox.move_child(current_indicator, cell.get_index()+1)
@@ -67,6 +59,15 @@ func _on_cell_button_up(cell: TimelineCell) -> void:
 		first_cell._update()
 	
 	timeline_updated.emit()
+	
+	
+	timeline.cell_selected(cell, self)
+	
+	for child in get_all_cells():
+		if child == cell:
+			continue
+		
+		child.lose_focus()
 
 
 func _on_cell_focus_exited() -> void:
