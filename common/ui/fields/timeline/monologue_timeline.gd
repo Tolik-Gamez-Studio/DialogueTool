@@ -193,8 +193,18 @@ func _on_files_selected(paths: Array) -> void:
 	get_selected_cell()._update()
 	
 	var selected_layer: LayerTimeline = layer_timeline_vbox.get_child(selected_cell_layer_idx)
+	var first_frame_duration: int = selected_layer.get_frame_duration(selected_cell_idx)
+	var idx: int = 0
 	for path in paths:
+		idx += 1
 		var cell: TimelineCell = selected_layer.add_cell(Path.absolute_to_relative(path, base_path))
+		selected_layer.hbox.move_child(cell, selected_cell_idx + idx * first_frame_duration)
+		
+		for i in range(first_frame_duration-1):
+			var exp_cell: TimelineCell = selected_layer.add_cell()
+			exp_cell.is_exposure = true
+			selected_layer.hbox.move_child(exp_cell, selected_cell_idx + idx * first_frame_duration + i + 1)
+			exp_cell._update()
 		
 	_update_field.call_deferred()
 
