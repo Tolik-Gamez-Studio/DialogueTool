@@ -15,6 +15,7 @@ var root: PortraitListSection
 func _init(node: PortraitListSection):
 	root = node
 	portrait.connect("change", update_portrait)
+	portrait_name.connect("change", update_portrait_name)
 	portrait.setters["graph_edit"] = graph
 	portrait_name.visible = false
 
@@ -24,6 +25,21 @@ func update_portrait(old_value: Variant, new_value: Variant):
 	var new_list = root.portraits.value.duplicate(true)
 	
 	graph.undo_redo.create_action("Portrait %s => %s" % [str(old_value), str(new_value)])
+	graph.undo_redo.add_do_property(root.portraits, "value", new_list)
+	graph.undo_redo.add_do_method(root.portraits.propagate.bind(new_list))
+	graph.undo_redo.add_undo_property(root.portraits, "value", old_list)
+	graph.undo_redo.add_undo_method(root.portraits.propagate.bind(old_list))
+	graph.undo_redo.commit_action()
+
+
+func update_portrait_name(old_value: Variant, new_value: Variant):
+	var old_list = root.portraits.value.duplicate(true)
+	var new_list = root.portraits.value.duplicate(true)
+	
+	old_list[idx.value]["Name"] = old_value
+	new_list[idx.value]["Name"] = new_value
+	
+	graph.undo_redo.create_action("Portrait Name %s => %s" % [str(old_value), str(new_value)])
 	graph.undo_redo.add_do_property(root.portraits, "value", new_list)
 	graph.undo_redo.add_do_method(root.portraits.propagate.bind(new_list))
 	graph.undo_redo.add_undo_property(root.portraits, "value", old_list)

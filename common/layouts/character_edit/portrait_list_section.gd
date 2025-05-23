@@ -29,6 +29,7 @@ func _ready() -> void:
 func add_portrait(option_dict: Dictionary = {}) -> AbstractPortraitOption:
 	_sync_references()
 	var new_portrait := AbstractPortraitOption.new(self)
+	new_portrait.graph = graph_edit
 	if option_dict:
 		new_portrait._from_dict(option_dict)
 	else:
@@ -101,7 +102,6 @@ func _on_portrait_option_set_to_default(portrait_option: PortraitOption) -> void
 		if option == portrait_option:
 			var index = all_options.find(option)
 			default_portrait.save_value(references[index].id.value)
-			default_portrait.value = references[index].id.value
 		else:
 			option.release_default()
 
@@ -111,7 +111,8 @@ func _on_portrait_option_name_submitted(portrait_option: PortraitOption) -> void
 	for option: PortraitOption in all_options:
 		if option == portrait_option:
 			var index = all_options.find(option)
-			references[index].portrait_name.value = portrait_option.line_edit.text
+			references[index].portrait_name.save_value(portrait_option.line_edit.text)
+	_sync_references()
 
 
 func _update_option(selected_option: PortraitOption) -> void:
