@@ -34,14 +34,11 @@ func _ready() -> void:
 
 
 func _update() -> void:
-	timeline.timeline.load_image(image_path, is_exposure, _on_image_loaded)
+	if not is_exposure and not image_path.is_empty():
+		texture_rect.texture = ImageLoader.load_thumbnail(image_path)
 	
 	texture_container.visible = !is_exposure
 	line_indicator.visible = is_exposure
-
-
-func _on_image_loaded(texture:  ImageTexture) -> void:
-	texture_rect.texture = texture
 
 
 func lose_focus() -> void:

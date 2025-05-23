@@ -17,15 +17,16 @@ func _ready() -> void:
 	add_cell()
 
 
-func add_cell() -> TimelineCell:
+func add_cell(image_path = "") -> TimelineCell:
 	var cells := get_all_cells()
-	var is_exposure: bool = cells.size() > 0
+	var is_exposure: bool = false if image_path != null else cells.size() > 0
 	
 	var new_cell := timeline_cell.instantiate()
 	new_cell.timeline = self
 	hbox.add_child(new_cell)
 	new_cell.is_exposure = is_exposure
 	new_cell.custom_minimum_size.x = timeline.get_cell_width()
+	new_cell.image_path = image_path
 	new_cell._update()
 	new_cell.connect("button_down", _on_cell_button_down.bind(new_cell))
 	new_cell.connect("button_up", _on_cell_button_up.bind(new_cell))
@@ -123,6 +124,7 @@ func _from_dict(dict: Dictionary) -> void:
 			cell.is_exposure = i > 0
 			if i <= 0:
 				cell.image_path = frame_data.get("ImagePath", "")
+			cell._update()
 
 
 func _to_dict() -> Dictionary:
@@ -160,12 +162,10 @@ func _to_sprite_frames() -> SpriteFrames:
 		if cell.is_exposure:
 			continue
 		var idx = cells.find(cell)
-		var texture: Texture2D = PlaceholderTexture2D.new()
+		var texture: Texture2D = Texture2D.new()
 		
 		if FileAccess.file_exists(cell.image_path):
-			var img := Image.load_from_file(cell.image_path)
-			if img != null:
-				texture = ImageTexture.create_from_image(img)
+			texture = ImageLoader.load_image(cell.image_path)
 		
 		sprite_frames.add_frame("default", texture, get_frame_duration(idx), idx)
 		

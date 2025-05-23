@@ -158,30 +158,70 @@ allow_greater = true
 alignment = 2
 suffix = "fps"
 
-[node name="TextureButton" type="TextureButton" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+[node name="PlayBackwardsButton" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
-texture_normal = ExtResource("4_wgfvs")
-stretch_mode = 5
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_xe0nk")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_xe0nk")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_arqpt")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_7j2ls")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_argys")
+icon = ExtResource("4_wgfvs")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
-[node name="TextureButton2" type="TextureButton" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+[node name="SkipBackwardButton" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
-texture_normal = ExtResource("5_aaeml")
-stretch_mode = 5
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_xe0nk")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_xe0nk")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_arqpt")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_7j2ls")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_argys")
+icon = ExtResource("5_aaeml")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
-[node name="TextureButton3" type="TextureButton" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+[node name="StopButton" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
-texture_normal = ExtResource("6_kgr41")
-stretch_mode = 5
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_xe0nk")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_xe0nk")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_arqpt")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_7j2ls")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_argys")
+icon = ExtResource("6_kgr41")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
-[node name="TextureButton4" type="TextureButton" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+[node name="SkipForwardButton" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
-texture_normal = ExtResource("7_gcvrj")
-stretch_mode = 5
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_xe0nk")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_xe0nk")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_arqpt")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_7j2ls")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_argys")
+icon = ExtResource("7_gcvrj")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
-[node name="TextureButton5" type="TextureButton" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+[node name="PlayButton" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
-texture_normal = ExtResource("8_ga8ls")
-stretch_mode = 5
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_xe0nk")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_xe0nk")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_arqpt")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_7j2ls")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_argys")
+icon = ExtResource("8_ga8ls")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="VSeparator2" type="VSeparator" parent="VBoxContainer/PanelContainer/HBoxContainer"]
 layout_mode = 2
@@ -334,6 +374,11 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_t1qxj")
 
 [connection signal="value_changed" from="VBoxContainer/PanelContainer/HBoxContainer/HBoxContainer/FpsSpinBox" to="." method="_on_fps_spin_box_value_changed"]
+[connection signal="pressed" from="VBoxContainer/PanelContainer/HBoxContainer/PlayBackwardsButton" to="." method="_on_play_backwards_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/PanelContainer/HBoxContainer/SkipBackwardButton" to="." method="_on_skip_backward_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/PanelContainer/HBoxContainer/StopButton" to="." method="_on_stop_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/PanelContainer/HBoxContainer/SkipForwardButton" to="." method="_on_skip_forward_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/PanelContainer/HBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/PanelContainer/HBoxContainer/ImportFrameButton" to="." method="_on_import_frame_button_pressed"]
 [connection signal="mouse_entered" from="VBoxContainer/LayerContainer" to="VBoxContainer/LayerContainer" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="VBoxContainer/LayerContainer" to="VBoxContainer/LayerContainer" method="_on_mouse_exited"]

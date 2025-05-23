@@ -7,12 +7,13 @@ var _callback: Callable
 func _ready():
 	GlobalSignal.add_listener("save_file_request", _on_save_file_request)
 	GlobalSignal.add_listener("open_file_request", _on_open_file_request)
+	GlobalSignal.add_listener("open_files_request", _on_open_files_request)
 
 
 func _on_save_file_request(callable: Callable,
 		filter_list: PackedStringArray = [], root_subdir: String = "") -> void:
-	title = "Create New File"
-	ok_button_text = "Create"
+	title = "Save"
+	ok_button_text = "Save"
 	file_mode = FileDialog.FILE_MODE_SAVE_FILE
 	
 	_core_request(callable, filter_list, root_subdir)
@@ -20,9 +21,18 @@ func _on_save_file_request(callable: Callable,
 
 func _on_open_file_request(callable: Callable,
 		filter_list: PackedStringArray = [], root_subdir: String = "") -> void:
-	title = "Open File"
-	ok_button_text = "Open File"
+	title = "Open"
+	ok_button_text = "Open"
 	file_mode = FileDialog.FILE_MODE_OPEN_FILE
+	
+	_core_request(callable, filter_list, root_subdir)
+
+
+func _on_open_files_request(callable: Callable,
+		filter_list: PackedStringArray = [], root_subdir: String = "") -> void:
+	title = "Open"
+	ok_button_text = "Open"
+	file_mode = FileDialog.FILE_MODE_OPEN_FILES
 	
 	_core_request(callable, filter_list, root_subdir)
 
@@ -40,3 +50,7 @@ func _on_file_selected(path: String) -> void:
 	if file_mode == FILE_MODE_SAVE_FILE:
 		FileAccess.open(path, FileAccess.WRITE)
 	_callback.call(path as String)
+
+
+func _on_files_selected(paths: PackedStringArray) -> void:
+	_callback.call(paths as Array)

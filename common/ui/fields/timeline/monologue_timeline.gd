@@ -24,7 +24,6 @@ var selected_cell_idx: int = -1
 var selected_cell_layer_idx: int = -1
 var current_indicator: Control
 var preview_section
-var image_cache: Dictionary = {}
 
 var fps: float = 12.0
 
@@ -74,7 +73,7 @@ func _from_dict(dict: Dictionary) -> void:
 		layer_timeline_vbox.get_children().back()._from_dict(layer_data)
 
 	_update_cell_number()
-	_update_preview()
+	_update_preview.call_deferred()
 
 
 func _to_dict() -> Dictionary:
@@ -113,7 +112,6 @@ func get_cell_width() -> int:
 func add_cell() -> void:
 	cell_count += 1
 	_update_cell_number()
-	_update_preview()
 
 
 func add_timeline() -> void:
@@ -157,6 +155,7 @@ func _on_timeline_updated(_layer_timeline: LayerTimeline) -> void:
 
 
 func _update_field() -> void:
+	_update_preview()
 	field_updated.emit(_to_dict())
 
 
@@ -173,7 +172,7 @@ func _on_btn_add_layer_pressed() -> void:
 func _on_import_frame_button_pressed() -> void:
 	if selected_cell_idx <= -1 and selected_cell_layer_idx <= -1:
 		return
-	GlobalSignal.emit("open_file_request", [_on_file_selected, IMAGE, base_path.get_base_dir()])
+	GlobalSignal.emit("open_files_request", [_on_files_selected, IMAGE, base_path.get_base_dir()])
 
 
 func get_selected_cell() -> Variant:
@@ -183,14 +182,19 @@ func get_selected_cell() -> Variant:
 	var s_layer_timeline: LayerTimeline = layer_timeline_vbox.get_children()[selected_cell_layer_idx]
 	return s_layer_timeline.get_all_cells()[selected_cell_idx]
 
-func _on_file_selected(path: String) -> void:
+func _on_files_selected(paths: Array) -> void:
 	if selected_cell_idx <= -1 and selected_cell_layer_idx <= -1:
 		return
-	get_selected_cell().image_path = Path.absolute_to_relative(path, base_path)
+	
+	var first_path: String = paths.pop_front()
+	get_selected_cell().image_path = Path.absolute_to_relative(first_path, base_path)
 	get_selected_cell()._update()
-	_update_preview()
+	
+	var selected_layer: LayerTimeline = layer_timeline_vbox.get_child(selected_cell_layer_idx)
+	for path in paths:
+		var cell: TimelineCell = selected_layer.add_cell(Path.absolute_to_relative(path, base_path))
+		
 	_update_field.call_deferred()
-
 
 func cell_selected(s_cell: TimelineCell, s_timeline: LayerTimeline) -> void:
 	var cell_idx: int = s_timeline.hbox.get_children().find(s_cell)
@@ -270,21 +274,23 @@ func _on_fps_spin_box_value_changed(value: float) -> void:
 		fps = value
 		_update_field.call_deferred()
 
-func load_image(image_path: String, is_exposure: bool, callback: Callable):
-	var thread: Thread = Thread.new()
-	thread.start(_get_image_thread.bind([image_path, is_exposure, callback]))
-	thread.wait_to_finish()
+
+func _on_play_backwards_button_pressed() -> void:
+	preview_section.play_backwards()
 
 
-func _get_image_thread(image_path: String, is_exposure: bool, callback: Callable) -> void:
-	var tx: ImageTexture = image_cache.get(image_path, ImageTexture.new())
+func _on_skip_backward_button_pressed() -> void:
+	pass # Replace with function body.
+
+
+func _on_stop_button_pressed() -> void:
+	preview_section.stop()
+
+
+func _on_skip_forward_button_pressed() -> void:
+	pass # Replace with function body.
+
+
+func _on_play_button_pressed() -> void:
+	preview_section.play()
 	
-	if not image_path.is_empty() and not is_exposure:
-		var im: Image = Image.load_from_file(image_path)
-		im.resize(128, im.get_size().y*128/im.get_size().x, Image.INTERPOLATE_CUBIC)
-		tx = ImageTexture.create_from_image(im)
-		
-		image_cache[image_path] = tx
-	
-	if callback.is_valid():
-		callback.call(tx)

@@ -35,6 +35,7 @@ SfxLoader="*res://autoloads/sfx_loader.gd"
 Path="*res://autoloads/path.gd"
 IDGen="*res://autoloads/id_gen.gd"
 Cursor="*res://autoloads/cursor.gd"
+ImageLoader="*res://autoloads/image_loader.gd"
 
 [debug]
 
