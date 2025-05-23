@@ -159,16 +159,24 @@ func _to_sprite_frames() -> SpriteFrames:
 	sprite_frames.set_animation_speed("default", timeline.fps)
 	
 	var cells: Array = get_all_cells()
-	for cell: TimelineCell in cells:
-		if cell.is_exposure:
-			continue
-		var idx = cells.find(cell)
-		var texture: Texture2D = Texture2D.new()
+	for i in range(timeline.cell_count):
+		var texture: Texture2D
+		var frame_duration: float = 1.0
 		
-		if FileAccess.file_exists(cell.image_path):
-			texture = ImageLoader.load_image(cell.image_path)
+		if cells.size() > i:
+			var cell: TimelineCell = cells[i-1]
+			if cell.is_exposure:
+				continue
+			
+			var idx = cells.find(cell)
+			frame_duration = get_frame_duration(idx)
 		
-		sprite_frames.add_frame("default", texture, get_frame_duration(idx), idx)
+			if FileAccess.file_exists(cell.image_path):
+				texture = ImageLoader.load_image(cell.image_path)
+		else:
+			texture = Texture2D.new()
+		
+		sprite_frames.add_frame("default", texture, frame_duration, i)
 		
 	return sprite_frames
 

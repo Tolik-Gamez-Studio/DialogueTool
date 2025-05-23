@@ -145,7 +145,9 @@ func _update_preview() -> void:
 	if layer_timeline_vbox == null:
 		return
 	var sprites: Array = []
-	for child_timeline in layer_timeline_vbox.get_children():
+	var layers: Array[Node] = layer_timeline_vbox.get_children()
+	layers.reverse()
+	for child_timeline: LayerTimeline in layers:
 		sprites.append(child_timeline._to_sprite_frames())
 	preview_section.update_animation(sprites)
 
@@ -197,7 +199,7 @@ func _on_files_selected(paths: Array) -> void:
 	_update_field.call_deferred()
 
 func cell_selected(s_cell: TimelineCell, s_timeline: LayerTimeline) -> void:
-	var cell_idx: int = s_timeline.hbox.get_children().find(s_cell)
+	var cell_idx: int = s_timeline.get_all_cells().find(s_cell)
 	var timeline_idx: int = layer_timeline_vbox.get_children().find(s_timeline)
 	sub_select(cell_idx, timeline_idx)
 	if not s_cell.is_exposure:
@@ -233,6 +235,7 @@ func sub_select(col_idx: int, row_idx: int) -> void:
 			cell_idx += 1
 		timeline_idx += 1
 	if not deselect:
+		print(col_idx)
 		cell_number_hbox.get_child(col_idx).sub_select()
 
 
