@@ -62,14 +62,13 @@ func _from_dict(dict: Dictionary) -> void:
 	var default_layer_data := [
 		{
 			"LayerName": DEFAULT_LAYER_NAME % 1,
-			"Visible": true,
 			"Frames": {0: {"ImagePath": "", "Exposure": 1}}
 		}
 	]
 
 	for layer_data in dict.get("Layers", default_layer_data):
-		add_timeline()
-		layer_vbox.get_children().back().timeline_label.text = layer_data.get("LayerName", "undefined")
+		var new_layer: Layer = add_timeline()
+		new_layer.timeline_label.text = layer_data.get("LayerName", "Layer")
 		layer_timeline_vbox.get_children().back()._from_dict(layer_data)
 
 	_update_cell_number()
@@ -89,7 +88,6 @@ func _to_dict() -> Dictionary:
 		var l_timeline: LayerTimeline = layer_timeline_vbox.get_child(layer_idx)
 		dict["Layers"].append({
 			"LayerName": l.timeline_label.text,
-			"Visible": true,
 			"Frames": l_timeline._to_dict()
 		})
 	return dict
@@ -114,7 +112,7 @@ func add_cell() -> void:
 	_update_cell_number()
 
 
-func add_timeline() -> void:
+func add_timeline() -> Layer:
 	var new_layer: Layer = layer.instantiate()
 	var new_layer_timeline: LayerTimeline = layer_timeline.instantiate()
 	new_layer_timeline.timeline = self
@@ -129,6 +127,8 @@ func add_timeline() -> void:
 	new_layer_timeline.connect("timeline_updated", _on_timeline_updated.bind(new_layer_timeline))
 
 	_update_preview()
+	
+	return new_layer
 
 
 func _update_cell_number() -> void:
@@ -193,7 +193,7 @@ func _on_files_selected(paths: Array) -> void:
 	get_selected_cell()._update()
 	
 	var selected_layer: LayerTimeline = layer_timeline_vbox.get_child(selected_cell_layer_idx)
-	var first_frame_duration: int = selected_layer.get_frame_duration(selected_cell_idx)
+	var first_frame_duration: int = int(selected_layer.get_frame_duration(selected_cell_idx))
 	var idx: int = 0
 	for path in paths:
 		idx += 1
@@ -257,7 +257,7 @@ func _on_layer_timeline_scroll_container_gui_input(_event: InputEvent) -> void:
 
 
 func _on_layer_button_down(target_layer: Layer) -> void:
-	var layer_idx: int = layer_vbox.get_children().find(target_layer)
+	var layer_idx: int = get_all_layers().find(target_layer)
 	current_indicator = placement_indicator.instantiate()
 	layer_vbox.add_child(current_indicator)
 	layer_vbox.move_child(current_indicator, layer_idx + 1)
@@ -274,7 +274,7 @@ func _on_layer_button_up(target_layer: Layer) -> void:
 
 
 func _on_layer_delete_button_pressed(target_layer: Layer) -> void:
-	var layer_idx: int = layer_vbox.get_children().find(target_layer)
+	var layer_idx: int = get_all_layers().find(target_layer)
 	var t_layer_timeline: LayerTimeline = layer_timeline_vbox.get_child(layer_idx - 1)
 	t_layer_timeline.queue_free()
 	target_layer.queue_free()

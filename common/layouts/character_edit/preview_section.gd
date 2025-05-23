@@ -19,6 +19,7 @@ func update_animation(sprites: Array) -> void:
 	_clear_anim()
 	for sprite in sprites:
 		var animated_sprite := AnimatedSprite2D.new()
+		var idx: int = sprites.find(sprite)
 		animated_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		animated_sprite.sprite_frames = sprite
 		preview_anim.add_child(animated_sprite)
@@ -45,6 +46,10 @@ func update_mirror(mirror: bool) -> void:
 
 func _on_h_slider_value_changed(value: float) -> void:
 	preview_camera.zoom = Vector2(value, value)
+
+
+func update_visibility(is_visible: bool, layer_idx: int) -> void:
+	preview_anim.get_child(layer_idx).visible = is_visible
 
 
 func play_backwards() -> void:
