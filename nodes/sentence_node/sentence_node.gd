@@ -36,7 +36,6 @@ func _on_text_preview(text: Variant):
 
 func _update():
 	super._update()
-	await get_tree().process_frame
 	
 	var characters: Array = get_graph_edit().characters
 	speaker.callers["set_items"] = [characters, "Character/Name", "EditorIndex"]

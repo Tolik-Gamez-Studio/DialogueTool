@@ -16,6 +16,7 @@ markdown_book/docs_folder=""
 
 config/name="Monologue"
 config/version="3.0.0-dev1"
+config/tags=PackedStringArray("monologue")
 run/main_scene="res://scenes/splash/splash.tscn"
 run/print_header=false
 run/enable_alt_space_menu=true
