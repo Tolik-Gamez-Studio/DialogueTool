@@ -7,7 +7,7 @@ extends VBoxContainer
 @onready var zoom_slider: HSlider = $MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/HSlider
 
 
-func update_preview(texture: Texture2D = PlaceholderTexture2D.new()) -> void:
+func update_preview(texture: Texture2D = Texture2D.new()) -> void:
 	if preview_texture:
 		preview_texture.texture = texture
 		

@@ -36,7 +36,10 @@ func _ready() -> void:
 
 func _set_base_path(val: String) -> void:
 	base_path = val
-	image_path.setters["base_path"] = val
+	if not image_path.field:
+		image_path.setters["base_path"] = val
+	else:
+		image_path.field.base_path = val
 
 
 func _from_dict(dict: Dictionary = {}) -> void:
@@ -48,7 +51,7 @@ func _from_dict(dict: Dictionary = {}) -> void:
 		timeline_section.portrait_index = portrait_index
 		timeline_section.character_index = character_index
 		timeline_section.base_path = base_path
-	_on_portrait_type_change()
+	_on_portrait_type_change.call_deferred()
 
 
 func _to_dict() -> Dictionary:
@@ -77,9 +80,8 @@ func _on_image_path_change(_old_value: Variant = null, new_value: Variant = null
 	
 	var is_valid: bool = image_path.field.validate(image_path.value)
 	if is_valid:
-		var im: Image = Image.new()
-		im.load(new_value)
-		var texture: ImageTexture = ImageTexture.create_from_image(im)
+		var abs_image_path: String = Path.relative_to_absolute(new_value, base_path)
+		var texture: ImageTexture = ImageLoader.load_image(abs_image_path)
 		preview_section.update_preview(texture)
 		return
 	preview_section.update_preview(ImageTexture.new())

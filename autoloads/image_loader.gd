@@ -14,6 +14,9 @@ func load_image(image_path: String) -> ImageTexture:
 
 func _load_image_to_cache(image_path: String) -> void:
 	var im: Image = Image.load_from_file(image_path)
+	if not im:
+		printerr("Coundn't load image from path: %s" % image_path)
+		im = Image.create_empty(128, 128, false, Image.FORMAT_BPTC_RGBA)
 	var thumbnail_im: Image = im.duplicate()
 	thumbnail_im.resize(128, thumbnail_im.get_size().y*128/thumbnail_im.get_size().x, Image.INTERPOLATE_CUBIC)
 	
