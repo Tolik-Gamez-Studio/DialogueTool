@@ -75,6 +75,9 @@ func propagate(new_value: Variant, can_display: bool = true) -> void:
 
 ## Trigger a property value change only when valeus are different.
 func save_value(new_value: Variant) -> void:
+	if new_value is Dictionary:
+		new_value = value.merged(new_value)
+	
 	if not Util.is_equal(value, new_value):
 		change.emit(value, new_value)
 
