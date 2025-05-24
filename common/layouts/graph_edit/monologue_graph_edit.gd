@@ -10,7 +10,7 @@ var undo_redo := HistoryHandler.new()
 var version = undo_redo.get_version()
 
 var languages = []
-var speakers = []
+var characters = []
 var variables = []
 
 var active_graphnode: MonologueGraphNode  # for tab-switching purpose

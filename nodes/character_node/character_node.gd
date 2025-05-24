@@ -26,6 +26,8 @@ var _control_groups = {
 
 func _ready():
 	node_type = "NodeCharacter"
+	character.connect("preview", _update)
+	
 	action_type.callers["set_items"] = [[
 		{ "id": 0, "text": "Join"  },
 		{ "id": 1, "text": "Leave" },
@@ -83,10 +85,13 @@ func _update(value: Variant = null) -> void:
 	await get_tree().process_frame
 	
 	var action: Variant = action_type.value
-	var characters: Array = get_graph_edit().speakers
+	var characters: Array = get_graph_edit().characters
 	character.callers["set_items"] = [characters, "Character/Name", "EditorIndex"]
 	if characters[character.value] and characters[character.value]["Character"].has("Portraits"):
-		portrait.callers["set_items"] = [characters[character.value]["Character"]["Portraits"], "Name"]
+		if portrait.field:
+			portrait.field.set_items(characters[character.value]["Character"]["Portraits"], "Name")
+		else:
+			portrait.setters["set_items"] = [characters[character.value]["Character"]["Portraits"], "Name"]
 	
 	display_container.visible = action != "Leave"
 	action_type_label.text = action

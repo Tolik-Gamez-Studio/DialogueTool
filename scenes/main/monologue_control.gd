@@ -47,8 +47,8 @@ func _to_dict() -> Dictionary:
 			for child in node.get_children():
 				list_nodes.append(child._to_dict())
 	
-	# build data for dialogue speakers
-	var characters = graph_switcher.current.speakers
+	# build data for dialogue characters
+	var characters = graph_switcher.current.characters
 	if characters.size() <= 0:
 		characters.append({
 			"ID": IDGen.generate(5),
@@ -102,7 +102,7 @@ func load_project(path: String, new_graph: bool = false) -> void:
 		graph_switcher.add_tab(path.get_file())
 		graph_switcher.current.clear()
 		graph_switcher.current.name = path.get_file().trim_suffix(".json")
-		graph_switcher.current.speakers = converter.convert_characters(data.get("Characters"))
+		graph_switcher.current.characters = converter.convert_characters(data.get("Characters"))
 		graph_switcher.current.variables = data.get("Variables")
 		graph_switcher.current.data = data
 		

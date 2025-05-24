@@ -13,7 +13,7 @@ func _ready():
 	node_type = "NodeRoot"
 	super._ready()
 	
-	load_character(get_parent().speakers)
+	load_character(get_parent().characters)
 	characters.setters["add_callback"] = add_character
 	characters.setters["get_callback"] = get_speakers
 	characters.connect("preview", load_character)
@@ -66,7 +66,7 @@ func load_character(new_character_list: Array):
 		new_character_list.append(narrator._to_dict())
 	
 	characters.value = new_character_list
-	get_graph_edit().speakers = new_character_list
+	get_graph_edit().characters = new_character_list
 
 
 func load_variables(new_variable_list: Array):

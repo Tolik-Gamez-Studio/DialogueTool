@@ -2,9 +2,8 @@
 class_name SentenceNode extends MonologueGraphNode
 
 
-var speaker         := Property.new(DROPDOWN, { "store_index": true })
-var display_name    := Property.new(LINE, { "is_sublabel": true })
-var display_variant := Property.new(LINE, { "is_sublabel": true })
+var speaker         := Property.new(DROPDOWN, { "store_index": true }, 0)
+var display_name    := Property.new(LINE)
 var sentence        := Localizable.new(TEXT)
 var voiceline       := Localizable.new(FILE, { "filters": FilePicker.AUDIO })
 
@@ -13,9 +12,10 @@ var voiceline       := Localizable.new(FILE, { "filters": FilePicker.AUDIO })
 
 func _ready():
 	node_type = "NodeSentence"
-	super._ready()
 	sentence.connect("preview", _on_text_preview)
 	voiceline.setters["base_path"] = get_graph_edit().file_path
+	super._ready()
+	_update()
 
 
 func reload_preview() -> void:
@@ -35,10 +35,15 @@ func _on_text_preview(text: Variant):
 
 
 func _update():
-	reload_preview()
-	speaker.callers["set_items"] = [get_graph_edit().speakers, "Character/Name", "EditorIndex"]
 	super._update()
+	await get_tree().process_frame
+	
+	var characters: Array = get_graph_edit().characters
+	speaker.callers["set_items"] = [characters, "Character/Name", "EditorIndex"]
+	if speaker.value is String:
+		speaker.value = 0
+	reload_preview()
 
 
 func _get_field_groups() -> Array:
-	return [{"Speaker": ["speaker", "display_name", "display_variant"]}]
+	return [{"Speaker": ["speaker", "display_name"]}]

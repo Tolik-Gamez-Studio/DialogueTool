@@ -67,6 +67,7 @@ func set_items(data: Array, key_text: String = "text", key_id: String = "EditorI
 		
 		option_button.add_item(item_name, item_id)
 		option_button.set_item_metadata(idx, data[idx].get(key_meta, ""))
+	validate()
 
 
 func set_label_text(text: String) -> void:
