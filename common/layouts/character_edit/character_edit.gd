@@ -19,6 +19,7 @@ func open(graph: MonologueGraphEdit, index: int) -> void:
 		graph_edit = graph
 		character_index = index
 		%PortraitSettingsSection.base_path = graph.file_path
+		%PortraitListSection.selected = -1
 		_from_dict(graph.characters[index])
 		show()
 	else:
