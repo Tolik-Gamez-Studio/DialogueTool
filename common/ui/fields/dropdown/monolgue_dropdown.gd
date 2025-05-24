@@ -2,9 +2,13 @@ class_name MonologueDropdown extends MonologueField
 
 
 @export var store_index: bool
+## Usefull when items are set after the value is set.
+@export var late_items: bool
 
 @onready var label: Label = $Label
 @onready var option_button: OptionButton = $OptionButton
+
+var backup_value: Variant
 
 
 func disable_items(index_list: PackedInt32Array):
@@ -35,6 +39,7 @@ func get_item_idx_from_text(text: String) -> int:
 
 func propagate(value: Variant) -> void:
 	super.propagate(value)
+	backup_value = value
 	var index = get_item_idx_from_text(value) if value is String else value
 	if index < 0 or index >= option_button.item_count:  # avoid falsy check
 		option_button.selected = 0
@@ -67,6 +72,10 @@ func set_items(data: Array, key_text: String = "text", key_id: String = "EditorI
 		
 		option_button.add_item(item_name, item_id)
 		option_button.set_item_metadata(idx, data[idx].get(key_meta, ""))
+		
+	if late_items:
+		propagate(backup_value)
+	
 	validate()
 
 

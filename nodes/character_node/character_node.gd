@@ -8,7 +8,7 @@ var _position        := Property.new(DROPDOWN, {}, "Left")
 var join_animation   := Property.new(DROPDOWN, {}, "Default", "Animation Type")
 var leave_animation  := Property.new(DROPDOWN, {}, "Default", "Animation Type")
 var update_animation := Property.new(DROPDOWN, {}, "Default", "Animation Type")
-var portrait         := Property.new(DROPDOWN, {})
+var portrait         := Property.new(DROPDOWN, { "late_items": true })
 var duration         := Property.new(SPINBOX, { "step": 0.1, "minimum": 0.0 }, 0.5)
 var _z_index         := Property.new(SPINBOX, { "step": 1 }, 0)
 var mirrored         := Property.new(TOGGLE, {}, false)
@@ -19,14 +19,21 @@ var _control_groups = {
 	"Update": [portrait, _z_index, update_animation, _position, mirrored],
 }
 
-@onready var action_type_label := $CharacterContainer/HBoxContainer/ActionTypeLabel
-@onready var display_container := $CharacterContainer/HBoxContainer/DisplayContainer
-@onready var position_label := $CharacterContainer/HBoxContainer/DisplayContainer/PositionLabel
+@onready var character_name_label := %CharacterNameLabel
+@onready var action_type_label := %ActionTypeLabel
+@onready var display_container := %DisplayContainer
+@onready var position_label := %PositionLabel
+@onready var portrait_name_label := %PortraitNameLabel
 
 
 func _ready():
 	node_type = "NodeCharacter"
+	
+	var characters: Array = get_graph_edit().characters
+	character.callers["set_items"] = [characters, "Character/Name", "EditorIndex"]
 	character.connect("preview", _update)
+	
+	portrait.connect("preview", _update)
 	
 	action_type.callers["set_items"] = [[
 		{ "id": 0, "text": "Join"  },
@@ -80,9 +87,9 @@ func _ready():
 	_update()
 
 
-func _update(value: Variant = null) -> void:
-	super._update()
+func _update(_value: Variant = null) -> void:
 	await get_tree().process_frame
+	super._update()
 	
 	var action: Variant = action_type.value
 	var characters: Array = get_graph_edit().characters
@@ -94,9 +101,10 @@ func _update(value: Variant = null) -> void:
 			portrait.setters["set_items"] = [characters[character.value]["Character"]["Portraits"], "Name"]
 	
 	display_container.visible = action != "Leave"
+	character_name_label.text = characters[character.value].get("Character", {}).get("Name", "Unknown")
 	action_type_label.text = action
 	position_label.text = _position.value
-	
+	portrait_name_label.text = portrait.value if portrait.value else "Unknown"
 
 
 func _show_group(act_type: Variant = action_type.value) -> void:

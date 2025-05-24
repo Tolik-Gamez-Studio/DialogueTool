@@ -19,9 +19,8 @@ corner_radius_bottom_left = 2
 font_color = Color(0.572549, 0.572549, 0.572549, 1)
 
 [node name="CharacterNode" type="GraphNode" groups=["graph_nodes"]]
-custom_minimum_size = Vector2(300, 0)
-offset_right = 300.0
-offset_bottom = 82.0
+offset_right = 245.0
+offset_bottom = 150.0
 size_flags_vertical = 0
 theme_override_styles/titlebar = SubResource("StyleBoxFlat_ryo67")
 title = "NodeCharacter"
@@ -40,30 +39,57 @@ titlebar_color = Color(0, 0.505882, 0.501961, 1)
 [node name="CharacterContainer" type="MarginContainer" parent="."]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CharacterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CharacterContainer"]
 layout_mode = 2
 
-[node name="CharacterLabel" type="Label" parent="CharacterContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CharacterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CharacterLabel" type="Label" parent="CharacterContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Character"
 
-[node name="ActionTypeLabel" type="Label" parent="CharacterContainer/HBoxContainer"]
+[node name="CharacterNameLabel" type="Label" parent="CharacterContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/normal = ExtResource("4_4reyd")
+text = "Unknown"
+label_settings = SubResource("LabelSettings_5hm62")
+
+[node name="ActionTypeLabel" type="Label" parent="CharacterContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/normal = ExtResource("4_4reyd")
 text = "Join"
 label_settings = SubResource("LabelSettings_5hm62")
 
-[node name="DisplayContainer" type="HBoxContainer" parent="CharacterContainer/HBoxContainer"]
+[node name="DisplayContainer" type="HBoxContainer" parent="CharacterContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="AtLabel" type="Label" parent="CharacterContainer/HBoxContainer/DisplayContainer"]
+[node name="AtLabel" type="Label" parent="CharacterContainer/VBoxContainer/DisplayContainer"]
 layout_mode = 2
 text = "at"
 
-[node name="PositionLabel" type="Label" parent="CharacterContainer/HBoxContainer/DisplayContainer"]
+[node name="PositionLabel" type="Label" parent="CharacterContainer/VBoxContainer/DisplayContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/normal = ExtResource("4_4reyd")
 text = "Left"
+label_settings = SubResource("LabelSettings_5hm62")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CharacterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PortraitLabel" type="Label" parent="CharacterContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "with portrait"
+
+[node name="PortraitNameLabel" type="Label" parent="CharacterContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/normal = ExtResource("4_4reyd")
+text = "Unknown"
 label_settings = SubResource("LabelSettings_5hm62")
 
 [connection signal="resize_request" from="." to="." method="_on_GraphNode_resize_request"]
