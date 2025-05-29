@@ -25,7 +25,9 @@ func _ready() -> void:
 func add_item(item: Control, force_readable_name: bool = false) -> void:
 	var existing_children = vbox.get_children().filter(_is_not_being_deleted)
 	if separate_items and existing_children.size() > 0:
-		vbox.add_child(HSeparator.new(), true)
+		var separator := HSeparator.new()
+		separator.theme_type_variation = "HDottedSeparator"
+		vbox.add_child(separator, true)
 	
 	item.visibility_changed.connect(_update)
 	
@@ -74,11 +76,13 @@ func _on_button_pressed() -> void:
 func open() -> void:
 	button.icon = icon_open
 	collapsible_container.show()
+	button.release_focus()
 
 
 func close() -> void:
 	button.icon = icon_close
 	collapsible_container.hide()
+	button.release_focus()
 
 
 func _on_add_button_pressed() -> void:

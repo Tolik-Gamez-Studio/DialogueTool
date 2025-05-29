@@ -7,7 +7,7 @@ var display_name    := Property.new(LINE)
 var sentence        := Localizable.new(TEXT)
 var voiceline       := Localizable.new(FILE, { "filters": FilePicker.AUDIO })
 
-@onready var _preview = $MainContainer/TextLabelPreview
+@onready var _preview = $TextLabelPreview
 
 
 func _ready():
