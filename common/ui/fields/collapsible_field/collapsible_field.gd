@@ -5,6 +5,7 @@ signal add_pressed
 
 @export var show_add_button: bool = false
 @export var separate_items: bool = false
+@export var expand: bool = false
 
 @onready var button := $Button
 @onready var collapsible_container := $CollapsibleContainer
@@ -13,6 +14,7 @@ signal add_pressed
 
 @onready var icon_close := preload("res://ui/assets/icons/arrow_right.svg")
 @onready var icon_open := preload("res://ui/assets/icons/arrow_down.svg")
+
 
 
 func _ready() -> void:
@@ -45,6 +47,10 @@ func _update():
 		
 	if visible != can_see:
 		visible = can_see
+		
+	if expand:
+		size_flags_vertical = SIZE_EXPAND_FILL
+		vbox.size_flags_vertical = SIZE_EXPAND_FILL
 
 
 func set_title(text: String) -> void:

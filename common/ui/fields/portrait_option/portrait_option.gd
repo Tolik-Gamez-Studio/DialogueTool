@@ -8,7 +8,6 @@ signal name_submitted(this_option: PortraitOption)
 @onready var btn_star := $MarginContainer/HBoxContainer/HBoxContainer/btnStar
 @onready var button := $MarginContainer/HBoxContainer/Control/Button
 
-@onready var line_edit_focus_stylebox: StyleBoxFlat = preload("res://ui/theme_default/line_edit_focus.tres")
 @onready var active_stylebox: StyleBoxFlat = StyleBoxFlat.new()
 @onready var star_icon := preload("res://ui/assets/icons/star.svg")
 @onready var star_full_icon := preload("res://ui/assets/icons/star_full.svg")
@@ -21,7 +20,6 @@ var custom_delete_button: Button = Button.new()
 
 
 func _ready() -> void:
-	line_edit_unfocus_stylebox.set_content_margin_all(line_edit_focus_stylebox.content_margin_top)
 	line_edit_unfocus()
 	
 	active_stylebox.bg_color = Color("d55160")
@@ -55,8 +53,6 @@ func _on_btn_edit_pressed() -> void:
 	line_edit.grab_focus()
 	
 	button.hide()
-	
-	add_theme_stylebox_override("focus", line_edit_focus_stylebox)
 
 
 func _on_line_edit_focus_exited() -> void:

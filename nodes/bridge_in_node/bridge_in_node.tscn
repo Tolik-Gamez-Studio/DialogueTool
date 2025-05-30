@@ -1,10 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://b0eo5lvnrwidu"]
+[gd_scene load_steps=3 format=3 uid="uid://b0eo5lvnrwidu"]
 
 [ext_resource type="Script" uid="uid://bqxf6ixm3hcsj" path="res://nodes/bridge_in_node/bridge_in_node.gd" id="1_8y1eo"]
+[ext_resource type="PackedScene" uid="uid://wiapsnoaoc44" path="res://common/ui/custom_spinbox/custom_spinbox.tscn" id="2_81r38"]
 
 [node name="BridgeInNode" type="GraphNode"]
-offset_right = 190.0
-offset_bottom = 106.0
+offset_right = 240.0
+offset_bottom = 82.0
 scale = Vector2(0.6, 0.6)
 mouse_filter = 1
 title = "BridgeIn"
@@ -29,11 +30,5 @@ alignment = 1
 layout_mode = 2
 text = "Link to"
 
-[node name="LinkNumber" type="SpinBox" parent="HBoxContainer"]
+[node name="LinkNumber" parent="HBoxContainer" instance=ExtResource("2_81r38")]
 layout_mode = 2
-min_value = 1.0
-value = 1.0
-allow_greater = true
-allow_lesser = true
-alignment = 1
-update_on_text_changed = true

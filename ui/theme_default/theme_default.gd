@@ -385,6 +385,14 @@ func _generate_theme() -> void:
 	
 	sb = base_empty_sb.duplicate()
 	set_stylebox("panel", "ItemContainer", sb)
+
+	# ItemContainerFlat
+	
+	set_type_variation("ItemContainerFlat", "PanelContainer")
+	
+	sb = base_empty_sb.duplicate()
+	sb.set_content_margin_all(0)
+	set_stylebox("panel", "ItemContainerFlat", sb)
 	
 	# Label
 	
@@ -412,6 +420,25 @@ func _generate_theme() -> void:
 	set_stylebox("normal", "LineEdit", line_edit_sb)
 	set_stylebox("focus", "LineEdit", line_edit_focus_sb)
 	set_stylebox("disabled", "LineEdit", line_edit_disabled_sb)
+	
+	# LineEditPortraitOption
+	
+	set_type_variation("LineEditPortraitOption", "LineEdit")
+	
+	var po_line_edit_sb: StyleBoxFlat = line_edit_sb.duplicate()
+	
+	var po_line_edit_focus_sb: StyleBoxFlat = po_line_edit_sb.duplicate()
+	po_line_edit_focus_sb.draw_center = true
+	po_line_edit_focus_sb.bg_color = background_color
+	po_line_edit_focus_sb.set_border_width_all(1)
+	
+	var po_line_edit_disabled_sb: StyleBoxFlat = line_edit_disabled_sb.duplicate()
+	
+	set_color("font_uneditable_color", "LineEditPortraitOption", text_color)
+	set_color("font_color", "LineEditPortraitOption", text_color)
+	set_stylebox("normal", "LineEditPortraitOption", po_line_edit_sb)
+	set_stylebox("focus", "LineEditPortraitOption", po_line_edit_focus_sb)
+	set_stylebox("disabled", "LineEditPortraitOption", po_line_edit_disabled_sb)
 	
 	# MarginContainer
 	

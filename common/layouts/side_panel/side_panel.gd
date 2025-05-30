@@ -109,10 +109,15 @@ func _load_groups(item, graph_node: MonologueGraphNode, already_invoke) -> void:
 func _recursive_build_collapsible_field(parent: Control, item: Dictionary, group: String, graph_node: MonologueGraphNode, already_invoke: Array) -> CollapsibleField:
 	var fields = item[group]
 	var field_obj: CollapsibleField = collapsible_field.instantiate()
+	var field_margin = MarginContainer.new()
+	field_margin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	field_margin.add_theme_constant_override("margin_right", 0)
+	field_margin.add_theme_constant_override("margin_bottom", 0)
+	field_margin.add_child(field_obj)
 	if parent is CollapsibleField:
-		parent.add_item(field_obj)
+		parent.add_item(field_margin)
 	else:
-		parent.add_child(field_obj)
+		parent.add_child(field_margin)
 	field_obj.set_title(group)
 	
 	for field_name in fields:
@@ -121,16 +126,17 @@ func _recursive_build_collapsible_field(parent: Control, item: Dictionary, group
 				_recursive_build_collapsible_field(field_obj, field_name, sub_group, graph_node, already_invoke)
 			continue
 		
-		var property = graph_node.get(field_name)
+		var property: Property = graph_node.get(field_name)
 		var field = property.show(fields_container)
+		var field_container = property.field_container
 		
 		if property.custom_label != null:
 			field.set_label_text(property.custom_label)
 		else:
 			field.set_label_text(field_name.capitalize())
 
-		fields_container.remove_child(field)
-		field_obj.add_item(field)
+		fields_container.remove_child(field_container)
+		field_obj.add_item(field_container)
 		already_invoke.append(field_name)
 		
 		field.collapsible_field = field_obj

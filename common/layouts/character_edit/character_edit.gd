@@ -58,3 +58,10 @@ func _to_dict() -> Dictionary:
 	for section in linked_sections:
 		flat_map.merge(section._to_dict(), true)
 	return flat_map
+
+
+func _on_visibility_changed() -> void:
+	if visible:
+		GlobalSignal.emit("show_dimmer", [self])
+		return
+	GlobalSignal.emit("hide_dimmer", [self])

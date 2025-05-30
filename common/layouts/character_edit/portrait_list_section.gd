@@ -21,6 +21,7 @@ func _ready() -> void:
 	portraits.setters["add_callback"] = add_portrait
 	portraits.setters["get_callback"] = get_portraits
 	portraits.setters["flat"] = true
+	portraits.setters["expand"] = true
 	portraits.connect("preview", load_portraits)
 	portraits.connect("change", _on_portraits_change)
 	default_portrait.visible = false

@@ -2,6 +2,11 @@
 class_name MonologueList extends MonologueField
 
 
+@onready var button := $CollapsibleField/Button
+@onready var collapsible_container := $CollapsibleField/CollapsibleContainer
+@onready var vbox := $CollapsibleField/CollapsibleContainer/PanelContainer/VBox
+@onready var field_container := $CollapsibleField/CollapsibleContainer/PanelContainer/VBox/FieldContainer
+
 var delete_scene = preload("res://common/ui/buttons/delete_button.tscn")
 
 var add_callback: Callable = Constants.empty_callback
@@ -9,18 +14,21 @@ var delete_callback: Callable = func(list): return list
 var get_callback: Callable = Constants.empty_callback
 var data_list: Array = []
 var flat: bool = false
+var expand: bool = false
 
 
 func _ready() -> void:
 	collapsible_field = $CollapsibleField
 	collapsible_field.add_pressed.connect(_on_add_button_pressed)
+	collapsible_field.expand = expand
 	post_ready.call_deferred()
 	
 	if flat:
 		collapsible_field.separate_items = false
-		$CollapsibleField/Button.hide()
-		$CollapsibleField/CollapsibleContainer.add_theme_constant_override("margin_left", 0)
-		$CollapsibleField/CollapsibleContainer/PanelContainer/VboxContainer.remove_theme_constant_override("separation")
+		button.hide()
+		collapsible_container.add_theme_constant_override("margin_left", 0)
+		field_container.add_theme_constant_override("margin_left", 0)
+	collapsible_field._update()
 
 
 func post_ready() -> void:
@@ -30,12 +38,11 @@ func post_ready() -> void:
 
 ## Add a new option node into the list and show its fields in the vbox.
 func append_list_item(item) -> void:
-	var panel = create_item_container()
+	var panel := create_flat_item_container() if flat else create_item_container()
 	var field_box = create_item_vbox(panel)
-	
 	collapsible_field.add_item(panel, true)
 	for property_name in item.get_property_names():
-		var field = item.get(property_name).show(field_box)
+		var field = item.get(property_name).show(field_box, false)
 		field.set_label_text(Util.to_key_name(property_name, " "))
 	var identifier = item.id.value if "id" in item else item.name.value
 	
@@ -53,6 +60,12 @@ func clear_list():
 func create_item_container() -> PanelContainer:
 	var item_container = PanelContainer.new()
 	item_container.theme_type_variation = "ItemContainer"
+	return item_container
+
+
+func create_flat_item_container() -> PanelContainer:
+	var item_container = PanelContainer.new()
+	item_container.theme_type_variation = "ItemContainerFlat"
 	return item_container
 
 

@@ -1,4 +1,5 @@
-[gd_scene load_steps=28 format=3 uid="uid://bqjfdabrxujp7"]
+[gd_scene load_steps=10 format=3 uid="uid://bqjfdabrxujp7"]
+
 [ext_resource type="Script" uid="uid://q6eg6rid6xqd" path="res://scenes/main/monologue_control.gd" id="1_r00lk"]
 [ext_resource type="PackedScene" uid="uid://dgvhvxdrd58qp" path="res://common/layouts/side_panel/side_panel.tscn" id="6_3jc6d"]
 [ext_resource type="PackedScene" uid="uid://cb3se7h7akt47" path="res://common/layouts/language_switcher/language_switcher.tscn" id="6_nqv8k"]
@@ -6,9 +7,6 @@
 [ext_resource type="Script" uid="uid://q0oqx6butjwn" path="res://scenes/main/search_bar_container.gd" id="7_eu0e0"]
 [ext_resource type="PackedScene" uid="uid://cvum3eaenloix" path="res://common/layouts/search_bar/search_bar.tscn" id="8_tvorm"]
 [ext_resource type="Script" uid="uid://nxistnt1yhxc" path="res://scenes/main/graph_edit_switcher.gd" id="11_k843q"]
-[ext_resource type="Script" uid="uid://cfcj8vxsncvae" path="res://common/layouts/expanded_text_edit/expanded_text_edit_container.gd" id="12_jdwju"]
-[ext_resource type="PackedScene" uid="uid://c7cf7rfwnhf77" path="res://common/layouts/character_edit/character_edit.tscn" id="13_k1v36"]
-[ext_resource type="Script" uid="uid://dpp03lxtpf520" path="res://common/windows/welcome_window/recent_file_container.gd" id="14_xsog8"]
 [ext_resource type="Texture2D" uid="uid://b272tbdmvxj20" path="res://ui/assets/icons/play.svg" id="15_hn16p"]
 
 [sub_resource type="GDScript" id="GDScript_lenro"]
@@ -194,142 +192,5 @@ script = ExtResource("7_eu0e0")
 visible = false
 layout_mode = 2
 
-[node name="CharacterEditContainer" parent="." instance=ExtResource("13_k1v36")]
-layout_mode = 1
-
-[node name="ExpandedTextEditContainer" parent="." instance=ExtResource("9_v3rw4")]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
-script = ExtResource("12_jdwju")
-
-[node name="GraphNodePicker" parent="." node_paths=PackedStringArray("switcher") instance=ExtResource("19_myvjg")]
-initial_position = 1
-visible = false
-switcher = NodePath("../MarginContainer/MainContainer/GraphEditsArea/GraphEditSwitcher")
-
-[node name="PreviewWindow" parent="." instance=ExtResource("19_gp2ng")]
-visible = false
-
-[node name="WelcomeWindow" type="Window" parent="."]
-transparent_bg = true
-initial_position = 2
-size = Vector2i(450, 235)
-wrap_controls = true
-transient = true
-transient_to_focused = true
-exclusive = true
-unresizable = true
-borderless = true
-always_on_top = true
-transparent = true
-content_scale_mode = 2
-content_scale_aspect = 1
-script = ExtResource("3_bs36t")
-
-[node name="PanelContainer" type="PanelContainer" parent="WelcomeWindow"]
-clip_children = 2
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="WelcomeWindow/PanelContainer"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="MarginContainer2" type="MarginContainer" parent="WelcomeWindow/PanelContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 50
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 50
-theme_override_constants/margin_bottom = 10
-
-[node name="TextureRect" type="TextureRect" parent="WelcomeWindow/PanelContainer/VBoxContainer/MarginContainer2"]
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-texture = ExtResource("10_m5ce4")
-expand_mode = 5
-stretch_mode = 5
-
-[node name="MarginContainer" type="MarginContainer" parent="WelcomeWindow/PanelContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="CenterContainer" type="CenterContainer" parent="WelcomeWindow/PanelContainer/VBoxContainer/MarginContainer"]
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="WelcomeWindow/PanelContainer/VBoxContainer/MarginContainer/CenterContainer"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="HBoxContainer" type="HBoxContainer" parent="WelcomeWindow/PanelContainer/VBoxContainer/MarginContainer/CenterContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 40
-
-[node name="NewFileBtn" type="Button" parent="WelcomeWindow/PanelContainer/VBoxContainer/MarginContainer/CenterContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-mouse_default_cursor_shape = 2
-text = "New File"
-icon = ExtResource("16_x1vtb")
-
-[node name="OpenFileBtn" type="Button" parent="WelcomeWindow/PanelContainer/VBoxContainer/MarginContainer/CenterContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-mouse_default_cursor_shape = 2
-text = "Open File..."
-icon = ExtResource("17_g5nwh")
-
-[node name="RecentFilesContainer" type="VBoxContainer" parent="WelcomeWindow/PanelContainer/VBoxContainer/MarginContainer/CenterContainer/VBoxContainer" node_paths=PackedStringArray("button_container")]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-script = ExtResource("14_xsog8")
-button_container = NodePath("RecentFilesButtonContainer")
-
-[node name="RecentFilesLabel" type="Label" parent="WelcomeWindow/PanelContainer/VBoxContainer/MarginContainer/CenterContainer/VBoxContainer/RecentFilesContainer"]
-layout_mode = 2
-text = "Recent files"
-label_settings = SubResource("LabelSettings_1l82f")
-
-[node name="RecentFilesButtonContainer" type="VBoxContainer" parent="WelcomeWindow/PanelContainer/VBoxContainer/MarginContainer/CenterContainer/VBoxContainer/RecentFilesContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 3
-
-[node name="VersionLabel" type="Label" parent="WelcomeWindow/PanelContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-text = "v.X.X.X"
-label_settings = SubResource("LabelSettings_7mcdy")
-
-[node name="CloseButton" parent="WelcomeWindow/PanelContainer" instance=ExtResource("17_af4y3")]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-
-[node name="FileDialog" type="FileDialog" parent="."]
-size = Vector2i(419, 175)
-access = 2
-use_native_dialog = true
-script = ExtResource("20_2dvte")
-
-[connection signal="about_to_popup" from="MarginContainer/MainContainer/GraphEditsArea/ToolBarContainer/VBoxContainer/CenterContainer/ToolBar/Left/HBoxContainer/MainPopupMenu" to="MarginContainer/MainContainer/GraphEditsArea/ToolBarContainer/VBoxContainer/CenterContainer/ToolBar/Left/HBoxContainer/MainPopupMenu" method="_on_about_to_popup"]
-[connection signal="pressed" from="MarginContainer/MainContainer/GraphEditsArea/ToolBarContainer/VBoxContainer/CenterContainer/ToolBar/Left/HBoxContainer/AddNodeBtn" to="MarginContainer/MainContainer/GraphEditsArea/ToolBarContainer/VBoxContainer/CenterContainer/ToolBar/Left/HBoxContainer/AddNodeBtn" method="_on_pressed"]
-[connection signal="pressed" from="MarginContainer/MainContainer/GraphEditsArea/ToolBarContainer/VBoxContainer/CenterContainer/ToolBar/Right/HBoxContainer/RunButton" to="MarginContainer/MainContainer/GraphEditsArea/ToolBarContainer/VBoxContainer/CenterContainer/ToolBar/Right/HBoxContainer/RunButton" method="_on_pressed"]
-[connection signal="pressed" from="WelcomeWindow/PanelContainer/VBoxContainer/MarginContainer/CenterContainer/VBoxContainer/HBoxContainer/NewFileBtn" to="WelcomeWindow" method="_on_new_file_btn_pressed"]
-[connection signal="pressed" from="WelcomeWindow/PanelContainer/VBoxContainer/MarginContainer/CenterContainer/VBoxContainer/HBoxContainer/OpenFileBtn" to="WelcomeWindow" method="_on_open_file_btn_pressed"]
-[connection signal="pressed" from="WelcomeWindow/PanelContainer/CloseButton" to="." method="close_welcome_tab"]
-[connection signal="file_selected" from="FileDialog" to="FileDialog" method="_on_file_selected"]
-[connection signal="files_selected" from="FileDialog" to="FileDialog" method="_on_files_selected"]
 [connection signal="pressed" from="MainContainer/GraphEditsArea/ToolBarContainer/VBoxContainer/CenterContainer/ToolBar/Left/HBoxContainer/AddNodeBtn" to="MainContainer/GraphEditsArea/ToolBarContainer/VBoxContainer/CenterContainer/ToolBar/Left/HBoxContainer/AddNodeBtn" method="_on_pressed"]
 [connection signal="pressed" from="MainContainer/GraphEditsArea/ToolBarContainer/VBoxContainer/CenterContainer/ToolBar/Right/HBoxContainer/RunButton" to="MainContainer/GraphEditsArea/ToolBarContainer/VBoxContainer/CenterContainer/ToolBar/Right/HBoxContainer/RunButton" method="_on_pressed"]

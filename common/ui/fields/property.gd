@@ -99,6 +99,7 @@ func show(panel: Control, child_index: int = -1, auto_margin: bool = true) -> Mo
 	
 	field_container = MarginContainer.new()
 	field_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	field_container.size_flags_vertical = field.size_flags_vertical
 	field_container.add_theme_constant_override("margin_right", 0)
 	field_container.add_theme_constant_override("margin_bottom", 0)
 	if field is CollapsibleField or field is MonologueList or not auto_margin:
