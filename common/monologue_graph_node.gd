@@ -27,6 +27,7 @@ const LEFT_SLOT = preload("res://ui/assets/icons/slot.svg")
 const RIGHT_SLOT = preload("res://ui/assets/icons/slot.svg")
 
 var id := Property.new(LINE, {}, IDGen.generate())
+var editor_position := Property.new(VECTOR, {}, [0.0, 0.0])
 var node_type: String = "NodeUnknown"
 
 
@@ -39,12 +40,29 @@ func _ready() -> void:
 	id.setters["copyable"] = true
 	id.setters["validator"] = _validate_id
 	id.callers["set_label_visible"] = [false]
+	editor_position.display.connect(_on_editor_position_change)
+	editor_position.visible = false
 	for property_name in get_property_names():
 		get(property_name).connect("change", change.bind(property_name))
 		get(property_name).connect("display", display)
 	
 	_update_slot_icons()
 	_harmonize_size.call_deferred()
+	
+	dragged.connect(_on_dragged)
+
+
+func _on_dragged(_from: Vector2 = Vector2.ZERO, _to: Vector2 = Vector2.ZERO) -> void:
+	var new_editor_position: Array = [
+		position_offset.x, position_offset.y
+	]
+	editor_position.save_value(new_editor_position)
+
+
+func _on_editor_position_change() -> void:
+	await get_tree().process_frame
+	position_offset.x = editor_position.value[0]
+	position_offset.y = editor_position.value[1]
 
 
 func _update_slot_icons() -> void:
@@ -138,6 +156,14 @@ func reload_preview() -> void:
 
 
 func _from_dict(dict: Dictionary) -> void:
+	var editor_pos = dict.get("EditorPosition")
+	if editor_pos is Dictionary:
+		editor_pos = [
+			editor_pos.get("x", 0),
+			editor_pos.get("y", 0)
+		]
+		dict["EditorPosition"] = editor_pos
+	
 	for key in dict.keys():
 		var property = get(key.to_snake_case())
 		if property is Property:
@@ -159,21 +185,24 @@ func _load_connections(data: Dictionary, key: String = "NextID") -> void:
 
 
 func _load_position(data: Dictionary) -> void:
-	var editor_position = data.get("EditorPosition")
-	if editor_position:
-		position_offset.x = editor_position.get("x", randi_range(-400, 400))
-		position_offset.y = editor_position.get("y", randi_range(-200, 200))
+	var editor_pos = data.get("EditorPosition")
+	if editor_pos and editor_pos is Dictionary: # Backward compatibility
+		position_offset.x = editor_pos.get("x", randi_range(-400, 400))
+		position_offset.y = editor_pos.get("y", randi_range(-200, 200))
+	elif editor_position and editor_pos is Array:
+		position_offset.x = editor_pos[0]
+		position_offset.y = editor_pos[1]
 
 
 func _to_dict() -> Dictionary:
-	var base_dict = { "$type": node_type, "ID": id.value }
+	var base_dict = { "$type": node_type, "ID": id.value, "EditorPosition": editor_position.value }
 	_to_next(base_dict)
 	_to_fields(base_dict)
 	
-	base_dict["EditorPosition"] = {
-			"x": int(position_offset.x),
-			"y": int(position_offset.y)
-	}
+	#base_dict["EditorPosition"] = {
+			#"x": int(position_offset.x),
+			#"y": int(position_offset.y)
+	#}
 	return base_dict
 
 

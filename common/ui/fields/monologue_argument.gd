@@ -42,7 +42,7 @@ func create_representation(parent: Control) -> HBoxContainer:
 	representation.add_child(type_label)
 	
 	var value_label = Label.new()
-	value_label.theme_type_variation = "Label_NodeValue"
+	value_label.theme_type_variation = "NodeValue"
 	value_label.text = str(value.value) if value.value is not String or \
 			value.value != "" else "value"
 	representation.add_child(value_label)

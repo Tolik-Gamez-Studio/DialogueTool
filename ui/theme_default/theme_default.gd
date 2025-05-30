@@ -400,6 +400,8 @@ func _generate_theme() -> void:
 	set_type_variation("NoteLabel", "Label")
 	set_type_variation("WarnLabel", "Label")
 	sb = base_sb.duplicate()
+	sb.content_margin_top = base_spacing/2
+	sb.content_margin_bottom = base_spacing/2
 	set_color("font_color", "Label", text_color)
 	set_color("font_color", "NodeValue", text_color)
 	set_color("font_color", "NoteLabel", _get_text_color(0.6))

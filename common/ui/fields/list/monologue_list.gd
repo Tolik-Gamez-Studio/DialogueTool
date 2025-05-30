@@ -42,6 +42,9 @@ func append_list_item(item) -> void:
 	var field_box = create_item_vbox(panel)
 	collapsible_field.add_item(panel, true)
 	for property_name in item.get_property_names():
+		var property = item.get(property_name)
+		if not property.visible:
+			continue
 		var field = item.get(property_name).show(field_box, false)
 		field.set_label_text(Util.to_key_name(property_name, " "))
 	var identifier = item.id.value if "id" in item else item.name.value
@@ -76,13 +79,8 @@ func create_item_vbox(panel: PanelContainer) -> VBoxContainer:
 
 
 func create_delete_button(field_box: VBoxContainer, id: Variant) -> void:
-	# var delete_container = MarginContainer.new()
-	# delete_container.add_theme_constant_override("margin_top", 0)
-	# delete_container.add_theme_constant_override("margin_right", 0)
-	# delete_container.add_theme_constant_override("margin_bottom", 0)
 	var delete_button = delete_scene.instantiate()
 	delete_button.connect("pressed", _on_delete_button_pressed.bind(id))
-	# delete_container.add_child(delete_button, true)
 	
 	var first_hbox = _find_first_hbox(field_box)
 	if first_hbox:
@@ -96,7 +94,6 @@ func set_label_text(text: String) -> void:
 
 
 func set_label_visible(_can_see: bool) -> void:
-	#list_label.visible = can_see
 	pass
 
 
@@ -111,7 +108,7 @@ func propagate(data: Variant) -> void:
 
 func _find_first_hbox(control: Control) -> HBoxContainer:
 	for child in control.get_children():
-		if child is HBoxContainer:
+		if child is HBoxContainer and child.visible:
 			return child
 		else:
 			var recursive = _find_first_hbox(child)
@@ -122,6 +119,8 @@ func _find_first_hbox(control: Control) -> HBoxContainer:
 
 func _on_add_button_pressed() -> void:
 	# the add_callback creates the actual instance in its source node
+	data_list = get_callback.call()
+	data_list = data_list.map(func(r): return r._to_dict())
 	var new_item = add_callback.call()
 	data_list.append(new_item._to_dict.call())
 	append_list_item(new_item)

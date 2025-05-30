@@ -1,11 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://qd3nbp87ls3r"]
+[gd_scene load_steps=3 format=3 uid="uid://qd3nbp87ls3r"]
 
 [ext_resource type="Script" uid="uid://c8qi7r33gmf1i" path="res://nodes/setter_node/setter_node.gd" id="3_3ny3s"]
 
 [sub_resource type="Theme" id="Theme_llmqa"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_v4ya3"]
-font_color = Color(0.572549, 0.572549, 0.572549, 1)
 
 [node name="SetterNode" type="GraphNode" groups=["graph_nodes"]]
 offset_right = 300.0
@@ -46,9 +43,8 @@ text = "Enable option"
 
 [node name="OptionIdLabel" type="Label" parent="OptionContainer"]
 layout_mode = 2
-theme_type_variation = &"Label_NodeValue"
+theme_type_variation = &"NodeValue"
 text = "option id"
-label_settings = SubResource("LabelSettings_v4ya3")
 
 [node name="QuestionLabel" type="Label" parent="OptionContainer"]
 layout_mode = 2
@@ -56,9 +52,8 @@ text = "?"
 
 [node name="BoolLabel" type="Label" parent="OptionContainer"]
 layout_mode = 2
-theme_type_variation = &"Label_NodeValue"
+theme_type_variation = &"NodeValue"
 text = "value"
-label_settings = SubResource("LabelSettings_v4ya3")
 
 [node name="VariableContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -71,19 +66,16 @@ text = "Set"
 
 [node name="VariableLabel" type="Label" parent="VariableContainer"]
 layout_mode = 2
-theme_type_variation = &"Label_NodeValue"
+theme_type_variation = &"NodeValue"
 text = "variable"
-label_settings = SubResource("LabelSettings_v4ya3")
 
 [node name="OperatorLabel" type="Label" parent="VariableContainer"]
 layout_mode = 2
-theme_type_variation = &"Label_NodeValue"
+theme_type_variation = &"NodeValue"
 text = "operator"
-label_settings = SubResource("LabelSettings_v4ya3")
 
 [node name="ValueLabel" type="Label" parent="VariableContainer"]
 layout_mode = 2
-theme_type_variation = &"Label_NodeValue"
-text = "value
-"
-label_settings = SubResource("LabelSettings_v4ya3")
+size_flags_horizontal = 4
+theme_type_variation = &"NodeValue"
+text = "value"

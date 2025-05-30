@@ -14,7 +14,7 @@ corner_radius_bottom_left = 2
 
 [node name="CharacterNode" type="GraphNode" groups=["graph_nodes"]]
 offset_right = 245.0
-offset_bottom = 160.0
+offset_bottom = 136.0
 size_flags_vertical = 0
 theme_override_styles/titlebar = SubResource("StyleBoxFlat_ryo67")
 title = "NodeCharacter"

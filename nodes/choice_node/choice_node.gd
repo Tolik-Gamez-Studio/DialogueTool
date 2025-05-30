@@ -16,6 +16,7 @@ func _ready():
 	options.setters["get_callback"] = get_children
 	options.callers["set_label_visible"] = [false]
 	options.connect("preview", _refresh)
+	editor_position.set_visible(false)
 	GlobalSignal.add_listener("language_deleted", store_options)
 	
 	if get_child_count() <= 0:
@@ -70,12 +71,7 @@ func link_option(option: OptionNode, link: bool = true):
 
 func reload_preview() -> void:
 	var nodes = get_children().map(func(o): return o._to_dict())
-	_refresh(nodes)
-
-
-func restore_options(options_value: Array) -> void:
-	options.value = options_value
-	_refresh(options_value)
+	#_refresh(nodes)
 
 
 func store_options(_name, _rest: Dictionary, choices: Dictionary) -> void:

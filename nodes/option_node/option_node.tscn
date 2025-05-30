@@ -52,14 +52,29 @@ layout_mode = 2
 mouse_filter = 2
 theme_type_variation = &"VBoxContainer_Small"
 
-[node name="CountLabel" type="Label" parent="VBox"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBox"]
+custom_minimum_size = Vector2(0, 29)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.686275, 0.686275, 0.686275, 1)
+
+[node name="CountLabel" type="Label" parent="VBox/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"NoteLabel"
 text = "Option 1"
-text_overrun_behavior = 3
+
+[node name="EbDLabel" type="Label" parent="VBox/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"NodeValue"
+text = "Enable by default"
+
+[node name="OneShotLabel" type="Label" parent="VBox/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"NodeValue"
+text = "One-shot"
 
 [node name="PreviewLabel" type="Label" parent="VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.686275, 0.686275, 0.686275, 1)
 clip_text = true
 text_overrun_behavior = 3

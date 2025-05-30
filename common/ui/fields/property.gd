@@ -111,6 +111,7 @@ func show(panel: Control, child_index: int = -1, auto_margin: bool = true) -> Mo
 	
 	field_container.add_child(field)
 	panel.add_child(field_container)
+	_check_visibility()
   
 	if child_index >= 0:
 		panel.move_child(field_container, child_index)
