@@ -69,14 +69,15 @@ func link_option(option: OptionNode, link: bool = true):
 				get_parent().disconnect_node(name, index, next_node.name, 0)
 
 
-func reload_preview() -> void:
-	var nodes = get_children().map(func(o): return o._to_dict())
-	#_refresh(nodes)
-
-
 func store_options(_name, _rest: Dictionary, choices: Dictionary) -> void:
 	var nodes = get_children().map(func(o): return o._to_dict())
 	choices[self] = nodes
+
+
+func reload_preview() -> void:
+	var nodes = get_children()
+	for node in nodes:
+		node.reload_preview()
 
 
 ## Update the NextID of this choice node on the given port.
@@ -119,6 +120,11 @@ func _refresh(new_options_list: Array):
 	for new_option_data in new_options_list:
 		add_option(new_option_data)
 	_update()
+
+
+func restore_options(options_value: Array) -> void:
+	options.value = options_value
+	_refresh(options_value)
 
 
 func _to_fields(dict: Dictionary) -> void:

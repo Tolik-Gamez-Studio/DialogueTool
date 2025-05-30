@@ -9,6 +9,8 @@ var next_id := Property.new(LINE, {}, -1)
 @onready var choice_node = get_parent()
 @onready var count_label = %CountLabel
 @onready var preview_label = $VBox/PreviewLabel
+@onready var ebd_label = %EbDLabel
+@onready var one_shot_label = %OneShotLabel
 
 
 func _ready() -> void:
@@ -32,20 +34,31 @@ func get_graph_edit() -> MonologueGraphEdit:
 	return choice_node.get_graph_edit()
 
 
+func reload_preview() -> void:
+	preview_label.text = option.value
+
 func set_count(number: int) -> void:
 	count_label.text = "Option %d" % number
 
 
 func _update(_value: Variant = null) -> void:
-	%EbDLabel.visible = enable_by_default.value
-	%OneShotLabel.visible = one_shot.value
+	if ebd_label and one_shot_label:
+		ebd_label.visible = enable_by_default.value
+		one_shot_label.visible = one_shot.value
 
 
 func update_parent(_old_value = "", _new_value = "") -> void:
+	var old_option = choice_node.options.value[get_index()]
+	var new_options = choice_node.options.value.duplicate(true)
+	new_options[get_index()] = old_option.merged(_to_dict(), true)
+	choice_node.options.value = new_options
+	
 	_update()
 
 
 func _from_dict(dict: Dictionary) -> void:
+	option.value = dict.get("Sentence", "")
+	enable_by_default.value = dict.get("Enable", false)
 	super._from_dict(dict)
 
 

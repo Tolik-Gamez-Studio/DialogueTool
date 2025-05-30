@@ -133,7 +133,7 @@ func test_update_parent():
 		"$type": "NodeOption",
 		"ID": "upid",
 		"NextID": -1,
-		"Option": {"Lang2": "tu vies bien"},
+		"Option": {"Lang2": "tu vis bien"},
 		"EnableByDefault": false,
 		"OneShot": true
 	}]
