@@ -16,9 +16,6 @@ layout_mode = 2
 
 [node name="FieldLabel" parent="HBox" instance=ExtResource("2_v8fwd")]
 layout_mode = 2
-text = "Value"
-size_flags_vertical = 0
-layout_mode = 2
 
 [node name="InnerVBox" type="VBoxContainer" parent="HBox"]
 layout_mode = 2
@@ -64,4 +61,3 @@ autowrap_mode = 3
 [connection signal="text_changed" from="HBox/InnerVBox/LineEdit" to="." method="_on_text_changed"]
 [connection signal="text_submitted" from="HBox/InnerVBox/LineEdit" to="." method="_on_text_submitted"]
 [connection signal="pressed" from="HBox/InnerVBox/LineEdit/HBoxContainer/CopyButton" to="." method="_on_copy_button_pressed"]
-
