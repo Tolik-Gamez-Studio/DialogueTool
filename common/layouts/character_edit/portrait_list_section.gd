@@ -14,6 +14,7 @@ var references: Array[AbstractPortraitOption] = []
 @onready var portrait_settings_section := %PortraitSettingsSection
 @onready var timeline_section := %TimelineSection
 @onready var preview_section := %PreviewSection
+@onready var scroll_container := $ScrollContainer
 
 
 func _ready() -> void:
@@ -143,6 +144,9 @@ func _update_option(selected_option: PortraitOption) -> void:
 			option.release_active()
 	portrait_selected.emit()
 	_update_portrait()
+	
+	await get_tree().process_frame
+	scroll_container.ensure_control_visible(selected_option)
 
 
 func _sync_references() -> void:

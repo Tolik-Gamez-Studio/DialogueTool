@@ -49,10 +49,17 @@ caret_blink = true
 text_direction = 1
 
 [node name="Button" type="Button" parent="MarginContainer/HBoxContainer/Control"]
+unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = -1
+anchor_left = -0.047
+anchor_top = -0.167
+anchor_right = 1.081
+anchor_bottom = 1.167
+offset_left = 0.0420003
+offset_top = 0.00800037
+offset_right = 0.033989
+offset_bottom = -0.00800133
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1

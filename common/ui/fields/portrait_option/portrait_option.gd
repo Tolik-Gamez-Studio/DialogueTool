@@ -6,7 +6,7 @@ signal name_submitted(this_option: PortraitOption)
 
 @onready var line_edit: LineEdit = %LineEdit
 @onready var btn_star := $MarginContainer/HBoxContainer/HBoxContainer/btnStar
-@onready var button := $MarginContainer/HBoxContainer/Control/Button
+@onready var button := %Button
 
 @onready var active_stylebox: StyleBoxFlat = StyleBoxFlat.new()
 @onready var star_icon := preload("res://ui/assets/icons/star.svg")
@@ -90,7 +90,7 @@ func _on_button_pressed() -> void:
 
 
 func _on_button_gui_input(event: InputEvent) -> void:
-	if is_active and event is InputEventMouseButton and event.is_pressed():
+	if is_active and event is InputEventMouseButton and event.is_pressed() and event.double_click:
 		_on_btn_edit_pressed()
 
 
