@@ -3,11 +3,11 @@ class_name PortraitSettingsSection extends PortraitEditSection
 @warning_ignore("unused_signal")
 signal changed
 
-var portrait_type := Property.new(MonologueGraphNode.DROPDOWN, {}, "Image")
-var image_path := Property.new(MonologueGraphNode.FILE, { "filters": FilePicker.IMAGE })
-var offset := Property.new(MonologueGraphNode.VECTOR, {}, [0, 0])
-var mirror := Property.new(MonologueGraphNode.TOGGLE, {}, false)
-var one_shot := Property.new(MonologueGraphNode.TOGGLE, {}, false)
+var portrait_type := Property.new(MonologueGraphNode.DROPDOWN, {}, "Image", "PortraitType")
+var image_path := Property.new(MonologueGraphNode.FILE, { "filters": FilePicker.IMAGE }, "", "ImagePath")
+var offset := Property.new(MonologueGraphNode.VECTOR, {}, [0, 0], "Offset")
+var mirror := Property.new(MonologueGraphNode.TOGGLE, {}, false, "Mirror")
+var one_shot := Property.new(MonologueGraphNode.TOGGLE, {}, false, "OneShot")
 
 @onready var preview_section := %PreviewSection
 @onready var timeline_section: TimelineSection = %TimelineSection
@@ -17,7 +17,7 @@ var base_path: String : set = _set_base_path
 
 var _control_groups = {
 	"Image": [portrait_type, image_path, offset, mirror],
-	"Animation": [portrait_type, image_path, offset, mirror, one_shot],
+	"Animation": [portrait_type, offset, mirror, one_shot],
 }
 
 
@@ -75,7 +75,7 @@ func _on_portrait_type_change(_old_value: Variant = null, _new_value: Variant = 
 
 
 func _on_image_path_change(_old_value: Variant = null, new_value: Variant = null) -> void:
-	if not new_value:
+	if not new_value or not image_path.field:
 		return
 	
 	var is_valid: bool = image_path.field.validate(image_path.value)
@@ -96,10 +96,6 @@ func _on_mirror_change(_old_value: Variant = null, new_value: Variant = null) ->
 
 
 func _show_group(prt_type: Variant = portrait_type.value) -> void:
-	for key in _control_groups.keys():
-		for property: Property in _control_groups.get(key):
-			property.set_visible(true)
-			
 	var group = _control_groups.get(prt_type)
 	for key in _control_groups.keys():
 		for property: Property in _control_groups.get(key):

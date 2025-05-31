@@ -171,8 +171,10 @@ func _to_sprite_frames() -> SpriteFrames:
 			var idx = cells.find(cell)
 			frame_duration = get_frame_duration(idx)
 		
-			if FileAccess.file_exists(cell.image_path):
-				texture = ImageLoader.load_image(cell.image_path)
+			var root_dir = timeline.base_path.get_base_dir() + Path.get_separator()
+			var frame_path: String = Path.relative_to_absolute(cell.image_path, root_dir)
+			if FileAccess.file_exists(frame_path):
+				texture = ImageLoader.load_image(frame_path)
 		else:
 			texture = Texture2D.new()
 		

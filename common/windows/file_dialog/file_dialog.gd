@@ -34,6 +34,9 @@ func _on_open_files_request(callable: Callable,
 	ok_button_text = "Open"
 	file_mode = FileDialog.FILE_MODE_OPEN_FILES
 	
+	if not files_selected.is_connected(_on_files_selected):
+		files_selected.connect(_on_files_selected)
+		
 	_core_request(callable, filter_list, root_subdir)
 
 

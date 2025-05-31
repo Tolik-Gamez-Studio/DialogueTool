@@ -55,7 +55,7 @@ func _from_dict(dict: Dictionary) -> void:
 			var property = get(entry.name)
 			var is_value = property is Property
 			var is_raw = property is Localizable
-			if property and (is_value or is_raw) and property.visible:
+			if property and (is_value or is_raw):
 				if is_value:
 					property.value = dict.get(key, property.default_value)
 				elif is_raw:

@@ -35,7 +35,8 @@ func _ready() -> void:
 
 func _update() -> void:
 	if not is_exposure and not image_path.is_empty():
-		texture_rect.texture = ImageLoader.load_thumbnail(image_path)
+		var root_dir = timeline.timeline.base_path.get_base_dir() + Path.get_separator()
+		texture_rect.texture = ImageLoader.load_thumbnail(Path.relative_to_absolute(image_path, root_dir))
 	
 	texture_container.visible = !is_exposure
 	line_indicator.visible = is_exposure
