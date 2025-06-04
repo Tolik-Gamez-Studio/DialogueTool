@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup gdtoolkit
-        uses: Scony/godot-gdscript-toolkit@v4
+        uses: Scony/godot-gdscript-toolkit@master
 
       - name: Lint
         run: gdlint .
@@ -32,7 +32,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup gdtoolkit
-        uses: Scony/godot-gdscript-toolkit@v4
+        uses: Scony/godot-gdscript-toolkit@master
 
       - name: Check formatting
         run: gdformat --check .
