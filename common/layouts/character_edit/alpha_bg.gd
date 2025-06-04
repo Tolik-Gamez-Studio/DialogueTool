@@ -1,6 +1,5 @@
 extends ColorRect
 
-
 @export var square_scale: float = 1.0
 
 
@@ -11,7 +10,7 @@ func _ready() -> void:
 
 func _draw() -> void:
 	var square_size: float = 5.0 * square_scale
-	
+
 	for x in range(0, size.x, square_size):
 		for y in range(0, size.y, square_size):
 			var rect_color: Color = Color("c0c0c0")

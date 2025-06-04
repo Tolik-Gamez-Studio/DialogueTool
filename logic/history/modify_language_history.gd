@@ -1,6 +1,5 @@
 class_name ModifyLanguageHistory extends MonologueHistory
 
-
 ## Graph edit which owns the languages.
 var graph_edit: MonologueGraphEdit
 ## Node path to the language option that is being modified.
@@ -11,13 +10,12 @@ var before_name: String
 var after_name: String
 
 
-func _init(graph: MonologueGraphEdit, path: String,
-		old_name: String, new_name: String) -> void:
+func _init(graph: MonologueGraphEdit, path: String, old_name: String, new_name: String) -> void:
 	graph_edit = graph
 	node_name = path
 	before_name = old_name
 	after_name = new_name
-	
+
 	_undo_callback = revert
 	_redo_callback = change
 

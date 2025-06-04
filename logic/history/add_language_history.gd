@@ -1,6 +1,5 @@
 class_name AddLanguageHistory extends MonologueHistory
 
-
 ## Graph edit which owns the languages.
 var graph_edit: MonologueGraphEdit
 ## Node name of the language option that is being added.
@@ -12,7 +11,7 @@ var language_name: String
 func _init(graph: MonologueGraphEdit, locale: String = "") -> void:
 	graph_edit = graph
 	language_name = locale
-	
+
 	_undo_callback = delete_language_option
 	_redo_callback = add_language_option
 
@@ -32,7 +31,7 @@ func delete_language_option() -> void:
 	GlobalVariables.language_switcher.remove_language(node)
 	graph_edit.languages.erase(language_name)
 	GlobalSignal.emit("show_languages")
-	
+
 	# update selection if selected_index exceeds language count
 	var languages = GlobalVariables.language_switcher.get_languages().keys()
 	if GlobalVariables.language_switcher.selected_index >= languages.size():

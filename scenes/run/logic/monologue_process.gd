@@ -1,7 +1,6 @@
 class_name MonologueProcess
 extends Control
 
-
 signal monologue_node_reached(raw_node: Dictionary)
 signal monologue_event_triggered(raw_event: Dictionary)
 signal monologue_sentence(text: String, display_name: String, speaker: String)
@@ -15,7 +14,7 @@ signal monologue_custom_action(raw_action: Dictionary)
 signal monologue_timer_started(wait_time: float)
 signal monologue_notify(level: NotificationLevel, message: String)
 
-enum NotificationLevel {INFO, DEBUG, WARN, ERROR, CRITICAL}
+enum NotificationLevel { INFO, DEBUG, WARN, ERROR, CRITICAL }
 
 var active_voiceline: AudioStreamPlayer2D
 var active_timer: Timer
@@ -37,8 +36,7 @@ func _init():
 func load_dialogue(json_path: String, custom_id: Variant = null) -> void:
 	var file = FileAccess.open(json_path, FileAccess.READ)
 	var data: Dictionary = JSON.parse_string(file.get_as_text())
-	
-	
+
 	base_path = file.get_path().get_base_dir()
 	root_node_id = data.get("RootNodeID")
 	node_list = data.get("ListNodes")
@@ -46,10 +44,10 @@ func load_dialogue(json_path: String, custom_id: Variant = null) -> void:
 	add_variables(data.get("Variables"))
 	events = node_list.filter(func(n): return n.get("$type") == "NodeEvent")
 	next_id = root_node_id if (custom_id is not String) else custom_id
-	
+
 	for option in node_list.filter(func(n): return n.get("$type") == "NodeOption"):
 		option["Enable"] = option.get("EnableByDefault")
-	
+
 	print("[INFO] Dialogue %s loaded" % json_path.get_file())
 
 
@@ -63,7 +61,7 @@ func next() -> void:
 	skip_timer()
 	skip_voiceline()
 	parse_events()
-	
+
 	if next_id is not String:
 		fallback()
 	var node = find_node_from_id(next_id)
@@ -83,10 +81,14 @@ func parse_events() -> void:
 		var c_value = c_dict.get("Value")
 		var condition_pass: bool
 		match c_dict.get("Operator"):
-			"==": condition_pass = v_value == c_value
-			">=": condition_pass = v_value >= c_value
-			"<=": condition_pass = v_value <= c_value
-			"!=": condition_pass = v_value != c_value
+			"==":
+				condition_pass = v_value == c_value
+			">=":
+				condition_pass = v_value >= c_value
+			"<=":
+				condition_pass = v_value <= c_value
+			"!=":
+				condition_pass = v_value != c_value
 		if condition_pass:
 			monologue_event_triggered.emit(event)
 			fallback_id = next_id
@@ -115,7 +117,7 @@ func process_node(node: Dictionary) -> void:
 		"NodeRoot", "NodeBridgeIn", "NodeBridgeOut", "NodeReroute":
 			next_id = node.get("NextID")
 			next()
-		
+
 		"NodeSentence":
 			next_id = node.get("NextID")
 			var sentence = process_conditional_text(localize(node.get("Sentence")))
@@ -123,7 +125,7 @@ func process_node(node: Dictionary) -> void:
 			var display_name = node.get("DisplayName", node.get("DisplaySpeakerName"))
 			if not display_name:
 				display_name = speaker_name
-			
+
 			var path = localize(node.get("VoicelinePath", ""))
 			if path:
 				if path.is_relative_path():
@@ -132,31 +134,32 @@ func process_node(node: Dictionary) -> void:
 				if active_voiceline:
 					monologue_play_voice.emit(path, active_voiceline)
 			monologue_sentence.emit(sentence, display_name, speaker_name)
-		
+
 		"NodeChoice":
 			var options: Array = []
 			for option_id in node.get("OptionsID"):
 				var option = find_node_from_id(option_id)
 				if not option:
-					monologue_notify.emit(NotificationLevel.WARN,
-							"Can't find option with id: %s" % option_id)
+					monologue_notify.emit(
+						NotificationLevel.WARN, "Can't find option with id: %s" % option_id
+					)
 					continue
 				if option.get("Enable") == false:
 					continue
 				option["Option"] = localize(option.get("Option", ""))
 				options.append(option)
 			monologue_new_choice.emit(options)
-		
+
 		"NodeRandom":
 			var picked_output: Dictionary = pick_random_output(node.get("Outputs"))
 			next_id = picked_output.get("NextID")
 			next()
-		
+
 		"NodeSetter":
 			next_id = node.get("NextID")
 			process_setter(node)
 			next()
-		
+
 		"NodeAction":
 			next_id = node.get("NextID")
 			if node.keys().has("Arguments"):
@@ -164,24 +167,24 @@ func process_node(node: Dictionary) -> void:
 				next()
 			else:
 				process_action(node.get("Action"))
-		
+
 		"NodeAudio":
 			next_id = node.get("NextID")
 			process_audio(node)
 			next()
-		
+
 		"NodeBackground":
 			next_id = node.get("NextID")
 			process_background(node)
 			next()
-		
+
 		"NodeCondition":
 			process_condition(node)
-		
+
 		"NodeWait":
 			next_id = node.get("NextID")
 			start_timer(node.get("Time", 0.0))
-		
+
 		"NodeEndPath":
 			monologue_end.emit(node)
 			next_story(node.get("NextStory", node.get("NextStoryName")))
@@ -190,12 +193,12 @@ func process_node(node: Dictionary) -> void:
 func pick_random_output(outputs):
 	var random_number: int = randi_range(0, 100)
 	var cumulative_weight: int = 0
-	
+
 	for output in outputs:
 		cumulative_weight += output.get("Weight")
 		if random_number <= cumulative_weight:
 			return output
-	
+
 	return null
 
 
@@ -205,17 +208,20 @@ func process_action(raw_action: Dictionary) -> void:
 		"ActionOption":
 			raw_action["SetType"] = "Option"
 			process_setter(raw_action)
-		
+
 		"ActionVariable":
 			raw_action["SetType"] = "Variable"
 			process_setter(raw_action)
-		
+
 		"ActionCustom":
 			match raw_action.get("CustomType"):
-				"PlayAudio": process_audio(raw_action)
-				"UpdateBackground": process_background(raw_action)
-				"Other": monologue_custom_action.emit(raw_action)
-		
+				"PlayAudio":
+					process_audio(raw_action)
+				"UpdateBackground":
+					process_background(raw_action)
+				"Other":
+					monologue_custom_action.emit(raw_action)
+
 		"ActionTimer":
 			start_timer(raw_action.get("Value", 0.0))
 			return  # return so next() is not called immediately
@@ -230,7 +236,7 @@ func process_audio(raw_audio: Dictionary) -> void:
 		if not FileAccess.file_exists(path):
 			var backup = "/assets/audios/"
 			path = base_path + backup + path.get_file()
-	
+
 	var volume = raw_audio.get("Volume")
 	var pitch = raw_audio.get("Pitch")
 	var loop = raw_audio.get("Loop")
@@ -252,15 +258,14 @@ func process_background(raw_bg: Dictionary) -> void:
 			var texture = ImageTexture.create_from_image(bg)
 			monologue_update_background.emit(path, texture)
 		else:
-			monologue_notify.emit(NotificationLevel.WARN,
-					"Failed to load background (%s)" % path)
+			monologue_notify.emit(NotificationLevel.WARN, "Failed to load background (%s)" % path)
 
 
 func process_condition(raw_condition: Dictionary) -> void:
 	var condition = raw_condition.get("Condition")  # v2.x compatibility
 	var c_dict = condition if condition else raw_condition
 	var variable = get_variable(c_dict.get("Variable"))
-	
+
 	if variable:
 		var if_nid = raw_condition.get("IfNextID")
 		var else_nid = raw_condition.get("ElseNextID")
@@ -268,10 +273,14 @@ func process_condition(raw_condition: Dictionary) -> void:
 		var c_val = c_dict.get("Value")
 		next_id = if_nid
 		match c_dict.get("Operator"):
-			"==": next_id = if_nid if v_val == c_val else else_nid
-			">=": next_id = if_nid if v_val >= c_val else else_nid
-			"<=": next_id = if_nid if v_val <= c_val else else_nid
-			"!=": next_id = if_nid if v_val != c_val else else_nid
+			"==":
+				next_id = if_nid if v_val == c_val else else_nid
+			">=":
+				next_id = if_nid if v_val >= c_val else else_nid
+			"<=":
+				next_id = if_nid if v_val <= c_val else else_nid
+			"!=":
+				next_id = if_nid if v_val != c_val else else_nid
 	else:
 		var var_name = variable.get("Name")
 		var warning = "Can't find variable %s. Skipping." % var_name
@@ -286,22 +295,28 @@ func process_setter(raw_setter: Dictionary) -> void:
 			var option_id = raw_setter.get("OptionID")
 			var value = raw_setter.get("Enable")
 			set_option_value(option_id, value if value is bool else false)
-		
+
 		"Variable":
 			var variable = get_variable(raw_setter.get("Variable"))
 			if variable:
 				var setter_value = raw_setter.get("Value")
 				match raw_setter.get("Operator"):
-					"=": variable["Value"] = setter_value
-					"+": variable["Value"] += setter_value
-					"-": variable["Value"] -= setter_value
-					"*": variable["Value"] *= setter_value
+					"=":
+						variable["Value"] = setter_value
+					"+":
+						variable["Value"] += setter_value
+					"-":
+						variable["Value"] -= setter_value
+					"*":
+						variable["Value"] *= setter_value
 					"/":
 						if setter_value != 0:
 							variable["Value"] /= setter_value
 						else:
-							monologue_notify.emit(NotificationLevel.WARN,
-								"Can't divide %s by 0." % variable.get("Name"))
+							monologue_notify.emit(
+								NotificationLevel.WARN,
+								"Can't divide %s by 0." % variable.get("Name")
+							)
 			else:
 				var warning = "Can't find variable. Skipping."
 				monologue_notify.emit(NotificationLevel.WARN, warning)
@@ -326,7 +341,7 @@ func evaluate_expression(expression: String) -> Variant:
 		if t_split.size() > 1:
 			# the first element is the "if <<variable>>" clause
 			var check = t_split[0].strip_edges().trim_prefix("if").lstrip(" ")
-			
+
 			# evaluate condition check to has_passed
 			var has_passed = false
 			var checker = Expression.new()
@@ -334,7 +349,7 @@ func evaluate_expression(expression: String) -> Variant:
 				var conditional = checker.execute([], checker, false)
 				if not checker.has_execute_failed() and conditional:
 					has_passed = bool(conditional)
-			
+
 			# select then or else clause depending on has_passed
 			var e_split = t_split[1].rsplit("else", false, 1)
 			if has_passed:
@@ -343,7 +358,7 @@ func evaluate_expression(expression: String) -> Variant:
 			else:
 				var else_value = e_split[1] if e_split.size() > 1 else ""
 				return evaluate_expression(else_value.strip_edges())
-	
+
 	var parser = Expression.new()
 	var result = null
 	if expression:
@@ -358,22 +373,22 @@ func substitute_variables(expression: String) -> String:
 	var results = subber.search_all(expression)
 	var start = 0
 	var builder = ""
-	
+
 	for result in results:
 		var text = result.get_string()
-		if text.contains("\"") or text.contains("'"):
+		if text.contains('"') or text.contains("'"):
 			continue
-		
+
 		var variable = get_variable(text)
 		if variable:
 			var value = str(variable.get("Value"))
 			# encase value in quotes if type is String
 			if variable.get("Type") == "String":
-				value = "\"" + value + "\""
+				value = '"' + value + '"'
 			builder += expression.substr(start, result.get_start() - start)
 			builder += value
 			start = result.get_end()
-	
+
 	builder += expression.substr(start, expression.length() - start)
 	return builder
 
@@ -414,23 +429,24 @@ func skip_timer() -> void:
 		active_timer.stop()
 
 
-func play_audio(path: String, loop: bool = false, volume: float = 0.0,
-			pitch: float = 1.0) -> AudioStreamPlayer2D:
+func play_audio(
+	path: String, loop: bool = false, volume: float = 0.0, pitch: float = 1.0
+) -> AudioStreamPlayer2D:
 	match SfxLoader.load_track(path, loop, volume, pitch):
 		ERR_FILE_NOT_FOUND:
 			var message = "Audio file %s not found!" % path.get_file()
 			monologue_notify.emit(NotificationLevel.ERROR, message)
-		
+
 		ERR_INVALID_PARAMETER:
 			var message = "Audio file extension not supported!"
 			monologue_notify.emit(NotificationLevel.ERROR, message)
-		
+
 		ERR_PARSE_ERROR:
 			var message = "Failed to parse audio %s!" % path.get_file()
 			if path.get_extension() == "wav":
 				message += " Only 8-bit and 16-bit WAV is supported."
 			monologue_notify.emit(NotificationLevel.ERROR, message)
-		
+
 		OK:
 			return SfxLoader.get_track()
 	return null
@@ -453,7 +469,7 @@ func set_option_value(option_id: String, value: bool) -> void:
 
 func select_option(raw_option: Dictionary) -> void:
 	monologue_option_chosen.emit(raw_option)
-	
+
 	if raw_option.keys().has("OneShot"):
 		next_id = raw_option.get("NextID", -1)
 		if raw_option.get("OneShot") == true:

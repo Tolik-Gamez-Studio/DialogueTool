@@ -1,6 +1,5 @@
 class_name PortraitListSection extends CharacterEditSection
 
-
 signal portrait_selected
 
 const DEFAULT_PORTRAIT_NAME = "new portrait %s"
@@ -43,7 +42,7 @@ func add_portrait(option_dict: Dictionary = {}) -> AbstractPortraitOption:
 	new_portrait.portrait.connecters[_on_portrait_option_set_to_default] = "set_to_default"
 	new_portrait.portrait.connecters[_on_portrait_option_name_submitted] = "name_submitted"
 	references.append(new_portrait)
-	
+
 	if new_portrait.idx.value == selected:
 		new_portrait.portrait.callers["set_active"] = []
 	else:
@@ -74,14 +73,14 @@ func load_portraits(new_portrait_list: Array) -> void:
 	references.clear()
 	var ascending = func(a, b): return a.get("EditorIndex") < b.get("EditorIndex")
 	new_portrait_list.sort_custom(ascending)
-	
+
 	for portrait_data in new_portrait_list:
 		var abstract_option = add_portrait(portrait_data)
 		if new_portrait_list.size() <= 1:
 			default_portrait.value = abstract_option.id.value
 		if default_portrait.value == abstract_option.id.value:
 			abstract_option.portrait.callers["set_default"] = []
-	
+
 	portraits.value = new_portrait_list
 	_update_portrait()
 
@@ -90,11 +89,11 @@ func load_portraits(new_portrait_list: Array) -> void:
 func select_option(index: int) -> void:
 	if selected == index:
 		return
-	
+
 	selected = index
 	if index < 0:
 		return
-	
+
 	var all_options := get_portrait_options()
 	if index < all_options.size():
 		_update_option(all_options[index])
@@ -144,7 +143,7 @@ func _update_option(selected_option: PortraitOption) -> void:
 			option.release_active()
 	portrait_selected.emit()
 	_update_portrait()
-	
+
 	await get_tree().process_frame
 	scroll_container.ensure_control_visible(selected_option)
 
@@ -152,10 +151,12 @@ func _update_option(selected_option: PortraitOption) -> void:
 func _sync_references() -> void:
 	var data_list: Array = portraits.value
 	for ref: AbstractPortraitOption in references:
-		var ref_candidates: Array = data_list.filter(func(p: Dictionary): return p.get("EditorIndex", -1) == ref.idx.value)
+		var ref_candidates: Array = data_list.filter(
+			func(p: Dictionary): return p.get("EditorIndex", -1) == ref.idx.value
+		)
 		if ref_candidates.size() <= 0:
 			continue
-		
+
 		var data: Dictionary = ref_candidates[0]
 		ref._from_dict(data)
 

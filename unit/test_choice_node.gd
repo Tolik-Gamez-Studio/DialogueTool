@@ -1,9 +1,8 @@
 extends GdUnitTestSuite
 
-
 var switcher  # language switcher
-var lang1     # language option 1
-var lang2     # language option 2
+var lang1  # language option 1
+var lang2  # language option 2
 
 
 func before_test():
@@ -21,7 +20,7 @@ func before_test():
 	do_return(lang2).on(switcher).get_by_node_name(&"LanguageOption2")
 	do_return(lang2).on(switcher).get_by_node_name("LanguageOption2")
 	do_return({"Lang1": lang1.name, "Lang2": lang2.name}).on(switcher).get_languages()
-	
+
 	do_return(lang1).on(switcher).get_current_language()
 	GlobalVariables.language_switcher = switcher
 
@@ -32,15 +31,17 @@ func test_add_option():
 	var mock_graph_edit = mock(MonologueGraphEdit, CALL_REAL_FUNC)
 	mock_graph_edit.add_child(choice_node)
 	runner.invoke("add_child", mock_graph_edit)
-	
-	var option_node = choice_node.add_option({
-		"$type": "NodeOption",
-		"ID": "addid",
-		"NextID": "nexop",
-		"Option": {"Lang2": "lang2test"},
-		"EnableByDefault": true,
-		"OneShot": false
-	})
+
+	var option_node = choice_node.add_option(
+		{
+			"$type": "NodeOption",
+			"ID": "addid",
+			"NextID": "nexop",
+			"Option": {"Lang2": "lang2test"},
+			"EnableByDefault": true,
+			"OneShot": false
+		}
+	)
 	choice_node.options.value.append(option_node._to_dict())
 	var option_dict = choice_node.options.value[2].get("Option")
 	assert_dict(option_dict).is_equal({"Lang2": "lang2test"})
@@ -51,7 +52,7 @@ func test_to_fields():
 	var test_dict = {}
 	runner.invoke("_to_fields", test_dict)
 	assert_dict(test_dict).contains_keys(["OptionsID"])
-	
+
 	var options_id = test_dict.get("OptionsID", [])
 	assert_array(options_id).has_size(2)
 	assert_bool(options_id[0] is String)
@@ -74,8 +75,8 @@ func test_language_integration():
 	var opt2_text = "i am number two"
 	option2.choice_node = choice_node
 	option2.option.value = (opt2_text)
-	option2.update_parent("", opt2_text) # simulate field update
-	
+	option2.update_parent("", opt2_text)  # simulate field update
+
 	# check option preview text before language switch
 	choice_node.reload_preview()
 	assert_str(choice_node.get_child(0).preview_label.text).is_equal(opt1_text)
@@ -84,7 +85,7 @@ func test_language_integration():
 	var e2 = {"Lang1": "i am number two"}
 	assert_dict(choice_node.get_child(0).option.to_raw_value()).is_equal(e1)
 	assert_dict(choice_node.get_child(1).option.to_raw_value()).is_equal(e2)
-	
+
 	# switch languages and reload_preview() should be empty string
 	do_return(lang2).on(switcher).get_current_language()
 	choice_node.reload_preview()
@@ -114,7 +115,7 @@ func test_restore_options():
 	option2.choice_node = choice_node
 	option2.option.raw_data = {"LanguageOption1": "bla bla bla", "LanguageOption2": opt2_text}
 	option2.update_parent("", opt2_text)
-	
+
 	var test_option = auto_free(LanguageOption.new())
 	do_return(test_option).on(switcher).add_language(lang2.language_name)
 	var deletion = DeleteLanguageHistory.new(mock_graph_edit, lang2.language_name, lang2.name)
@@ -129,15 +130,17 @@ func test_restore_options():
 func test_update_parent():
 	var option_node = auto_free(OptionNode.new())
 	var choice_node = auto_free(ChoiceNode.new())
-	choice_node.options.value = [{
-		"$type": "NodeOption",
-		"ID": "upid",
-		"NextID": -1,
-		"Option": {"Lang2": "tu vis bien"},
-		"EnableByDefault": false,
-		"OneShot": true
-	}]
-	
+	choice_node.options.value = [
+		{
+			"$type": "NodeOption",
+			"ID": "upid",
+			"NextID": -1,
+			"Option": {"Lang2": "tu vis bien"},
+			"EnableByDefault": false,
+			"OneShot": true
+		}
+	]
+
 	var expected = {"Lang1": "whatever", "Lang2": "como sea"}
 	option_node.choice_node = choice_node
 	option_node.option.value = expected

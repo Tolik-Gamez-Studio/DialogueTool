@@ -2,6 +2,7 @@ extends Node
 
 const MAX_FILENAME_LENGTH = 48
 
+
 func check_config_file(path: String) -> void:
 	assert(FileAccess.file_exists(path))
 	var raw_text = FileAccess.open(path, FileAccess.READ).get_as_text()
@@ -11,6 +12,7 @@ func check_config_file(path: String) -> void:
 	assert(data.has("VersionEditor"))
 	assert(data.has("DefaultStart"))
 	assert(data.has("ListSpeakers"))
+
 
 func is_equal(a: Variant, b: Variant) -> bool:
 	var type_a = typeof(a)
@@ -31,12 +33,14 @@ func is_equal(a: Variant, b: Variant) -> bool:
 				return a == b
 	return false
 
+
 ## Check if any element of array_a is inside array_b.
 func is_any_inside(array_a: Array, array_b: Array) -> bool:
 	for element in array_a:
 		if array_b.has(element):
 			return true
 	return false
+
 
 ## Converts a snake_case name to JSON key format with capitalized "ID".
 func to_key_name(snake_case_name: String, delimiter: String = "") -> String:
@@ -45,6 +49,7 @@ func to_key_name(snake_case_name: String, delimiter: String = "") -> String:
 	for word in words:
 		capitalized_list.append("ID" if word.to_lower() == "id" else word)
 	return delimiter.join(capitalized_list)
+
 
 ## Left-truncate a filename string based on MAX_FILENAME_LENGTH.
 func truncate_filename(filename: String) -> String:

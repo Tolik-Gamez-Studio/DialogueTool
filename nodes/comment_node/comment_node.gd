@@ -1,7 +1,6 @@
 @icon("res://ui/assets/icons/comment.svg")
 class_name CommentNode extends MonologueGraphNode
 
-
 @onready var comment_edit = $CommentEdit
 
 

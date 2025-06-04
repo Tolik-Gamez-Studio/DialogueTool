@@ -1,6 +1,5 @@
 extends SplitContainer
 
-
 var split_ratio: float = 0
 var last_viewport_size: Vector2i
 
@@ -10,7 +9,7 @@ func _ready() -> void:
 		split_ratio = split_offset / size.y
 	else:
 		split_ratio = split_offset / size.x
-	
+
 	resized.connect(_on_resized)
 	visibility_changed.connect(_on_resized)
 	last_viewport_size = get_viewport_rect().size

@@ -1,16 +1,16 @@
 extends VBoxContainer
 
-
 @onready var preview_texture: Sprite2D = %ViewportSprite
 @onready var preview_anim: Node2D = %ASContainer
 @onready var preview_camera: Camera2D = %ViewportCamera
-@onready var zoom_slider: HSlider = $MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/HSlider
+@onready
+var zoom_slider: HSlider = $MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/HSlider
 
 
 func update_preview(texture: Texture2D = Texture2D.new()) -> void:
 	if preview_texture:
 		preview_texture.texture = texture
-		
+
 		preview_anim.hide()
 		preview_texture.show()
 
@@ -22,7 +22,7 @@ func update_animation(sprites: Array) -> void:
 		animated_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		animated_sprite.sprite_frames = sprite
 		preview_anim.add_child(animated_sprite)
-		
+
 	preview_texture.hide()
 	preview_anim.show()
 

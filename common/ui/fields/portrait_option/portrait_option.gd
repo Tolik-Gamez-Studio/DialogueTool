@@ -21,7 +21,7 @@ var custom_delete_button: Button = Button.new()
 
 func _ready() -> void:
 	line_edit_unfocus()
-	
+
 	active_stylebox.bg_color = Color("d55160")
 	active_stylebox.set_corner_radius_all(5)
 
@@ -39,7 +39,7 @@ func line_edit_unfocus() -> void:
 	line_edit.selecting_enabled = false
 	line_edit.flat = true
 	line_edit.mouse_filter = Control.MOUSE_FILTER_PASS
-	
+
 	button.show()
 	add_theme_stylebox_override("focus", line_edit_unfocus_stylebox)
 	name_submitted.emit(self)
@@ -51,7 +51,7 @@ func _on_btn_edit_pressed() -> void:
 	line_edit.flat = false
 	line_edit.mouse_filter = Control.MOUSE_FILTER_STOP
 	line_edit.grab_focus()
-	
+
 	button.hide()
 
 
@@ -61,7 +61,7 @@ func _on_line_edit_focus_exited() -> void:
 
 func _on_btn_star_pressed() -> void:
 	set_default()
-	
+
 
 func set_default() -> void:
 	is_default = true

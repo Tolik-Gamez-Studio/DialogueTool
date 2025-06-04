@@ -1,7 +1,6 @@
 @icon("res://ui/assets/icons/choice.svg")
 class_name ChoiceNode extends MonologueGraphNode
 
-
 var option_scene = preload("res://nodes/option_node/option_node.tscn")
 var options := Property.new(LIST, {}, [])
 
@@ -18,7 +17,7 @@ func _ready():
 	options.connect("preview", _refresh)
 	editor_position.set_visible(false)
 	GlobalSignal.add_listener("language_deleted", store_options)
-	
+
 	if get_child_count() <= 0:
 		options.value.append(add_option()._to_dict())
 		options.value.append(add_option()._to_dict())
@@ -28,7 +27,7 @@ func add_option(reference: Dictionary = {}) -> OptionNode:
 	var new_option = option_scene.instantiate()
 	add_child(new_option, true)
 	new_option.set_count(new_option.get_index() + 1)
-	
+
 	if reference:
 		new_option._from_dict(reference)
 		var value = reference.get("Option", reference.get("Sentence", ""))
@@ -38,10 +37,20 @@ func add_option(reference: Dictionary = {}) -> OptionNode:
 			value = value.get(locale, "")
 		new_option.preview_label.text = value
 		link_option(new_option)
-	
+
 	var is_first = get_child_count() <= 1
-	set_slot(get_child_count() - 1, is_first, 0, Color("ffffff"), true,
-			0, Color("ffffff"), LEFT_SLOT, RIGHT_SLOT, false)
+	set_slot(
+		get_child_count() - 1,
+		is_first,
+		0,
+		Color("ffffff"),
+		true,
+		0,
+		Color("ffffff"),
+		LEFT_SLOT,
+		RIGHT_SLOT,
+		false
+	)
 	return new_option
 
 
@@ -117,7 +126,7 @@ func _refresh(new_options_list: Array):
 		var to_node = connection.get("to_node")
 		get_parent().disconnect_node(name, from_port, to_node, 0)
 	clear_children()
-	
+
 	for new_option_data in new_options_list:
 		add_option(new_option_data)
 	_update()
@@ -129,5 +138,5 @@ func restore_options(options_value: Array) -> void:
 
 
 func _to_fields(dict: Dictionary) -> void:
-	var child_options =  get_children().filter(func(c): return c is OptionNode)
+	var child_options = get_children().filter(func(c): return c is OptionNode)
 	dict["OptionsID"] = child_options.map(func(o): return o.id.value)

@@ -2,7 +2,6 @@
 @icon("res://ui/assets/icons/link.svg")
 class_name BridgeInNode extends MonologueGraphNode
 
-
 var bridge_out_scene = preload("res://nodes/bridge_out_node/bridge_out_node.tscn")
 
 ## Spinner control which selects what number to bridge to.
@@ -19,12 +18,12 @@ func add_to(graph):
 	var created = super.add_to(graph)
 	var number = graph.get_free_bridge_number()
 	number_selector.value = number
-	
+
 	var bridge_out = bridge_out_scene.instantiate()
 	bridge_out.add_to(graph)
 	bridge_out.number_selector.value = number
 	created.append(bridge_out)
-	
+
 	return created
 
 

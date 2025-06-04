@@ -16,7 +16,7 @@ func before_test():
 func test_add_from_empty():
 	container.add("whatever.json")
 	var text = FileAccess.get_file_as_string(container.save_path)
-	assert_str(text).is_equal("[\"whatever.json\"]")
+	assert_str(text).is_equal('["whatever.json"]')
 
 
 func test_add_override():
@@ -44,8 +44,9 @@ func test_load_file_empty():
 
 func test_load_file_exclude_not_exist():
 	var file = FileAccess.open(container.save_path, FileAccess.WRITE)
-	file.store_string('["res://DOES_NOT_EXIST.json", ' + \
-			'"res://examples/mr_sharpener/ending_02.json"]')
+	file.store_string(
+		'["res://DOES_NOT_EXIST.json", ' + '"res://examples/mr_sharpener/ending_02.json"]'
+	)
 	file.close()
 	container.load_file()
 	assert_int(container.button_container.get_child_count()).is_equal(1)
@@ -55,8 +56,12 @@ func test_load_file_exclude_not_exist():
 
 func test_load_file_existing():
 	var file = FileAccess.open(container.save_path, FileAccess.WRITE)
-	file.store_string('["res://examples/mr_sharpener/intro.json", ' + \
-			'"res://examples/mr_sharpener/ending_01.json"]')
+	file.store_string(
+		(
+			'["res://examples/mr_sharpener/intro.json", '
+			+ '"res://examples/mr_sharpener/ending_01.json"]'
+		)
+	)
 	file.close()
 	container.load_file()
 	assert_int(container.button_container.get_child_count()).is_equal(2)

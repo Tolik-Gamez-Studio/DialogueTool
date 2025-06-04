@@ -1,13 +1,16 @@
 extends Node
 
+
 func get_separator() -> String:
 	return "\\" if OS.has_feature("windows") else "/"
+
 
 func split_path(path: String) -> PackedStringArray:
 	var splt_path: String = path.replace(path.get_file(), "")
 	splt_path = splt_path.replace("\\", "/")
 	splt_path = splt_path.replace("//", "/")
 	return splt_path.split("/", false)
+
 
 func absolute_to_relative(path: String, root_file_path: String) -> String:
 	var root_array: PackedStringArray = split_path(root_file_path)
@@ -32,6 +35,7 @@ func absolute_to_relative(path: String, root_file_path: String) -> String:
 	for step in final_path:
 		relative_path = relative_path.path_join(step)
 	return relative_path
+
 
 func relative_to_absolute(path: String, root_file_path: String) -> String:
 	if path.is_absolute_path():

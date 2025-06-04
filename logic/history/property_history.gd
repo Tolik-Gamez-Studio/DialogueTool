@@ -1,6 +1,5 @@
 class_name PropertyHistory extends MonologueHistory
 
-
 ## Graph that owns the node whose properties have changed.
 var graph_edit: MonologueGraphEdit
 ## Name of the graph node in the [member graph_edit].
@@ -11,15 +10,14 @@ var changes: Array[PropertyChange]
 var locale: String = LanguageSwitcher.DEFAULT_LOCALE
 
 
-func _init(graph: MonologueGraphEdit, path: NodePath,
-			change_list: Array[PropertyChange]) -> void:
+func _init(graph: MonologueGraphEdit, path: NodePath, change_list: Array[PropertyChange]) -> void:
 	graph_edit = graph
 	node_path = path
 	changes = change_list
-	
+
 	_undo_callback = revert_properties
 	_redo_callback = change_properties
-	
+
 	if GlobalVariables.language_switcher:
 		locale = str(GlobalVariables.language_switcher.get_current_language())
 
@@ -31,7 +29,7 @@ func change_properties() -> void:
 	for change in changes:
 		set_property(node, change.property, change.after)
 	_hide_unrelated_windows()
-	
+
 	refresh_properties(node, language)
 
 
@@ -42,7 +40,7 @@ func revert_properties() -> void:
 	for change in changes:
 		set_property(node, change.property, change.before)
 	_hide_unrelated_windows()
-	
+
 	refresh_properties(node, language)
 
 
@@ -66,7 +64,7 @@ func refresh_properties(node: Variant, language: String) -> void:
 	else:
 		properties = changes.map(func(c): return c.property)
 	GlobalSignal.emit.call_deferred("refresh", [node, properties])
-	
+
 
 func _hide_unrelated_windows() -> void:
 	GlobalSignal.emit("close_character_edit")

@@ -6,8 +6,10 @@ class_name NodeConverter extends RefCounted
 ## Returns the original dictionary if nothing to convert.
 func convert_node(node_dict: Dictionary) -> Dictionary:
 	match node_dict.get("$type"):
-		"NodeAction": return convert_action(node_dict)
-		"NodeDiceRoll": return convert_dice_roll(node_dict)
+		"NodeAction":
+			return convert_action(node_dict)
+		"NodeDiceRoll":
+			return convert_dice_roll(node_dict)
 	return node_dict
 
 
@@ -16,7 +18,7 @@ func convert_action(dict: Dictionary) -> Dictionary:
 	if action_dict:
 		var value = action_dict.get("Value")
 		dict.erase("Action")
-		
+
 		var action_type = action_dict.get("$type")
 		match action_type:
 			"ActionOption":
@@ -47,16 +49,16 @@ func convert_action(dict: Dictionary) -> Dictionary:
 			"ActionTimer":
 				dict["$type"] = "NodeWait"
 				dict["Time"] = value
-	
+
 	return dict
 
 
 func convert_dice_roll(dict: Dictionary) -> Dictionary:
 	var pass_chance = dict.get("Target", 50)
 	var fail_chance = 100 - pass_chance
-	
-	var pass_dict = { "Weight": pass_chance, "NextID": dict.get("PassID", -1) }
-	var fail_dict = { "Weight": fail_chance, "NextID": dict.get("FailID", -1) }
+
+	var pass_dict = {"Weight": pass_chance, "NextID": dict.get("PassID", -1)}
+	var fail_dict = {"Weight": fail_chance, "NextID": dict.get("FailID", -1)}
 	if pass_chance >= fail_chance:
 		pass_dict["ID"] = 0
 		fail_dict["ID"] = 1
@@ -65,7 +67,7 @@ func convert_dice_roll(dict: Dictionary) -> Dictionary:
 		fail_dict["ID"] = 0
 		pass_dict["ID"] = 1
 		dict["Outputs"] = [fail_dict, pass_dict]
-	
+
 	dict["$type"] = "NodeRandom"
 	dict.erase("Skill")
 	dict.erase("Target")
@@ -76,29 +78,27 @@ func convert_dice_roll(dict: Dictionary) -> Dictionary:
 
 func convert_characters(list: Array) -> Array:
 	var all_ids: Array = []
-	
+
 	for character in list:
 		if character.has("Reference"):
 			continue
-		
+
 		all_ids.append(character.get("ID"))
-	
+
 	for character in list:
 		if not character.has("Reference"):
 			continue
 		var list_idx: int = list.find(character)
-		
+
 		var character_name: String = character.get("Reference", "undefined")
-		
+
 		var new_character = {
 			"ID": IDGen.generate(5),
 			"EditorIndex": character.get("ID"),
 			"Protected": character_name == "_NARRATOR",
-			"Character": {
-				"Name": character_name
-			}
+			"Character": {"Name": character_name}
 		}
-		
+
 		list[list_idx] = new_character
-	
+
 	return list

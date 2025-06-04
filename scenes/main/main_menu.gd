@@ -2,6 +2,7 @@ extends MenuButton
 
 @onready var search_icon = preload("res://ui/assets/icons/search.svg")
 
+
 func _ready() -> void:
 	var popup: PopupMenu = get_popup()
 	popup.transparent = true
@@ -56,11 +57,13 @@ func _ready() -> void:
 	popup.add_item("Exit")
 	popup.set_item_shortcut(7, create_shortcut("Exit"))
 
+
 func create_popup_menu() -> PopupMenu:
 	var popup: PopupMenu = PopupMenu.new()
 	popup.transparent = true
 	popup.transparent_bg = true
 	return popup
+
 
 func create_shortcut(action_name: StringName) -> Shortcut:
 	var _shortcut := Shortcut.new()
@@ -68,6 +71,7 @@ func create_shortcut(action_name: StringName) -> Shortcut:
 	inputevent.action = action_name
 	_shortcut.events.append(inputevent)
 	return _shortcut
+
 
 func _on_about_to_popup() -> void:
 	var popup: PopupMenu = get_popup()

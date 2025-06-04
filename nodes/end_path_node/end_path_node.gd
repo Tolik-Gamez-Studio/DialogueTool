@@ -1,10 +1,9 @@
 @icon("res://ui/assets/icons/exit.svg")
 class_name EndPathNode extends MonologueGraphNode
 
-
 const NOTE = "Note: Variables are kept with their values between stories when you use this node."
 
-var next_story := Property.new(LINE, { "note_text": NOTE })
+var next_story := Property.new(LINE, {"note_text": NOTE})
 
 
 func _ready():

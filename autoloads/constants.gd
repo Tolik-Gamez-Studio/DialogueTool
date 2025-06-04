@@ -1,6 +1,5 @@
 extends Node
 
-
 ## Dictionary of Monologue node types and their corresponding scenes.
 const NODE_SCENES = {
 	"Root": preload("res://nodes/root_node/root_node.tscn"),

@@ -1,6 +1,5 @@
 class_name AbstractPortraitOption extends RefCounted
 
-
 const PORTRAIT_FIELD := preload("res://common/ui/fields/portrait_option/portrait_option.tscn")
 
 var portrait_name := Property.new(MonologueGraphNode.LINE, {}, "")
@@ -25,7 +24,7 @@ func _init(node: PortraitListSection):
 func update_portrait(old_value: Variant, new_value: Variant):
 	var old_list = root.portraits.value.duplicate(true)
 	var new_list = root.portraits.value.duplicate(true)
-	
+
 	graph.undo_redo.create_action("Portrait %s => %s" % [str(old_value), str(new_value)])
 	graph.undo_redo.add_do_property(root.portraits, "value", new_list)
 	graph.undo_redo.add_do_method(root.portraits.propagate.bind(new_list))
@@ -37,10 +36,10 @@ func update_portrait(old_value: Variant, new_value: Variant):
 func update_portrait_name(old_value: Variant, new_value: Variant):
 	var old_list = root.portraits.value.duplicate(true)
 	var new_list = root.portraits.value.duplicate(true)
-	
+
 	old_list[idx.value]["Name"] = old_value
 	new_list[idx.value]["Name"] = new_value
-	
+
 	graph.undo_redo.create_action("Portrait Name %s => %s" % [str(old_value), str(new_value)])
 	graph.undo_redo.add_do_property(root.portraits, "value", new_list)
 	graph.undo_redo.add_do_method(root.portraits.propagate.bind(new_list))

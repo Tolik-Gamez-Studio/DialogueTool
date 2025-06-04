@@ -1,7 +1,6 @@
 ## UI control which allow the user to edit a graph node [MonologueProperty].
 class_name MonologueField extends Control
 
-
 ## Emitted when the field's value is changed but not yet committed.
 @warning_ignore("unused_signal")
 signal field_changed(value: Variant)
@@ -10,8 +9,8 @@ signal field_changed(value: Variant)
 @warning_ignore("unused_signal")
 signal field_updated(value: Variant)
 
-
-var collapsible_field: CollapsibleField : set = set_collapsible_field
+var collapsible_field: CollapsibleField:
+	set = set_collapsible_field
 
 
 ## Set the collapsible control that this MonologueField belongs to.

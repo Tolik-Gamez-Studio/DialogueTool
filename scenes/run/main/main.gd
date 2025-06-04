@@ -1,17 +1,20 @@
 extends MonologueProcess
 
-
 @onready var text_box = preload("res://scenes/run/common/text_box/text_box.tscn")
 @onready var option_button = preload("res://scenes/run/common/option_button.tscn")
 
 # SidePanel nodes
-@onready var sp_text_box_container = $SidePanelContainer/PanelContainer/MarginContainer/ScrollContainer/Container/ScrollContainer/TextBoxContainer
-@onready var sp_choice_container = $SidePanelContainer/PanelContainer/MarginContainer/ScrollContainer/Container/ChoiceContainer
-@onready var sp_scroll_container: ScrollContainer = $SidePanelContainer/PanelContainer/MarginContainer/ScrollContainer/Container/ScrollContainer
+@onready
+var sp_text_box_container = $SidePanelContainer/PanelContainer/MarginContainer/ScrollContainer/Container/ScrollContainer/TextBoxContainer
+@onready
+var sp_choice_container = $SidePanelContainer/PanelContainer/MarginContainer/ScrollContainer/Container/ChoiceContainer
+@onready
+var sp_scroll_container: ScrollContainer = $SidePanelContainer/PanelContainer/MarginContainer/ScrollContainer/Container/ScrollContainer
 @onready var sp_scrollbar: ScrollBar = sp_scroll_container.get_v_scroll_bar()
 # TextBox nodes
 @onready var tb_text_label = $TextBoxContainer/PanelContainer/MarginContainer/Container/TextLabel
-@onready var tb_choice_container = $TextBoxContainer/PanelContainer/MarginContainer/Container/ChoiceContainer
+@onready
+var tb_choice_container = $TextBoxContainer/PanelContainer/MarginContainer/Container/ChoiceContainer
 
 @onready var background_node = $Background
 @onready var character_container = $CharacterAssetContainer/Asset
@@ -26,11 +29,13 @@ var is_notification_skippable: bool
 
 func _ready():
 	sp_scrollbar.connect("changed", _handle_scrollbar_changed)
-	
+
 	if file_path:
 		from_node = null if from_node == "-1" else from_node
 		if from_node:
-			_on_monologue_sentence("Skipped to the node " + from_node + "!", "_DEBUG", "_DEBUG", true)
+			_on_monologue_sentence(
+				"Skipped to the node " + from_node + "!", "_DEBUG", "_DEBUG", true
+			)
 		load_dialogue(file_path, from_node)
 		next()
 
@@ -50,7 +55,7 @@ func _handle_scrollbar_changed():
 func get_character_asset(character: String, _variant = null):
 	if character.begins_with("_"):
 		return
-	
+
 	return preload("res://scenes/run/assets/silhouette.png")
 
 
@@ -65,7 +70,7 @@ func _exit():
 	menu_scene_instance.from_node = from_node
 	menu_scene_instance.file_path = file_path
 	get_window().add_child(menu_scene_instance)
-	
+
 	SfxLoader.clear()
 	queue_free()
 
@@ -74,22 +79,22 @@ func _on_monologue_sentence(sentence, speaker, speaker_name, instant: bool = fal
 	# Textbox
 	var new_textbox: RichTextLabel = text_box.instantiate()
 	tb_text_label.text = ""
-	
+
 	if speaker_name.begins_with("_"):
 		new_textbox.text = sentence
 		new_textbox.visible_characters = 0
-		
+
 		tb_text_label.text = sentence
 		tb_text_label.visible_characters = 0
 	else:
 		new_textbox.text = "[color=e75a41]" + speaker_name + "[/color]\n"
 		new_textbox.text += sentence
 		new_textbox.visible_characters = len(speaker_name)
-		
+
 		tb_text_label.text = "[color=e75a41]" + speaker_name + "[/color]\n"
 		tb_text_label.text += sentence
 		tb_text_label.visible_characters = len(speaker_name)
-	
+
 	# Speaker
 	var char_asset = get_character_asset(speaker, speaker_name)
 	if char_asset:
@@ -100,22 +105,28 @@ func _on_monologue_sentence(sentence, speaker, speaker_name, instant: bool = fal
 			get_tree().create_tween().tween_property(character_container, "position:x", 50, 0.1)
 	else:
 		character_container.position.x = 50
-		get_tree().create_tween().tween_property(character_container, "position:x", -character_container.size.x, 0.1)
-		
+		get_tree().create_tween().tween_property(
+			character_container, "position:x", -character_container.size.x, 0.1
+		)
+
 		character_container.hide()
-	
+
 	for tb: RichTextLabel in sp_text_box_container.get_children():
 		tb.modulate = Color(1, 1, 1, 0.6)
-	
+
 	sp_text_box_container.add_child(new_textbox)
-	
+
 	if instant:
 		new_textbox.visible_characters = len(new_textbox.text)
 		tb_text_label.visible_characters = len(tb_text_label.text)
 		return
-	
-	get_tree().create_tween().tween_property(new_textbox, "visible_characters", len(new_textbox.text), 0.5)
-	get_tree().create_tween().tween_property(tb_text_label, "visible_characters", len(tb_text_label.text), 0.5)
+
+	get_tree().create_tween().tween_property(
+		new_textbox, "visible_characters", len(new_textbox.text), 0.5
+	)
+	get_tree().create_tween().tween_property(
+		tb_text_label, "visible_characters", len(tb_text_label.text), 0.5
+	)
 
 
 func _instantiate_option(option):
@@ -129,7 +140,7 @@ func _on_monologue_new_choice(options):
 	for option in options:
 		tb_choice_container.add_child(_instantiate_option(option))
 		sp_choice_container.add_child(_instantiate_option(option))
-	
+
 	tb_choice_container.show()
 	sp_choice_container.show()
 
@@ -137,7 +148,7 @@ func _on_monologue_new_choice(options):
 func _on_monologue_option_chosen(_raw_option):
 	tb_choice_container.hide()
 	sp_choice_container.hide()
-	
+
 	var childs = sp_choice_container.get_children()
 	childs.append_array(tb_choice_container.get_children())
 	for child in childs:
@@ -146,13 +157,14 @@ func _on_monologue_option_chosen(_raw_option):
 
 func _on_monologue_event_triggered(raw_event):
 	var event_id = raw_event.get("ID").split("-")[0]
-	
+
 	var variable = str(raw_event.get("Variable"))
 	var operator = str(raw_event.get("Operator"))
 	var value = str(raw_event.get("Value"))
-	
-	var message = "Event triggered [color=7f7f7f](%s)[/color]\n" + \
-			"Condition: [color=7f7f7f]%s %s %s[/color]"
+
+	var message = (
+		"Event triggered [color=7f7f7f](%s)[/color]\n" + "Condition: [color=7f7f7f]%s %s %s[/color]"
+	)
 	notifier.debug(message % [event_id, variable, operator, value])
 
 

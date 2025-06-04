@@ -1,12 +1,16 @@
 class_name PortraitHistory extends CharacterHistory
 
-
 ## Portrait index.
 var portrait_index: int = -1
 
 
-func _init(_character_index: int, _portrait_index: int, graph: MonologueGraphEdit, path: NodePath,
-			change_list: Array[PropertyChange]) -> void:
+func _init(
+	_character_index: int,
+	_portrait_index: int,
+	graph: MonologueGraphEdit,
+	path: NodePath,
+	change_list: Array[PropertyChange]
+) -> void:
 	super(_character_index, graph, path, change_list)
 	portrait_index = _portrait_index
 

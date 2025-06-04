@@ -1,11 +1,11 @@
 ## A list field that represents a [MonologueGraphEdit] data item.
 class_name MonologueList extends MonologueField
 
-
 @onready var button := $CollapsibleField/Button
 @onready var collapsible_container := $CollapsibleField/CollapsibleContainer
 @onready var vbox := $CollapsibleField/CollapsibleContainer/PanelContainer/VBox
-@onready var field_container := $CollapsibleField/CollapsibleContainer/PanelContainer/VBox/FieldContainer
+@onready
+var field_container := $CollapsibleField/CollapsibleContainer/PanelContainer/VBox/FieldContainer
 
 var delete_scene = preload("res://common/ui/buttons/delete_button.tscn")
 
@@ -22,7 +22,7 @@ func _ready() -> void:
 	collapsible_field.add_pressed.connect(_on_add_button_pressed)
 	collapsible_field.expand = expand
 	post_ready.call_deferred()
-	
+
 	if flat:
 		collapsible_field.separate_items = false
 		button.hide()
@@ -48,7 +48,7 @@ func append_list_item(item) -> void:
 		var field = item.get(property_name).show(field_box, false)
 		field.set_label_text(Util.to_key_name(property_name, " "))
 	var identifier = item.id.value if "id" in item else item.name.value
-	
+
 	if "custom_delete_button" in item and item.custom_delete_button:
 		item.custom_delete_button.connect("pressed", _on_delete_button_pressed.bind(identifier))
 		return
@@ -81,7 +81,7 @@ func create_item_vbox(panel: PanelContainer) -> VBoxContainer:
 func create_delete_button(field_box: VBoxContainer, id: Variant) -> void:
 	var delete_button = delete_scene.instantiate()
 	delete_button.connect("pressed", _on_delete_button_pressed.bind(id))
-	
+
 	var first_hbox = _find_first_hbox(field_box)
 	if first_hbox:
 		first_hbox.add_child(delete_button, true)

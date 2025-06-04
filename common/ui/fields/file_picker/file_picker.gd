@@ -1,6 +1,5 @@
 class_name FilePicker extends MonologueField
 
-
 const AUDIO = ["*.mp3,*.ogg,*.wav;Sound Files"]
 const IMAGE = ["*.bmp,*.jpg,*.jpeg,*.png,*.svg,*.webp;Image Files"]
 

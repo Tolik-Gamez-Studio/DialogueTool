@@ -1,7 +1,6 @@
 ## Similar to MonologueVariable but allows reference to existing variables.
 class_name MonologueArgument extends MonologueVariable
 
-
 var last_boolean: bool
 var last_number: float
 var last_string: String
@@ -9,7 +8,7 @@ var last_string: String
 
 func _init(node: MonologueGraphNode):
 	super(node)
-	type.callers["set_items"][0].append({ "id": 3, "text": "Variable" })
+	type.callers["set_items"][0].append({"id": 3, "text": "Variable"})
 	#type.callers["set_icons"][0][3] = load("res://ui/assets/icons/bool_icon.png")
 	value.connect("preview", record_morph)
 
@@ -18,7 +17,7 @@ func change(_old_value: Variant, new_value: Variant, property: String) -> void:
 	var old_list = bound_node.arguments.value.duplicate(true)
 	var new_list = bound_node.arguments.value.duplicate(true)
 	new_list[index][property.capitalize()] = new_value
-	
+
 	# bound_node can be deleted, so we need to use PropertyChange here
 	graph.undo_redo.create_action("Arguments => %s" % new_value)
 	var pc = PropertyChange.new("arguments", old_list, new_list)
@@ -31,22 +30,23 @@ func change(_old_value: Variant, new_value: Variant, property: String) -> void:
 func create_representation(parent: Control) -> HBoxContainer:
 	var representation = HBoxContainer.new()
 	parent.add_child(representation)
-	
+
 	var name_label = Label.new()
 	var name_text = name.value if name.value else "argument"
 	name_label.text = "  #%d: %s" % [representation.get_index(), name_text]
 	representation.add_child(name_label)
-	
+
 	var type_label = Label.new()
 	type_label.text = "[%s]" % type.value if type.value else "type"
 	representation.add_child(type_label)
-	
+
 	var value_label = Label.new()
 	value_label.theme_type_variation = "NodeValue"
-	value_label.text = str(value.value) if value.value is not String or \
-			value.value != "" else "value"
+	value_label.text = (
+		str(value.value) if value.value is not String or value.value != "" else "value"
+	)
 	representation.add_child(value_label)
-	
+
 	return representation
 
 
@@ -84,6 +84,6 @@ func _type_morph(selected_type: String = type.value):
 	else:
 		value.callers.erase("set_items")
 		super._type_morph(selected_type)
-	
+
 	reset_value()
 	value.propagate(value.value, false)

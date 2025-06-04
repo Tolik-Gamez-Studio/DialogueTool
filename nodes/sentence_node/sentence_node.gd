@@ -1,11 +1,10 @@
 @icon("res://ui/assets/icons/text.svg")
 class_name SentenceNode extends MonologueGraphNode
 
-
-var speaker         := Property.new(DROPDOWN, { "store_index": true }, 0)
-var display_name    := Property.new(LINE)
-var sentence        := Localizable.new(TEXT)
-var voiceline       := Localizable.new(FILE, { "filters": FilePicker.AUDIO })
+var speaker := Property.new(DROPDOWN, {"store_index": true}, 0)
+var display_name := Property.new(LINE)
+var sentence := Localizable.new(TEXT)
+var voiceline := Localizable.new(FILE, {"filters": FilePicker.AUDIO})
 
 @onready var _preview = $TextLabelPreview
 
@@ -36,7 +35,7 @@ func _on_text_preview(text: Variant):
 
 func _update():
 	super._update()
-	
+
 	var characters: Array = get_graph_edit().characters
 	speaker.callers["set_items"] = [characters, "Character/Name", "EditorIndex"]
 	if speaker.value is String:

@@ -10,7 +10,7 @@ class_name MonologueControl extends Control
 func _ready():
 	get_tree().auto_accept_quit = false  # quit handled by _close_tab()
 	welcome_window.show()
-	
+
 	GlobalSignal.add_listener("add_graph_node", add_node_from_global)
 	GlobalSignal.add_listener("select_new_node", _select_new_node)
 	GlobalSignal.add_listener("refresh", refresh)
@@ -30,12 +30,12 @@ func _input(event):
 
 func _to_dict() -> Dictionary:
 	var list_nodes: Array[Dictionary] = []
-	
+
 	# compile all node data of the current graph edit
 	for node in graph_switcher.current.get_nodes():
 		if node.is_queued_for_deletion():
 			continue
-		
+
 		# if side panel is still open, release the focus so that some
 		# text controls trigger the focus_exited() signal to update
 		if side_panel_node.visible and side_panel_node.selected_node == node:
@@ -43,24 +43,24 @@ func _to_dict() -> Dictionary:
 			if refocus:
 				refocus.release_focus()
 				refocus.grab_focus()
-		
+
 		list_nodes.append(node._to_dict())
 		if node.node_type == "NodeChoice":
 			for child in node.get_children():
 				list_nodes.append(child._to_dict())
-	
+
 	# build data for dialogue characters
 	var characters = graph_switcher.current.characters
 	if characters.size() <= 0:
-		characters.append({
-			"ID": IDGen.generate(5),
-			"Protected": true,
-			"Character": {
-				"Name": "_NARRATOR"
-			},
-			"EditorIndex": 0
-		})
-	
+		characters.append(
+			{
+				"ID": IDGen.generate(5),
+				"Protected": true,
+				"Character": {"Name": "_NARRATOR"},
+				"EditorIndex": 0
+			}
+		)
+
 	return {
 		"EditorVersion": ProjectSettings.get_setting("application/config/version", "unknown"),
 		"RootNodeID": get_root_dict(list_nodes).get("ID"),
@@ -91,14 +91,15 @@ func load_project(path: String, new_graph: bool = false) -> void:
 		if new_graph:
 			graph_switcher.new_graph_edit()
 		graph_switcher.current.file_path = path  # set path first before tab creation
-		
+
 		var data = {}
 		var text = file.get_as_text()
-		if text: data = JSON.parse_string(text)
+		if text:
+			data = JSON.parse_string(text)
 		if not data:
 			data = _to_dict()
 			save()
-		
+
 		var converter := NodeConverter.new()
 		graph_switcher.current.languages = data.get("Languages", [])  # load language before tab
 		graph_switcher.add_tab(path.get_file())
@@ -107,7 +108,7 @@ func load_project(path: String, new_graph: bool = false) -> void:
 		graph_switcher.current.characters = converter.convert_characters(data.get("Characters"))
 		graph_switcher.current.variables = data.get("Variables")
 		graph_switcher.current.data = data
-		
+
 		var node_list = data.get("ListNodes")
 		_load_nodes(node_list)
 		_connect_nodes(node_list)
@@ -151,7 +152,6 @@ func save():
 		file.close()
 		graph_switcher.current.update_version()
 		graph_switcher.update_save_state()
-	
 
 
 func test_project(from_node: Variant = null):

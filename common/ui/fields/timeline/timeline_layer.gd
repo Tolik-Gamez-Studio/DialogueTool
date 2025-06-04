@@ -1,6 +1,5 @@
 class_name Layer extends PanelContainer
 
-
 signal delete_button_pressed
 
 @onready var timeline_label := %Label

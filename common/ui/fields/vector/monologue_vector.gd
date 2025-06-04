@@ -1,6 +1,5 @@
 class_name MonologueVector extends MonologueField
 
-
 @export var minimum: float = -9999999999
 @export var maximum: float = 9999999999
 @export var step: float = 1

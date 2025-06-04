@@ -1,6 +1,5 @@
 extends MarginContainer
 
-
 @onready var text_edit: TextEdit = %TextEdit
 var little_text_edit: TextEdit
 
@@ -13,7 +12,7 @@ func _ready() -> void:
 func _on_expand_text_edit(little_te: TextEdit) -> void:
 	little_text_edit = little_te
 	text_edit.text = little_text_edit.text
-	
+
 	show()
 
 

@@ -1,6 +1,5 @@
 class_name MonologueSpinBox extends MonologueField
 
-
 @export var as_integer: bool = true
 @export var minimum: float = -9999999999
 @export var maximum: float = 9999999999

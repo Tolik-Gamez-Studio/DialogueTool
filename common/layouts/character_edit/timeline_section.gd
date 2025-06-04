@@ -6,7 +6,8 @@ signal changed
 var animation := Property.new(MonologueGraphNode.TIMELINE, {}, {})
 
 var id: String
-var base_path: String : set = _set_base_path
+var base_path: String:
+	set = _set_base_path
 
 
 func _ready() -> void:

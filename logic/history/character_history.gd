@@ -1,12 +1,12 @@
 class_name CharacterHistory extends PropertyHistory
 
-
 ## Character index.
 var character_index: int = -1
 
 
-func _init(index: int, graph: MonologueGraphEdit, path: NodePath,
-			change_list: Array[PropertyChange]) -> void:
+func _init(
+	index: int, graph: MonologueGraphEdit, path: NodePath, change_list: Array[PropertyChange]
+) -> void:
 	super(graph, path, change_list)
 	character_index = index
 

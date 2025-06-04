@@ -1,6 +1,5 @@
 class_name MonologueLine extends MonologueField
 
-
 @export var copyable: bool
 @export var font_size: int = 16
 @export var is_sublabel: bool

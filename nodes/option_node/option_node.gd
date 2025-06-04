@@ -1,7 +1,6 @@
 class_name OptionNode extends MonologueGraphNode
 
-
-var option := Localizable.new(TEXT, { "minimum_size": Vector2(200, 100) })
+var option := Localizable.new(TEXT, {"minimum_size": Vector2(200, 100)})
 var enable_by_default := Property.new(CHECKBOX, {}, true)
 var one_shot := Property.new(CHECKBOX, {}, false)
 var next_id := Property.new(LINE, {}, -1)
@@ -26,6 +25,7 @@ func _ready() -> void:
 	get_titlebar_hbox().get_child(0).hide()
 	_update()
 
+
 func display() -> void:
 	get_graph_edit().set_selected(get_parent())
 
@@ -36,6 +36,7 @@ func get_graph_edit() -> MonologueGraphEdit:
 
 func reload_preview() -> void:
 	preview_label.text = option.value
+
 
 func set_count(number: int) -> void:
 	count_label.text = "Option %d" % number
@@ -52,7 +53,7 @@ func update_parent(_old_value = "", _new_value = "") -> void:
 	var new_options = choice_node.options.value.duplicate(true)
 	new_options[get_index()] = old_option.merged(_to_dict(), true)
 	choice_node.options.value = new_options
-	
+
 	_update()
 
 

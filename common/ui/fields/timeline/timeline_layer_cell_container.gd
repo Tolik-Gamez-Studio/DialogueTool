@@ -30,5 +30,9 @@ func _gui_input(event: InputEvent) -> void:
 			GlobalSignal.emit("timeline_zoom_out", [cell_width])
 
 
-func _on_mouse_entered() -> void: mouse_hover = true
-func _on_mouse_exited() -> void: mouse_hover = false
+func _on_mouse_entered() -> void:
+	mouse_hover = true
+
+
+func _on_mouse_exited() -> void:
+	mouse_hover = false

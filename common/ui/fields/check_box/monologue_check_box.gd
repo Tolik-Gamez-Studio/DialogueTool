@@ -1,6 +1,5 @@
 class_name MonologueCheckBox extends MonologueField
 
-
 @onready var check_box = $VBox/CheckBox
 @onready var label = $Label
 

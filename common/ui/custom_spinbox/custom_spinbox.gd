@@ -1,6 +1,5 @@
 extends PanelContainer
 
-
 signal value_changed(value: Variant)
 
 @export var as_integer: bool = true
@@ -11,9 +10,11 @@ signal value_changed(value: Variant)
 
 @onready var spin_box = $HBoxContainer/SpinBox
 
-var value: Variant :
-	get(): return int(spin_box.value) if as_integer else spin_box.value
-	set(value): spin_box.value = value
+var value: Variant:
+	get():
+		return int(spin_box.value) if as_integer else spin_box.value
+	set(value):
+		spin_box.value = value
 
 
 func _ready():
@@ -22,8 +23,8 @@ func _ready():
 	line_edit.connect("text_submitted", _on_text_submitted)
 	line_edit.theme_type_variation = "SpinBoxLineEdit"
 	_update_settings()
-	
-	
+
+
 func _update_settings():
 	spin_box.min_value = min_value
 	spin_box.max_value = max_value

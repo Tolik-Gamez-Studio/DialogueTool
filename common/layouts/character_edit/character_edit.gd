@@ -1,6 +1,5 @@
 class_name CharacterEdit extends CharacterEditSection
 
-
 var nicknames := Property.new(MonologueGraphNode.LINE)
 var display_name := Property.new(MonologueGraphNode.LINE)
 var description := Property.new(MonologueGraphNode.TEXT)
@@ -68,4 +67,4 @@ func _on_visibility_changed() -> void:
 
 
 func _on_timeline_section_visibility_changed() -> void:
-	pass # Replace with function body.
+	pass  # Replace with function body.

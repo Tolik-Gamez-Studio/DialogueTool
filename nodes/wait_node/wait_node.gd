@@ -1,7 +1,6 @@
 class_name WaitNode extends MonologueGraphNode
 
-
-var time := Property.new(SPINBOX, { "minimum": 0, "maximum": 120 })
+var time := Property.new(SPINBOX, {"minimum": 0, "maximum": 120})
 
 @onready var wait_label := $HBox/WaitLabel
 

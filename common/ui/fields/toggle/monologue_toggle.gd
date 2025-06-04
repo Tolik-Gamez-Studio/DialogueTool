@@ -1,6 +1,5 @@
 class_name MonologueToggle extends MonologueField
 
-
 @onready var label = $Label
 @onready var check_button = %CheckButton
 

@@ -1,9 +1,8 @@
 @icon("res://ui/assets/icons/root.svg")
 class_name RootNode extends MonologueGraphNode
 
-
 var characters := Property.new(LIST, {}, [])
-var variables  := Property.new(LIST, {}, [])
+var variables := Property.new(LIST, {}, [])
 
 var _character_references = []
 var _variable_references = []
@@ -12,12 +11,12 @@ var _variable_references = []
 func _ready():
 	node_type = "NodeRoot"
 	super._ready()
-	
+
 	load_character(get_parent().characters)
 	characters.setters["add_callback"] = add_character
 	characters.setters["get_callback"] = get_speakers
 	characters.connect("preview", load_character)
-	
+
 	load_variables(get_parent().variables)
 	variables.setters["add_callback"] = add_variable
 	variables.setters["get_callback"] = get_variables
@@ -58,13 +57,13 @@ func load_character(new_character_list: Array):
 	new_character_list.sort_custom(ascending)
 	for speaker_data in new_character_list:
 		add_character(speaker_data)
-	
+
 	if _character_references.is_empty():
 		var narrator = add_character()
 		narrator.character.value["Name"] = "_NARRATOR"
 		narrator.protected.value = true
 		new_character_list.append(narrator._to_dict())
-	
+
 	characters.value = new_character_list
 	get_graph_edit().characters = new_character_list
 

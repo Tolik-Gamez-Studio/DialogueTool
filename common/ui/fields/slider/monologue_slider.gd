@@ -1,6 +1,5 @@
 class_name MonologueSlider extends MonologueField
 
-
 @export var default: float
 @export var minimum: float
 @export var maximum: float
@@ -19,7 +18,7 @@ func _ready():
 	slider.min_value = minimum
 	slider.max_value = maximum
 	slider.step = step
-	
+
 	spin_box.min_value = minimum
 	spin_box.max_value = maximum
 	spin_box.step = step
@@ -50,10 +49,11 @@ func _on_value_changed(value: float) -> void:
 	skip_spin_box_update = true
 	spin_box.value = value
 
+
 func _on_spin_box_value_changed(value: float) -> void:
 	if skip_spin_box_update:
 		skip_spin_box_update = false
 		return
-	
+
 	slider.value = value
 	field_updated.emit(slider.value)

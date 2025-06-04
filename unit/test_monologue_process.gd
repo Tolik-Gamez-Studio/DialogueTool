@@ -1,14 +1,8 @@
 extends GdUnitTestSuite
 
-
 var runner: MonologueProcess
 var nested = "G{{if big then if x then if y then a else e else o else i}}l"
-var v_action =  {
-	"$type": "ActionVariable",
-	"Variable": "MID_AGE",
-	"Operator": "=",
-	"Value": 66
-}
+var v_action = {"$type": "ActionVariable", "Variable": "MID_AGE", "Operator": "=", "Value": 66}
 
 
 func before_test():
@@ -68,7 +62,7 @@ func test_localize_nonexist():
 
 
 func test_next():
-	var fake = { "$type": "Nope", "ID": "a", "NextID": "b" }
+	var fake = {"$type": "Nope", "ID": "a", "NextID": "b"}
 	do_return(fake).on(runner).find_node_from_id(any())
 	runner.next_id = -1
 	runner.next()
@@ -97,10 +91,18 @@ func test_next_story_invalid():
 
 func test_parse_events():
 	var monitor = monitor_signals(runner)
-	var e1 = { "$type": "NodeEvent", "ID": "ei1", "NextID": "en1",
-			"Condition": { "Variable": "z", "Operator": "==", "Value": false }}
-	var e2 = { "$type": "NodeEvent", "ID": "ei2", "NextID": "en2",
-			"Condition": { "Variable": "age", "Operator": "<=", "Value": 11 }}
+	var e1 = {
+		"$type": "NodeEvent",
+		"ID": "ei1",
+		"NextID": "en1",
+		"Condition": {"Variable": "z", "Operator": "==", "Value": false}
+	}
+	var e2 = {
+		"$type": "NodeEvent",
+		"ID": "ei2",
+		"NextID": "en2",
+		"Condition": {"Variable": "age", "Operator": "<=", "Value": 11}
+	}
 	runner.events = [e1, e2]
 	runner.next_id = "tada"
 	runner.parse_events()
@@ -221,18 +223,18 @@ func test_process_conditional_text_comparison():
 
 
 func test_process_conditional_text_string_as_is():
-	var text = "{{ \"big\" }}"
+	var text = '{{ "big" }}'
 	assert_str(runner.process_conditional_text(text)).is_equal("big")
 
 
 func test_process_conditional_text_string_evaluation():
-	var str_text = "{{if word.contains(\"red\") then SPECIAL else BORING}}"
+	var str_text = '{{if word.contains("red") then SPECIAL else BORING}}'
 	assert_str(runner.process_conditional_text(str_text)).is_equal("SPECIAL")
 
 
 func test_process_conditional_text_string_quoted():
 	var text = "{{ '\"big\"' }}"
-	assert_str(runner.process_conditional_text(text)).is_equal("\"big\"")
+	assert_str(runner.process_conditional_text(text)).is_equal('"big"')
 
 
 func test_process_conditional_text_if_only():
@@ -241,7 +243,7 @@ func test_process_conditional_text_if_only():
 
 
 func test_process_conditional_text_if_then_true():
-	var text = "Hey {{ if big then \"big guy\"}}"
+	var text = 'Hey {{ if big then "big guy"}}'
 	assert_str(runner.process_conditional_text(text)).is_equal("Hey big guy")
 
 
@@ -289,7 +291,7 @@ func test_process_conditional_text_recursive_false_uneven():
 
 
 func test_process_node_sentence():
-	runner.characters = [{ "Reference": "Da Hoodlum", "ID": 28 }]
+	runner.characters = [{"Reference": "Da Hoodlum", "ID": 28}]
 	var monitor = monitor_signals(runner)
 	var sentence = {
 		"$type": "NodeSentence",
@@ -308,29 +310,39 @@ func test_process_node_sentence():
 
 func test_pick_random_output():
 	var outputs := [
-		{ "ID": 0, "Weight": 5, "NextID": "MxRNES6j8G" },
-		{ "ID": 1, "Weight": 25, "NextID": "MxRNES6j8G" },
-		{ "ID": 2, "Weight": 55, "NextID": "MxRNES6j8G" },
-		{ "ID": 3, "Weight": 15, "NextID": "MxRNES6j8G" },
+		{"ID": 0, "Weight": 5, "NextID": "MxRNES6j8G"},
+		{"ID": 1, "Weight": 25, "NextID": "MxRNES6j8G"},
+		{"ID": 2, "Weight": 55, "NextID": "MxRNES6j8G"},
+		{"ID": 3, "Weight": 15, "NextID": "MxRNES6j8G"},
 	]
 	var results := {}
-	
+
 	for output in outputs:
 		results[output["ID"]] = 0
 
 	for i in range(10_000):
 		var output = runner.pick_random_output(outputs)
 		results[output["ID"]] += 1
-		
+
 	for output in outputs:
-		var expected_probability: float = output.get("Weight")/100
-		var actual_probability: float = results[output["ID"]]/10_000
-		assert_float(actual_probability).is_between(expected_probability-1, expected_probability+1)
+		var expected_probability: float = output.get("Weight") / 100
+		var actual_probability: float = results[output["ID"]] / 10_000
+		assert_float(actual_probability).is_between(
+			expected_probability - 1, expected_probability + 1
+		)
 
 
 func test_set_option_value():
-	runner.node_list = [{ "$type": "NodeOption", "ID": "abc", "NextID": "xyz",
-			"Sentence": "Wow!", "Enable": false, "OneShot": true }]
+	runner.node_list = [
+		{
+			"$type": "NodeOption",
+			"ID": "abc",
+			"NextID": "xyz",
+			"Sentence": "Wow!",
+			"Enable": false,
+			"OneShot": true
+		}
+	]
 	runner.set_option_value("abc", true)
 	assert_bool(runner.node_list[0].get("Enable")).is_true()
 
@@ -343,8 +355,14 @@ func test_select_option_invalid():
 
 func test_select_option_valid():
 	var monitor = monitor_signals(runner)
-	var option = { "$type": "NodeOption", "ID": "v0", "NextID": "v1",
-			"Sentence": "Valid?", "Enable": true, "OneShot": true }
+	var option = {
+		"$type": "NodeOption",
+		"ID": "v0",
+		"NextID": "v1",
+		"Sentence": "Valid?",
+		"Enable": true,
+		"OneShot": true
+	}
 	runner.select_option(option)
 	await assert_signal(monitor).is_emitted("monologue_option_chosen", [option])
 	await assert_signal(monitor).is_not_emitted("monologue_end", [null])
@@ -361,9 +379,9 @@ func test_skip_voiceline():
 
 func test_substitute_variables():
 	var subbed = runner.substitute_variables("age == years * hah - red + y")
-	assert_str(subbed).is_equal("5 == 42 * hah - \"APPLE\" + true")
+	assert_str(subbed).is_equal('5 == 42 * hah - "APPLE" + true')
 
 
 func test_substitute_variables_conditional():
 	var subbed = runner.substitute_variables("if age > 20 then word else b")
-	assert_str(subbed).is_equal("if 5 > 20 then \"kindred\" else b")
+	assert_str(subbed).is_equal('if 5 > 20 then "kindred" else b')

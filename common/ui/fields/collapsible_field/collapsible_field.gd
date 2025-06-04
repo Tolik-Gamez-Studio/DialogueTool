@@ -1,6 +1,5 @@
 class_name CollapsibleField extends VBoxContainer
 
-
 signal add_pressed
 
 @export var show_add_button: bool = false
@@ -16,7 +15,6 @@ signal add_pressed
 @onready var icon_open := preload("res://ui/assets/icons/arrow_down.svg")
 
 
-
 func _ready() -> void:
 	button.icon = icon_close
 	add_button.visible = show_add_button
@@ -30,24 +28,24 @@ func add_item(item: Control, force_readable_name: bool = false) -> void:
 		var separator := HSeparator.new()
 		separator.theme_type_variation = "HDottedSeparator"
 		vbox.add_child(separator, true)
-	
+
 	item.visibility_changed.connect(_update)
-	
+
 	vbox.add_child(item, force_readable_name)
 	_update()
 
 
 func _update():
 	var can_see: bool = show_add_button
-		
+
 	for child in vbox.get_children():
 		if not child.visible:
 			continue
 		can_see = true
-		
+
 	if visible != can_see:
 		visible = can_see
-		
+
 	if expand:
 		size_flags_vertical = SIZE_EXPAND_FILL
 		vbox.size_flags_vertical = SIZE_EXPAND_FILL
@@ -68,7 +66,7 @@ func is_open() -> bool:
 func clear() -> void:
 	for child in vbox.get_children():
 		child.queue_free()
-		
+
 	_update()
 
 

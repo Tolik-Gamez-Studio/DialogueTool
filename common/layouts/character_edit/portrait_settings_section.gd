@@ -4,7 +4,9 @@ class_name PortraitSettingsSection extends PortraitEditSection
 signal changed
 
 var portrait_type := Property.new(MonologueGraphNode.DROPDOWN, {}, "Image", "PortraitType")
-var image_path := Property.new(MonologueGraphNode.FILE, { "filters": FilePicker.IMAGE }, "", "ImagePath")
+var image_path := Property.new(
+	MonologueGraphNode.FILE, {"filters": FilePicker.IMAGE}, "", "ImagePath"
+)
 var offset := Property.new(MonologueGraphNode.VECTOR, {}, [0, 0], "Offset")
 var mirror := Property.new(MonologueGraphNode.TOGGLE, {}, false, "Mirror")
 var one_shot := Property.new(MonologueGraphNode.TOGGLE, {}, false, "OneShot")
@@ -13,7 +15,8 @@ var one_shot := Property.new(MonologueGraphNode.TOGGLE, {}, false, "OneShot")
 @onready var timeline_section: TimelineSection = %TimelineSection
 
 var id: String
-var base_path: String : set = _set_base_path
+var base_path: String:
+	set = _set_base_path
 
 var _control_groups = {
 	"Image": [portrait_type, image_path, offset, mirror],
@@ -22,10 +25,12 @@ var _control_groups = {
 
 
 func _ready() -> void:
-	portrait_type.callers["set_items"] = [[
-		{ "id": 0, "text": "Image"     },
-		{ "id": 1, "text": "Animation" },
-	]]
+	portrait_type.callers["set_items"] = [
+		[
+			{"id": 0, "text": "Image"},
+			{"id": 1, "text": "Animation"},
+		]
+	]
 	portrait_type.change.connect(_on_portrait_type_change)
 	portrait_type.connect("preview", _show_group)
 	image_path.change.connect(_on_image_path_change)
@@ -44,7 +49,11 @@ func _set_base_path(val: String) -> void:
 
 func _from_dict(dict: Dictionary = {}) -> void:
 	var portrait_list: Array = dict.get("Portraits", [])
-	if portrait_index >= 0 and portrait_index < portrait_list.size() and portrait_index == %PortraitListSection.selected:
+	if (
+		portrait_index >= 0
+		and portrait_index < portrait_list.size()
+		and portrait_index == %PortraitListSection.selected
+	):
 		var portrait_dict: Dictionary = portrait_list[portrait_index]["Portrait"]
 		super._from_dict(portrait_dict)
 		timeline_section._from_dict.bind(portrait_dict).call_deferred()
@@ -71,14 +80,14 @@ func _on_portrait_type_change(_old_value: Variant = null, _new_value: Variant = 
 		else:
 			_on_image_path_change(null, image_path.value)
 		_show_group()
-	
+
 	_process_type_change.call_deferred()
 
 
 func _on_image_path_change(_old_value: Variant = null, new_value: Variant = null) -> void:
 	if not new_value or not image_path.field:
 		return
-	
+
 	var is_valid: bool = image_path.field.validate(image_path.value)
 	if is_valid:
 		var abs_image_path: String = Path.relative_to_absolute(new_value, base_path)

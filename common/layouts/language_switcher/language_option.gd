@@ -1,10 +1,10 @@
 class_name LanguageOption extends Button
 
-
 signal language_name_changed(old_name: String, new_name: String, option: LanguageOption)
 signal language_removed(option: LanguageOption)
 
-var language_name: String : set = set_language_name
+var language_name: String:
+	set = set_language_name
 
 @onready var del_button: TextureButton = $MarginContainer/HBoxContainer/ControlsContainer/btnDelete
 @onready var line_edit: LineEdit = $MarginContainer/HBoxContainer/LineEdit
@@ -40,7 +40,7 @@ func _on_btn_edit_pressed() -> void:
 	line_edit.selecting_enabled = true
 	line_edit.flat = false
 	line_edit.mouse_filter = Control.MOUSE_FILTER_STOP
-	
+
 	line_edit.theme_type_variation = ""
 
 
@@ -63,6 +63,7 @@ func _on_line_edit_text_submitted(new_text: String) -> void:
 
 func select() -> void:
 	theme_type_variation = "ButtonAccent"
+
 
 func unselect() -> void:
 	theme_type_variation = ""

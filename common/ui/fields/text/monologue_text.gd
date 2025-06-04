@@ -1,6 +1,5 @@
 class_name MonologueText extends MonologueField
 
-
 @export var minimum_size := Vector2(200, 200)
 
 @onready var label = $Label

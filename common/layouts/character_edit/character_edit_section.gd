@@ -1,12 +1,13 @@
 class_name CharacterEditSection extends Control
 
-
 ## Character index that is being edited in the graph_edit.
-@export var character_index: int = -1 : set = set_index
+@export var character_index: int = -1:
+	set = set_index
 ## Container which will house all the fields for this section.
 @export var field_vbox: Control
 ## The graph_edit storing the character.
-@export var graph_edit: MonologueGraphEdit : set = set_graph_edit
+@export var graph_edit: MonologueGraphEdit:
+	set = set_graph_edit
 ## List of other sections that are linked to this section.
 @export var linked_sections: Array[CharacterEditSection]
 
@@ -20,11 +21,12 @@ func _ready() -> void:
 func change(old_value: Variant, new_value: Variant, property: String) -> void:
 	var changes: Array[PropertyChange] = []
 	changes.append(PropertyChange.new(property, old_value, new_value))
-	
+
 	var undo_redo = graph_edit.undo_redo
 	undo_redo.create_action("%s: %s => %s" % [property, old_value, new_value])
-	var history = CharacterHistory.new(character_index,
-			graph_edit, graph_edit.get_path_to(self), changes)
+	var history = CharacterHistory.new(
+		character_index, graph_edit, graph_edit.get_path_to(self), changes
+	)
 	undo_redo.add_prepared_history(history)
 	undo_redo.commit_action()
 

@@ -1,6 +1,5 @@
 class_name MonologueDropdown extends MonologueField
 
-
 @export var store_index: bool
 ## Usefull when items are set after the value is set.
 @export var late_items: bool
@@ -25,11 +24,13 @@ func disable_items(index_list: PackedInt32Array):
 func get_items() -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	for idx in range(option_button.item_count):
-		result.append({
-			"id": option_button.get_item_id(idx),
-			"text": option_button.get_item_text(idx),
-			"metadata": option_button.get_item_metadata(idx)
-		})
+		result.append(
+			{
+				"id": option_button.get_item_id(idx),
+				"text": option_button.get_item_text(idx),
+				"metadata": option_button.get_item_metadata(idx)
+			}
+		)
 	return result
 
 
@@ -58,8 +59,12 @@ func set_icons(index_to_texture: Dictionary):
 
 
 # `key_text` can contain "/" to navigate inside `data`.
-func set_items(data: Array, key_text: String = "text", key_id: String = "EditorIndex",
-			key_meta: String = "metadata") -> void:
+func set_items(
+	data: Array,
+	key_text: String = "text",
+	key_id: String = "EditorIndex",
+	key_meta: String = "metadata"
+) -> void:
 	option_button.clear()
 	for idx in range(data.size()):
 		var item_id = data[idx].get(key_id, -1)
@@ -67,19 +72,19 @@ func set_items(data: Array, key_text: String = "text", key_id: String = "EditorI
 			item_id = -1
 		var item_name = data[idx]
 		var item_name_path = key_text.split("/")
-		
+
 		for path in item_name_path:
 			item_name = item_name.get(path)
 			if item_name == null:
 				item_name = "undefined"
 				break
-		
+
 		option_button.add_item(item_name, item_id)
 		option_button.set_item_metadata(idx, data[idx].get(key_meta, ""))
-		
+
 	if late_items:
 		propagate(backup_value)
-	
+
 	validate()
 
 

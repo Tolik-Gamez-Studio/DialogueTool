@@ -1,6 +1,5 @@
 class_name PromptWindow extends MonologueWindow
 
-
 signal confirmed
 signal denied
 signal cancelled

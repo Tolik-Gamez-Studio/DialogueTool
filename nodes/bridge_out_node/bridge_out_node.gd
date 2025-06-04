@@ -1,7 +1,6 @@
 @icon("res://ui/assets/icons/link.svg")
 class_name BridgeOutNode extends MonologueGraphNode
 
-
 @onready var number_selector := $HBoxContainer/LinkNumber
 
 

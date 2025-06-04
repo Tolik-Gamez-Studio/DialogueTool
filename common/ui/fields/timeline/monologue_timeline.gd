@@ -1,6 +1,5 @@
 class_name MonologueTimeline extends MonologueField
 
-
 const IMAGE = ["*.bmp,*.jpg,*.jpeg,*.png,*.svg,*.webp;Image Files"]
 const DEFAULT_LAYER_NAME: String = "Layer %s"
 
@@ -34,13 +33,15 @@ func _process(_delta: float) -> void:
 		return
 	var indicator_dist: float = current_indicator.global_position.y - get_global_mouse_position().y
 	var layer_height: float = get_layer_height()
-	var layer_dist: float = get_global_mouse_position().y - (selected_layer.global_position.y + layer_height/2.0)
+	var layer_dist: float = (
+		get_global_mouse_position().y - (selected_layer.global_position.y + layer_height / 2.0)
+	)
 	var indicator_index: int = current_indicator.get_index()
-	
+
 	current_indicator.show()
-	if indicator_dist >= layer_height/2.0:
+	if indicator_dist >= layer_height / 2.0:
 		layer_vbox.move_child(current_indicator, indicator_index - 1)
-	elif indicator_dist <= -layer_height/2.0:
+	elif indicator_dist <= -layer_height / 2.0:
 		layer_vbox.move_child(current_indicator, indicator_index + 1)
 	elif abs(layer_dist) < layer_height:
 		current_indicator.hide()
@@ -67,10 +68,7 @@ func _from_dict(dict: Dictionary) -> void:
 	selected_cell_layer_idx = -1
 
 	var default_layer_data := [
-		{
-			"LayerName": DEFAULT_LAYER_NAME % 1,
-			"Frames": {0: {"ImagePath": "", "Exposure": 1}}
-		}
+		{"LayerName": DEFAULT_LAYER_NAME % 1, "Frames": {0: {"ImagePath": "", "Exposure": 1}}}
 	]
 
 	for layer_data in dict.get("Layers", default_layer_data):
@@ -83,20 +81,13 @@ func _from_dict(dict: Dictionary) -> void:
 
 
 func _to_dict() -> Dictionary:
-	var dict: Dictionary = {
-		"Fps": fps,
-		"FrameCount": cell_count,
-		"Layers": []
-	}
+	var dict: Dictionary = {"Fps": fps, "FrameCount": cell_count, "Layers": []}
 	var layers: Array = get_all_layers()
-	
+
 	for l: Layer in layers:
 		var layer_idx: int = layers.find(l)
 		var l_timeline: LayerTimeline = layer_timeline_vbox.get_child(layer_idx)
-		dict["Layers"].append({
-			"LayerName": l.timeline_label.text,
-			"Frames": l_timeline._to_dict()
-		})
+		dict["Layers"].append({"LayerName": l.timeline_label.text, "Frames": l_timeline._to_dict()})
 	return dict
 
 
@@ -106,7 +97,7 @@ func get_all_layers() -> Array:
 		if child is not Layer or child.is_queued_for_deletion():
 			continue
 		layers.append(child)
-	
+
 	return layers
 
 
@@ -138,7 +129,7 @@ func add_timeline() -> Layer:
 	new_layer_timeline.connect("timeline_updated", _on_timeline_updated.bind(new_layer_timeline))
 
 	_update_preview()
-	
+
 	return new_layer
 
 
@@ -191,33 +182,41 @@ func _on_import_frame_button_pressed() -> void:
 func get_selected_cell() -> Variant:
 	if selected_cell_idx <= -1 and selected_cell_layer_idx <= -1:
 		return null
-	
-	var s_layer_timeline: LayerTimeline = layer_timeline_vbox.get_children()[selected_cell_layer_idx]
+
+	var s_layer_timeline: LayerTimeline = (
+		layer_timeline_vbox.get_children()[selected_cell_layer_idx]
+	)
 	return s_layer_timeline.get_all_cells()[selected_cell_idx]
+
 
 func _on_files_selected(paths: Array) -> void:
 	if selected_cell_idx <= -1 and selected_cell_layer_idx <= -1:
 		return
-	
+
 	var first_path: String = paths.pop_front()
 	get_selected_cell().image_path = Path.absolute_to_relative(first_path, base_path)
 	get_selected_cell()._update()
-	
+
 	var selected_cell_layer: LayerTimeline = layer_timeline_vbox.get_child(selected_cell_layer_idx)
 	var first_frame_duration: int = int(selected_cell_layer.get_frame_duration(selected_cell_idx))
 	var idx: int = 0
 	for path in paths:
 		idx += 1
-		var cell: TimelineCell = selected_cell_layer.add_cell(Path.absolute_to_relative(path, base_path))
+		var cell: TimelineCell = selected_cell_layer.add_cell(
+			Path.absolute_to_relative(path, base_path)
+		)
 		selected_cell_layer.hbox.move_child(cell, selected_cell_idx + idx * first_frame_duration)
-		
-		for i in range(first_frame_duration-1):
+
+		for i in range(first_frame_duration - 1):
 			var exp_cell: TimelineCell = selected_cell_layer.add_cell()
 			exp_cell.is_exposure = true
-			selected_cell_layer.hbox.move_child(exp_cell, selected_cell_idx + idx * first_frame_duration + i + 1)
+			selected_cell_layer.hbox.move_child(
+				exp_cell, selected_cell_idx + idx * first_frame_duration + i + 1
+			)
 			exp_cell._update()
-		
+
 	_update_field.call_deferred()
+
 
 func cell_selected(s_cell: TimelineCell, s_timeline: LayerTimeline) -> void:
 	var cell_idx: int = s_timeline.get_all_cells().find(s_cell)
@@ -283,7 +282,7 @@ func _on_layer_button_up(target_layer: Layer) -> void:
 		current_indicator.free()
 		current_indicator = null
 		return
-	
+
 	var new_placement_idx: int = current_indicator.get_index()
 	var layer_idx: int = get_all_layers().find(target_layer)
 	var t_layer_timeline: LayerTimeline = layer_timeline_vbox.get_child(layer_idx)
@@ -313,7 +312,7 @@ func _on_play_backwards_button_pressed() -> void:
 
 
 func _on_skip_backward_button_pressed() -> void:
-	pass # Replace with function body.
+	pass  # Replace with function body.
 
 
 func _on_stop_button_pressed() -> void:
@@ -321,7 +320,7 @@ func _on_stop_button_pressed() -> void:
 
 
 func _on_skip_forward_button_pressed() -> void:
-	pass # Replace with function body.
+	pass  # Replace with function body.
 
 
 func _on_play_button_pressed() -> void:
