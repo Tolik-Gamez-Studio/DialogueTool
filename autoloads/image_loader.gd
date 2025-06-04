@@ -13,6 +13,10 @@ func load_image(image_path: String) -> ImageTexture:
 
 
 func _load_image_to_cache(image_path: String) -> void:
+	var dir_access: DirAccess = DirAccess.open("")
+	if not dir_access.file_exists(image_path):
+		return
+	
 	var im: Image = Image.load_from_file(image_path)
 	if not im:
 		printerr("Coundn't load image from path: %s" % image_path)
@@ -36,7 +40,8 @@ func _get_thumbnail(image_path: String) -> ImageTexture:
 		tx = _cache[image_path].get("thumbnail_128", tx)
 	elif not image_path.is_empty():
 		_load_image_to_cache(image_path)
-		tx = _cache[image_path].get("thumbnail_128", tx)
+		if _cache.has(image_path):
+			tx = _cache[image_path].get("thumbnail_128", tx)
 	
 	return tx
 
@@ -48,6 +53,7 @@ func _get_image(image_path: String) -> ImageTexture:
 		tx = _cache[image_path].get("raw", tx)
 	elif not image_path.is_empty():
 		_load_image_to_cache(image_path)
-		tx = _cache[image_path].get("raw", tx)
+		if _cache.has(image_path):
+			tx = _cache[image_path].get("raw", tx)
 	
 	return tx

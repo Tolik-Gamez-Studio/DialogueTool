@@ -59,6 +59,7 @@ func update_parent(_old_value = "", _new_value = "") -> void:
 func _from_dict(dict: Dictionary) -> void:
 	option.value = dict.get("Sentence", "")
 	enable_by_default.value = dict.get("Enable", false)
+	dict.erase("EditorPosition")
 	super._from_dict(dict)
 
 

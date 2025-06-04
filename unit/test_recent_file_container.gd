@@ -1,6 +1,5 @@
 extends GdUnitTestSuite
 
-
 var container: RecentFilesContainer
 var directory
 
@@ -8,8 +7,7 @@ var directory
 func before_test():
 	container = auto_free(RecentFilesContainer.new())
 	container.button_container = auto_free(Control.new())
-	container.button_scene = \
-			preload("res://common/windows/welcome_window/recent_file_button.tscn")
+	container.button_scene = preload("res://common/windows/welcome_window/recent_file_button.tscn")
 	container.save_path = "user://test_history.save"
 	directory = DirAccess.open(container.save_path.get_base_dir())
 	directory.remove(container.save_path)
@@ -27,7 +25,6 @@ func test_add_override():
 	file.close()
 	container.recent_filepaths = ["three.json", "four.json"]
 	container.add("five.json")
-	
 	var text = FileAccess.get_file_as_string(container.save_path)
 	var json = JSON.parse_string(text)
 	# test the order of the array, "five.json" should be first!

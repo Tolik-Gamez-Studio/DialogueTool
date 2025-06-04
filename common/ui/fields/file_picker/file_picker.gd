@@ -28,7 +28,6 @@ func validate(path: String) -> bool:
 	var is_valid = true
 	path = path.lstrip(" ")
 	path = path.rstrip(" ")
-	
 	if path and filters:
 		var absolute_path = Path.relative_to_absolute(path, base_path)
 		if not FileAccess.file_exists(absolute_path):
@@ -44,7 +43,6 @@ func validate(path: String) -> bool:
 					if file_name.match(target):
 						correct_suffix = true
 						break
-			
 			if not correct_suffix:
 				warn_label.show()
 				var formats = Array(filters).map(_split_match)
@@ -64,8 +62,7 @@ func _on_focus_exited() -> void:
 
 
 func _on_picker_button_pressed():
-	GlobalSignal.emit("open_file_request",
-			[_on_file_selected, filters, base_path.get_base_dir()])
+	GlobalSignal.emit("open_file_request", [_on_file_selected, filters, base_path.get_base_dir()])
 
 
 func _on_text_changed(new_text: String) -> void:

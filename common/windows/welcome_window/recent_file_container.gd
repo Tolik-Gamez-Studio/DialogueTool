@@ -1,6 +1,5 @@
 class_name RecentFilesContainer extends VBoxContainer
 
-
 @export var button_container: Control
 @export var save_path: String = Constants.HISTORY_PATH
 
@@ -14,7 +13,7 @@ func _ready() -> void:
 	refresh()
 
 
-## Adds a new filepath as recent file and save it to the history file.
+## Adds a new filepath as recent file and saves it to the history file.
 func add(filepath: String) -> void:
 	var file = FileAccess.open(save_path, FileAccess.WRITE)
 	if file:

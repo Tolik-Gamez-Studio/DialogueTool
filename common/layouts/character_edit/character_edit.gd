@@ -65,3 +65,7 @@ func _on_visibility_changed() -> void:
 		GlobalSignal.emit("show_dimmer", [self])
 		return
 	GlobalSignal.emit("hide_dimmer", [self])
+
+
+func _on_timeline_section_visibility_changed() -> void:
+	pass # Replace with function body.

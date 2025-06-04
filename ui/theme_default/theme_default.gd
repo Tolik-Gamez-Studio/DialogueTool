@@ -600,6 +600,7 @@ func _generate_theme() -> void:
 	set_stylebox("tab_focus", "TabBar", tab_focus_sb)
 	
 	# TextEdit
+	
 	var text_edit_sb: StyleBoxFlat = line_edit_sb.duplicate()
 	
 	var text_edit_focus_sb: StyleBoxFlat = line_edit_focus_sb.duplicate()
@@ -611,6 +612,18 @@ func _generate_theme() -> void:
 	set_stylebox("normal", "TextEdit", text_edit_sb)
 	set_stylebox("focus", "TextEdit", text_edit_focus_sb)
 	set_stylebox("read_only", "TextEdit", text_edit_disabled_sb)
+
+	# TimelineLayerPanel
+	
+	set_type_variation("TimelineLayerPanel", "PanelContainer")
+	
+	sb = base_sb.duplicate()
+	sb.set_corner_radius_all(0)
+	sb.bg_color = _get_primary_color(contrast, false)
+	sb.border_width_bottom = border_width
+	sb.border_color = Color.BLACK
+	
+	set_stylebox("panel", "TimelineLayerPanel", sb)
 	
 	# Tree
 	

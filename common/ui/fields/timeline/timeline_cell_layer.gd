@@ -11,6 +11,7 @@ var timeline_cell := preload("res://common/ui/fields/timeline/timeline_cell.tscn
 var placement_indicator := preload("res://common/ui/vertical_placement_indicator.tscn")
 
 var current_indicator: Control
+var selected_cell: TimelineCell
 
 
 func _ready() -> void:
@@ -42,9 +43,18 @@ func _on_cell_button_down(cell: TimelineCell) -> void:
 	current_indicator = placement_indicator.instantiate()
 	hbox.add_child(current_indicator)
 	hbox.move_child(current_indicator, cell.get_index()+1)
+	current_indicator.show()
+	selected_cell = cell
 
 
 func _on_cell_button_up(cell: TimelineCell) -> void:
+	selected_cell = null
+	if not current_indicator.visible:
+		timeline.cell_selected(cell, self)
+		current_indicator.queue_free()
+		current_indicator = null
+		return
+	
 	var indicator_idx = current_indicator.get_index()
 	hbox.move_child(cell, indicator_idx)
 	
@@ -59,9 +69,6 @@ func _on_cell_button_up(cell: TimelineCell) -> void:
 		first_cell._update()
 	
 	timeline_updated.emit()
-	
-	
-	timeline.cell_selected(cell, self)
 	
 	for child in get_all_cells():
 		if child == cell:
@@ -80,12 +87,16 @@ func _process(_delta: float) -> void:
 		return
 	
 	var indicator_dist: float = current_indicator.global_position.x - get_global_mouse_position().x
+	var cell_width: float = timeline.get_cell_width()
+	var cell_dist: float = get_global_mouse_position().x - (selected_cell.global_position.x + cell_width/2.0)
 	var indicator_index: int = current_indicator.get_index()
-	var dist: float = timeline.get_cell_width() / 2.0
-	if indicator_dist > dist:
+	current_indicator.show()
+	if indicator_dist >= cell_width/2.0:
 		hbox.move_child(current_indicator, indicator_index-1)
-	elif indicator_dist <= -dist:
+	elif indicator_dist <= -cell_width/2.0:
 		hbox.move_child(current_indicator, indicator_index+1)
+	elif abs(cell_dist) < cell_width:
+		current_indicator.hide()
 
 
 func remove_cell(cell: TimelineCell) -> void:

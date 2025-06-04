@@ -1,6 +1,5 @@
 extends Control
 
-
 @export_file var load_scene: String
 @export var min_display_time: float = 0.2
 @export var after_blink_time: float = 0.5

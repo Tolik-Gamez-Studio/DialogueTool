@@ -1,13 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://hc8mgc7ndi5d"]
+[gd_scene load_steps=7 format=3 uid="uid://hc8mgc7ndi5d"]
 
 [ext_resource type="Script" uid="uid://dt0lru5kmkesc" path="res://common/ui/fields/timeline/timeline_cell_layer.gd" id="1_uew4g"]
 [ext_resource type="Texture2D" uid="uid://hlck6y4i3l5q" path="res://ui/assets/icons/plus.svg" id="2_68mbi"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_38dgm"]
-bg_color = Color(0.27451, 0.27451, 0.301961, 0.25098)
-border_width_bottom = 1
-border_color = Color(0.117647, 0.117647, 0.129412, 1)
-border_blend = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0ynx3"]
 bg_color = Color(0.117647, 0.117647, 0.129412, 1)
@@ -24,7 +18,7 @@ bg_color = Color(0.117647, 0.117647, 0.129412, 1)
 [node name="LayerTimeline" type="PanelContainer"]
 custom_minimum_size = Vector2(0, 52)
 size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_38dgm")
+theme_type_variation = &"ItemContainerFlat"
 script = ExtResource("1_uew4g")
 
 [node name="BaseContainer" type="HBoxContainer" parent="."]

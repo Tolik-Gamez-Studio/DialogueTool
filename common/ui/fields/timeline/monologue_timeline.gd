@@ -23,6 +23,7 @@ var base_path: String
 var selected_cell_idx: int = -1
 var selected_cell_layer_idx: int = -1
 var current_indicator: Control
+var selected_layer: Layer
 var preview_section
 
 var fps: float = 12.0
@@ -32,11 +33,17 @@ func _process(_delta: float) -> void:
 	if current_indicator == null:
 		return
 	var indicator_dist: float = current_indicator.global_position.y - get_global_mouse_position().y
+	var layer_height: float = get_layer_height()
+	var layer_dist: float = get_global_mouse_position().y - (selected_layer.global_position.y + layer_height/2.0)
 	var indicator_index: int = current_indicator.get_index()
-	if indicator_dist > 26:
+	
+	current_indicator.show()
+	if indicator_dist >= layer_height/2.0:
 		layer_vbox.move_child(current_indicator, indicator_index - 1)
-	elif indicator_dist <= -26:
+	elif indicator_dist <= -layer_height/2.0:
 		layer_vbox.move_child(current_indicator, indicator_index + 1)
+	elif abs(layer_dist) < layer_height:
+		current_indicator.hide()
 
 
 func _clear() -> void:
@@ -105,6 +112,10 @@ func get_all_layers() -> Array:
 
 func get_cell_width() -> int:
 	return layer_container.cell_width
+
+
+func get_layer_height() -> int:
+	return get_all_layers()[0].size.y
 
 
 func add_cell() -> void:
@@ -192,18 +203,18 @@ func _on_files_selected(paths: Array) -> void:
 	get_selected_cell().image_path = Path.absolute_to_relative(first_path, base_path)
 	get_selected_cell()._update()
 	
-	var selected_layer: LayerTimeline = layer_timeline_vbox.get_child(selected_cell_layer_idx)
-	var first_frame_duration: int = int(selected_layer.get_frame_duration(selected_cell_idx))
+	var selected_cell_layer: LayerTimeline = layer_timeline_vbox.get_child(selected_cell_layer_idx)
+	var first_frame_duration: int = int(selected_cell_layer.get_frame_duration(selected_cell_idx))
 	var idx: int = 0
 	for path in paths:
 		idx += 1
-		var cell: TimelineCell = selected_layer.add_cell(Path.absolute_to_relative(path, base_path))
-		selected_layer.hbox.move_child(cell, selected_cell_idx + idx * first_frame_duration)
+		var cell: TimelineCell = selected_cell_layer.add_cell(Path.absolute_to_relative(path, base_path))
+		selected_cell_layer.hbox.move_child(cell, selected_cell_idx + idx * first_frame_duration)
 		
 		for i in range(first_frame_duration-1):
-			var exp_cell: TimelineCell = selected_layer.add_cell()
+			var exp_cell: TimelineCell = selected_cell_layer.add_cell()
 			exp_cell.is_exposure = true
-			selected_layer.hbox.move_child(exp_cell, selected_cell_idx + idx * first_frame_duration + i + 1)
+			selected_cell_layer.hbox.move_child(exp_cell, selected_cell_idx + idx * first_frame_duration + i + 1)
 			exp_cell._update()
 		
 	_update_field.call_deferred()
@@ -211,6 +222,8 @@ func _on_files_selected(paths: Array) -> void:
 func cell_selected(s_cell: TimelineCell, s_timeline: LayerTimeline) -> void:
 	var cell_idx: int = s_timeline.get_all_cells().find(s_cell)
 	var timeline_idx: int = layer_timeline_vbox.get_children().find(s_timeline)
+	selected_cell_idx = cell_idx
+	selected_cell_layer_idx = timeline_idx
 	sub_select(cell_idx, timeline_idx)
 	if not s_cell.is_exposure:
 		import_frame_button.disabled = false
@@ -261,15 +274,23 @@ func _on_layer_button_down(target_layer: Layer) -> void:
 	current_indicator = placement_indicator.instantiate()
 	layer_vbox.add_child(current_indicator)
 	layer_vbox.move_child(current_indicator, layer_idx + 1)
+	selected_layer = target_layer
 
 
 func _on_layer_button_up(target_layer: Layer) -> void:
-	var layer_idx: int = layer_vbox.get_children().find(target_layer)
-	var t_layer_timeline: LayerTimeline = layer_timeline_vbox.get_child(layer_idx - 1)
-	layer_vbox.move_child(target_layer, current_indicator.get_index())
-	layer_timeline_vbox.move_child(t_layer_timeline, current_indicator.get_index() - 1)
-	current_indicator.queue_free()
+	selected_layer = null
+	if not current_indicator.visible:
+		current_indicator.free()
+		current_indicator = null
+		return
+	
+	var new_placement_idx: int = current_indicator.get_index()
+	var layer_idx: int = get_all_layers().find(target_layer)
+	var t_layer_timeline: LayerTimeline = layer_timeline_vbox.get_child(layer_idx)
+	layer_vbox.move_child(target_layer, new_placement_idx)
+	current_indicator.free()
 	current_indicator = null
+	layer_timeline_vbox.move_child(t_layer_timeline, get_all_layers().find(target_layer))
 	_update_field.call_deferred()
 
 
@@ -305,4 +326,3 @@ func _on_skip_forward_button_pressed() -> void:
 
 func _on_play_button_pressed() -> void:
 	preview_section.play()
-	

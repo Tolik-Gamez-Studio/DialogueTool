@@ -1,10 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://c3kq4oc8yxco7"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y3h2k"]
-bg_color = Color(0.839216, 0.317647, 0.380392, 0.247059)
-draw_center = false
-border_width_right = 1
-border_color = Color(0.117647, 0.117647, 0.129412, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c33me"]
 
 [sub_resource type="GDScript" id="GDScript_aiax2"]
 script/source = "extends PanelContainer
@@ -84,7 +80,7 @@ corner_radius_bottom_left = 2
 
 [node name="CellNumber" type="PanelContainer"]
 custom_minimum_size = Vector2(27, 26)
-theme_override_styles/panel = SubResource("StyleBoxFlat_y3h2k")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_c33me")
 script = SubResource("GDScript_aiax2")
 
 [node name="Label" type="Label" parent="."]

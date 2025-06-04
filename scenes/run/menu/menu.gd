@@ -1,9 +1,7 @@
 extends Control
 
-
 var file_path: String
 var from_node: Variant
-
 
 func _ready():
 	%CustomIDLabel.hide()
@@ -17,9 +15,7 @@ func load_scene(scene):
 	main_scene.file_path = file_path
 	main_scene.locale = str(GlobalVariables.language_switcher.get_current_language())
 	get_window().add_child(main_scene)
-	
 	queue_free()
-
 
 func _on_leave_button_pressed():
 	get_window().queue_free()

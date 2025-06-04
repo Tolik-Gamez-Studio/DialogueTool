@@ -15,7 +15,6 @@ func _on_save_file_request(callable: Callable,
 	title = "Save"
 	ok_button_text = "Save"
 	file_mode = FileDialog.FILE_MODE_SAVE_FILE
-	
 	_core_request(callable, filter_list, root_subdir)
 
 
@@ -24,7 +23,6 @@ func _on_open_file_request(callable: Callable,
 	title = "Open"
 	ok_button_text = "Open"
 	file_mode = FileDialog.FILE_MODE_OPEN_FILE
-	
 	_core_request(callable, filter_list, root_subdir)
 
 

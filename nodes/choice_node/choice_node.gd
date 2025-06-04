@@ -97,6 +97,7 @@ func _from_dict(dict: Dictionary) -> void:
 		options.value = []
 		clear_children()
 	_load_position(dict)
+	super._from_dict(dict)
 	# overridden to prevent _update() from happening too early here
 
 

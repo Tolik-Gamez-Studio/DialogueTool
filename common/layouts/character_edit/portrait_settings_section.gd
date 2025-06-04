@@ -64,7 +64,8 @@ func _on_check_button_toggled(toggled_on: bool) -> void:
 
 func _on_portrait_type_change(_old_value: Variant = null, _new_value: Variant = null) -> void:
 	var _process_type_change = func():
-		timeline_section.visible = portrait_type.value == "Animation"
+		if visible:
+			timeline_section.visible = portrait_type.value == "Animation"
 		if portrait_type.value == "Animation":
 			preview_section.update_animation([])
 		else:

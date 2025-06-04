@@ -38,7 +38,7 @@ text = "-"
 layout_mode = 2
 
 [node name="SpinBox" type="SpinBox" parent="HBoxContainer"]
-custom_minimum_size = Vector2(100, 0)
+custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 theme_override_constants/set_min_buttons_width_from_icons = 0
 theme_override_constants/buttons_width = 0

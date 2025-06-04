@@ -1,8 +1,9 @@
-[gd_scene load_steps=32 format=3 uid="uid://bqbr75kwcpu3i"]
+[gd_scene load_steps=34 format=3 uid="uid://bqbr75kwcpu3i"]
 
 [ext_resource type="Script" uid="uid://bqqjre8f0yujm" path="res://common/ui/fields/timeline/monologue_timeline.gd" id="1_scldq"]
 [ext_resource type="Texture2D" uid="uid://xiahr3jughjg" path="res://ui/assets/icons/plus_min.svg" id="2_qevyo"]
 [ext_resource type="Texture2D" uid="uid://fcpb4fd7uma3" path="res://ui/assets/icons/trash_min.svg" id="3_i3rsl"]
+[ext_resource type="PackedScene" uid="uid://wiapsnoaoc44" path="res://common/ui/custom_spinbox/custom_spinbox.tscn" id="4_i3rsl"]
 [ext_resource type="Texture2D" uid="uid://08g8utdd2kai" path="res://ui/assets/icons/media_play_backward.svg" id="4_wgfvs"]
 [ext_resource type="Texture2D" uid="uid://bowdhs0emx5i2" path="res://ui/assets/icons/media_skip_backward.svg" id="5_aaeml"]
 [ext_resource type="Texture2D" uid="uid://ctm64x2sdw2y2" path="res://ui/assets/icons/media_stop.svg" id="6_kgr41"]
@@ -12,13 +13,6 @@
 [ext_resource type="Script" uid="uid://csoamuetoupw0" path="res://common/ui/fields/timeline/timeline_layer_cell_container.gd" id="10_6qrpt"]
 [ext_resource type="Texture2D" uid="uid://hlck6y4i3l5q" path="res://ui/assets/icons/plus.svg" id="11_u65pl"]
 [ext_resource type="PackedScene" uid="uid://c3kq4oc8yxco7" path="res://common/ui/fields/timeline/timeline_cell_number.tscn" id="12_4mkmo"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ng6uw"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
-bg_color = Color(0.275, 0.275, 0.302, 0.25)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2pjie"]
 bg_color = Color(0.27451, 0.27451, 0.301961, 0.25098)
@@ -69,13 +63,11 @@ corner_radius_bottom_left = 2
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_argys"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_38dgm"]
-bg_color = Color(0.27451, 0.27451, 0.301961, 0.25098)
-border_width_bottom = 1
-border_color = Color(0.117647, 0.117647, 0.129412, 1)
-border_blend = true
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aaeml"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6xlvw"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kgr41"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gcvrj"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_86o0e"]
 line_spacing = 0.0
@@ -93,6 +85,12 @@ bg_color = Color(0.117647, 0.117647, 0.129412, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7j2ls"]
 bg_color = Color(0.117647, 0.117647, 0.129412, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_38dgm"]
+bg_color = Color(0.27451, 0.27451, 0.301961, 0.25098)
+border_width_bottom = 1
+border_color = Color(0.117647, 0.117647, 0.129412, 1)
+border_blend = true
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_omduo"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t1qxj"]
@@ -102,7 +100,7 @@ offset_right = 528.0
 offset_bottom = 83.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_ng6uw")
+theme_type_variation = &"CollapsibleFieldPanel"
 script = ExtResource("1_scldq")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -147,12 +145,9 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="FpsSpinBox" type="SpinBox" parent="VBoxContainer/PanelContainer/HBoxContainer/HBoxContainer"]
+[node name="FpsSpinBox" parent="VBoxContainer/PanelContainer/HBoxContainer/HBoxContainer" instance=ExtResource("4_i3rsl")]
 unique_name_in_owner = true
 layout_mode = 2
-value = 25.0
-allow_greater = true
-alignment = 2
 suffix = "fps"
 
 [node name="PlayBackwardsButton" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer"]
@@ -169,6 +164,7 @@ icon_alignment = 1
 expand_icon = true
 
 [node name="SkipBackwardButton" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_xe0nk")
@@ -195,6 +191,7 @@ icon_alignment = 1
 expand_icon = true
 
 [node name="SkipForwardButton" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_xe0nk")
@@ -248,7 +245,7 @@ script = ExtResource("10_6qrpt")
 [node name="LayerContainer" type="PanelContainer" parent="VBoxContainer/LayerContainer"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_2pjie")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_aaeml")
 
 [node name="MainLayerVBox" type="VBoxContainer" parent="VBoxContainer/LayerContainer/LayerContainer"]
 layout_mode = 2
@@ -258,7 +255,7 @@ size_flags_vertical = 3
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/LayerContainer/LayerContainer/MainLayerVBox"]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_38dgm")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_kgr41")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/LayerContainer/LayerContainer/MainLayerVBox/PanelContainer"]
 layout_mode = 2
@@ -268,7 +265,7 @@ theme_override_constants/separation = 0
 [node name="PanelContainer4" type="PanelContainer" parent="VBoxContainer/LayerContainer/LayerContainer/MainLayerVBox/PanelContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxEmpty_6xlvw")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_gcvrj")
 
 [node name="Label" type="Label" parent="VBoxContainer/LayerContainer/LayerContainer/MainLayerVBox/PanelContainer/HBoxContainer/PanelContainer4"]
 layout_mode = 2
