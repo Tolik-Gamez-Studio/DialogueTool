@@ -656,6 +656,18 @@ func _generate_theme() -> void:
 	set_stylebox("normal", "TextEdit", text_edit_sb)
 	set_stylebox("focus", "TextEdit", text_edit_focus_sb)
 	set_stylebox("read_only", "TextEdit", text_edit_disabled_sb)
+	
+	# TimelineCellNumber
+
+	set_type_variation("TimelineCellNumber", "PanelContainer")
+
+	sb = base_sb.duplicate()
+	sb.set_corner_radius_all(0)
+	sb.bg_color = _get_primary_color(contrast, false)
+	sb.border_width_right = border_width
+	sb.border_color = Color.BLACK
+
+	set_stylebox("panel", "TimelineCellNumber", sb)
 
 	# TimelineLayerPanel
 

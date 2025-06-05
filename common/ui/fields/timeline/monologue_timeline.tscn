@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://bqbr75kwcpu3i"]
+[gd_scene load_steps=33 format=3 uid="uid://bqbr75kwcpu3i"]
 
 [ext_resource type="Script" uid="uid://bqqjre8f0yujm" path="res://common/ui/fields/timeline/monologue_timeline.gd" id="1_scldq"]
 [ext_resource type="Texture2D" uid="uid://xiahr3jughjg" path="res://ui/assets/icons/plus_min.svg" id="2_qevyo"]
@@ -13,9 +13,6 @@
 [ext_resource type="Script" uid="uid://csoamuetoupw0" path="res://common/ui/fields/timeline/timeline_layer_cell_container.gd" id="10_6qrpt"]
 [ext_resource type="Texture2D" uid="uid://hlck6y4i3l5q" path="res://ui/assets/icons/plus.svg" id="11_u65pl"]
 [ext_resource type="PackedScene" uid="uid://c3kq4oc8yxco7" path="res://common/ui/fields/timeline/timeline_cell_number.tscn" id="12_4mkmo"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2pjie"]
-bg_color = Color(0.27451, 0.27451, 0.301961, 0.25098)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wlqpu"]
 draw_center = false
@@ -85,11 +82,10 @@ bg_color = Color(0.117647, 0.117647, 0.129412, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7j2ls"]
 bg_color = Color(0.117647, 0.117647, 0.129412, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_38dgm"]
-bg_color = Color(0.27451, 0.27451, 0.301961, 0.25098)
-border_width_bottom = 1
-border_color = Color(0.117647, 0.117647, 0.129412, 1)
-border_blend = true
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qevyo"]
+draw_center = false
+corner_radius_top_left = 4
+corner_radius_top_right = 4
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_omduo"]
 
@@ -109,7 +105,6 @@ theme_override_constants/separation = 5
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_2pjie")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer"]
 custom_minimum_size = Vector2(0, 26)
@@ -253,7 +248,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/LayerContainer/LayerContainer/MainLayerVBox"]
-custom_minimum_size = Vector2(0, 25)
+custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_kgr41")
 
@@ -308,9 +303,10 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="FrameCountTimeline" type="PanelContainer" parent="VBoxContainer/LayerContainer/LayerTimelineContainer/LayerTimelineVBox"]
+clip_contents = true
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_38dgm")
+theme_override_styles/panel = SubResource("StyleBoxFlat_qevyo")
 
 [node name="HBox" type="HBoxContainer" parent="VBoxContainer/LayerContainer/LayerTimelineContainer/LayerTimelineVBox/FrameCountTimeline"]
 layout_mode = 2
@@ -323,6 +319,7 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="CellNumber" parent="VBoxContainer/LayerContainer/LayerTimelineContainer/LayerTimelineVBox/FrameCountTimeline/HBox/CellNumberHBox" instance=ExtResource("12_4mkmo")]
+custom_minimum_size = Vector2(27, 35)
 layout_mode = 2
 
 [node name="PanelContainer6" type="PanelContainer" parent="VBoxContainer/LayerContainer/LayerTimelineContainer/LayerTimelineVBox/FrameCountTimeline/HBox"]

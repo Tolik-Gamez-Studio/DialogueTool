@@ -194,7 +194,7 @@ stretch = true
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(2, 2)
+size = Vector2i(362, 239)
 size_2d_override_stretch = true
 render_target_update_mode = 4
 
@@ -255,7 +255,7 @@ text = "Timeline"
 label_settings = ExtResource("2_50fu3")
 
 [node name="TimelineContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HSplitContainer/LeftContainer/TimelineSection"]
-custom_minimum_size = Vector2(0, 200)
+custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_top = 0
