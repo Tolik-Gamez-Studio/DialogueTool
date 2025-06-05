@@ -34,10 +34,10 @@ func _load_image():
 	var base = image.setters.get("base_path")
 	var path = Path.relative_to_absolute(image.value, base)
 	if FileAccess.file_exists(path):
-		var img = Image.load_from_file(path)
+		var img = ImageLoader.load_image(path)
 		if img:
 			_preview_rect.show()
-			_preview_rect.texture = ImageTexture.create_from_image(img)
+			_preview_rect.texture = img
 			_path_label.text = image.value.get_file()
 		else:
 			_preview_rect.hide()
