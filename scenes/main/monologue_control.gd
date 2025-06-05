@@ -114,6 +114,7 @@ func load_project(path: String, new_graph: bool = false) -> void:
 		_connect_nodes(node_list)
 		graph_switcher.add_root()
 		graph_switcher.current.update_node_positions()
+		graph_switcher.current.grab_focus()
 		GlobalSignal.emit("load_successful", [path])
 
 
@@ -190,3 +191,11 @@ func _notification(what: int) -> void:
 		get_viewport().gui_release_focus()
 		graph_switcher.is_closing_all_tabs = true
 		graph_switcher._on_tab_close_pressed(0)
+
+
+func _on_button_sparkle_pressed() -> void:
+	# TODO: Create an undo/redo action for every nodes. Need to pack undo/redo action into one action.
+	pass
+	#graph_switcher.current.set_block_signals(true)
+	#graph_switcher.current.arrange_nodes()
+	#graph_switcher.current.set_block_signals.bind(false).call_deferred()

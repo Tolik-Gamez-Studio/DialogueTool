@@ -53,6 +53,7 @@ func add_tab(filename: String) -> void:
 
 func connect_side_panel(graph_edit: MonologueGraphEdit) -> void:
 	graph_edit.connect("node_selected", side_panel.on_graph_node_selected)
+	graph_edit.connect("node_selected", print.bind("vvvvv"))
 	graph_edit.connect("node_deselected", side_panel.on_graph_node_deselected)
 	graph_edit.undo_redo.connect("version_changed", update_save_state)
 

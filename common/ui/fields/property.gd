@@ -76,7 +76,7 @@ func propagate(new_value: Variant, can_display: bool = true) -> void:
 	preview.emit(new_value)
 	if is_instance_valid(field):
 		field.propagate(new_value)
-	elif can_display:
+	elif can_display or not visible:
 		uncollapse = true
 		display.emit()
 
