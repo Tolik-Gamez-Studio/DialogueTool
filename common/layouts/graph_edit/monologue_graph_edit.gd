@@ -229,7 +229,7 @@ func pick_and_center(
 	nodes: Array[MonologueGraphNode], picker: GraphNodePicker
 ) -> PackedStringArray:
 	var to_names = []
-	var offset = ((size / 2) + scroll_offset) / zoom  # center of graph
+	var offset = (scroll_offset + size/2) / zoom  # center of graph
 
 	if picker.from_node and picker.from_port != -1:
 		if nodes[0].get_input_port_count() > 0:
@@ -241,15 +241,18 @@ func pick_and_center(
 			offset = (picker.release + scroll_offset) / zoom
 
 		picker.flush()
-
+		
 	for node in nodes:
 		node.position_offset = offset
-		offset += Vector2(node.size.x + 10, 0)
+
 	post_node_offset.call_deferred(nodes)
 	return to_names
 
 
 func post_node_offset(nodes: Array[MonologueGraphNode]) -> void:
+	for node in nodes:
+		node.position_offset -= node.size/2
+	
 	if not nodes[0].is_slot_enabled_left(0):
 		return
 
