@@ -199,3 +199,7 @@ func _on_button_sparkle_pressed() -> void:
 	#graph_switcher.current.set_block_signals(true)
 	#graph_switcher.current.arrange_nodes()
 	#graph_switcher.current.set_block_signals.bind(false).call_deferred()
+
+
+func _on_button_settings_pressed() -> void:
+	GlobalSignal.emit("show_current_config")
