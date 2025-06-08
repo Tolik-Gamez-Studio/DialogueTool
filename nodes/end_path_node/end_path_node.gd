@@ -7,6 +7,7 @@ var next_story := Property.new(FILE, {"filters":  ["*.json;Monologue File"]})
 func _ready():
 	node_type = "NodeEndPath"
 	super._ready()
+	next_story.setters["base_path"] = get_parent().file_path
 
 
 func _from_dict(dict: Dictionary):
