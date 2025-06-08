@@ -14,6 +14,8 @@ var is_closing_all_tabs: bool
 var pending_new_graph: MonologueGraphEdit
 var prompt_scene = preload("res://common/windows/prompt_window/prompt_window.tscn")
 var root_scene = Constants.NODE_SCENES.get("Root")
+var last_selected_tab: int = 0
+var prevent_switching: bool = false
 
 @onready var graph_edits: Control = $GraphEditZone/GraphEdits
 
@@ -23,6 +25,7 @@ func _ready() -> void:
 	tab_bar.connect("tab_close_pressed", _on_tab_close_pressed)
 	new_graph_edit()
 	GlobalSignal.add_listener("previous_tab", previous_tab)
+	GlobalSignal.add_listener("last_tab", last_tab)
 	GlobalSignal.add_listener("show_current_config", show_current_config)
 
 
@@ -88,6 +91,9 @@ func new_graph_edit() -> MonologueGraphEdit:
 
 
 func _on_tab_close_pressed(tab: int) -> void:
+	if prevent_switching:
+		return
+	
 	var ge = graph_edits.get_child(tab)
 	if ge.is_unsaved():  # prompt user if there are unsaved changes
 		GlobalSignal.emit("disable_picker_mode")
@@ -105,6 +111,11 @@ func _on_tab_close_pressed(tab: int) -> void:
 func previous_tab():
 	if tab_bar.tab_count > 1:
 		tab_bar.select_previous_available()
+
+
+func last_tab():
+	tab_bar.current_tab = last_selected_tab
+	tab_bar.tab_changed.emit(last_selected_tab)
 
 
 ## Select the RootNode of the current graph edit, which opens the side panel.
@@ -136,6 +147,10 @@ func _close_tab(graph_edit, tab_index, save_first = false) -> void:
 
 
 func _on_tab_changed(tab: int) -> void:
+	if prevent_switching:
+		tab_bar.current_tab = last_selected_tab
+		return
+	
 	if tab < tab_bar.tab_count - 1:
 		# this allows user to switch out of the new tab (welcome window)
 		tab_bar.tab_close_display_policy = TabBar.CLOSE_BUTTON_SHOW_ACTIVE_ONLY
@@ -155,6 +170,7 @@ func _on_tab_changed(tab: int) -> void:
 					side_panel.hide()
 			else:
 				ge.visible = false
+		last_selected_tab = tab
 	else:
 		tab_bar.tab_close_display_policy = TabBar.CLOSE_BUTTON_SHOW_NEVER
 		pending_new_graph = new_graph_edit()

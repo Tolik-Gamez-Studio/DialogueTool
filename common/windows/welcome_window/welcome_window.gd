@@ -7,12 +7,26 @@ var file_callback = func(path): GlobalSignal.emit("load_project", [path])
 @onready var recent_files: RecentFilesContainer = %RecentFilesContainer
 @onready var version_label: Label = %VersionLabel
 
+var is_startup: bool = false
+
 
 func _ready():
 	super._ready()
+	is_startup = true
 	version_label.text = "v" + ProjectSettings.get("application/config/version")
 	GlobalSignal.add_listener("show_welcome", show)
-	GlobalSignal.add_listener("hide_welcome", hide)
+	GlobalSignal.add_listener("hide_welcome", _on_hide)
+
+
+func _input(_event: InputEvent) -> void:
+	if Input.is_key_pressed(KEY_ESCAPE) and not is_startup:
+		GlobalSignal.emit("last_tab")
+		hide()
+
+
+func _on_hide() -> void:
+	is_startup = false
+	hide()
 
 
 func _on_new_file_btn_pressed() -> void:

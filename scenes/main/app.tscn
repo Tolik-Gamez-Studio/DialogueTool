@@ -84,12 +84,6 @@ graph_node_picker = NodePath("../../../GraphNodePicker")
 [node name="GraphEditSwitcher" parent="Frame/VBoxContainer/MonologueControl/MainContainer/GraphEditsArea" index="0" node_paths=PackedStringArray("tab_bar")]
 tab_bar = NodePath("../../../../CustomTitleBar/HBoxContainer2/TabBar")
 
-[node name="SearchBarContainer" parent="Frame/VBoxContainer/MonologueControl/MainContainer/GraphEditsArea" index="3"]
-offset_left = 39.0
-offset_top = 138.0
-offset_right = 39.0
-offset_bottom = 138.0
-
 [node name="Dimmer" type="ColorRect" parent="."]
 visible = false
 z_index = 2
@@ -103,6 +97,7 @@ grow_vertical = 2
 script = ExtResource("6_nw038")
 
 [node name="CharacterEditContainer" parent="." instance=ExtResource("7_7qdje")]
+visible = false
 z_index = 2
 layout_mode = 1
 
