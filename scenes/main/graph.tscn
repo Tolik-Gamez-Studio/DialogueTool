@@ -218,9 +218,10 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("7_eu0e0")
 
-[node name="SearchBar" parent="MainContainer/GraphEditsArea/SearchBarContainer" instance=ExtResource("8_tvorm")]
+[node name="SearchBar" parent="MainContainer/GraphEditsArea/SearchBarContainer" node_paths=PackedStringArray("graph_edit_switcher") instance=ExtResource("8_tvorm")]
 visible = false
 layout_mode = 2
+graph_edit_switcher = NodePath("../../GraphEditSwitcher")
 
 [connection signal="pressed" from="MainContainer/GraphEditsArea/ToolBarContainer/VBoxContainer/CenterContainer/ToolBar/Left/HBoxContainer/AddNodeBtn" to="MainContainer/GraphEditsArea/ToolBarContainer/VBoxContainer/CenterContainer/ToolBar/Left/HBoxContainer/AddNodeBtn" method="_on_pressed"]
 [connection signal="pressed" from="MainContainer/GraphEditsArea/ToolBarContainer/VBoxContainer/CenterContainer/ToolBar/Left/HBoxContainer/ButtonSettings" to="." method="_on_button_settings_pressed"]

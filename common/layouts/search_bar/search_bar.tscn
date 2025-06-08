@@ -30,3 +30,5 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_iwyw6")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_5dmbh")
 placeholder_text = "Start typing..."
 flat = true
+
+[connection signal="text_changed" from="HBoxContainer/LineEdit" to="." method="_on_line_edit_text_changed"]
