@@ -3,7 +3,6 @@
 class_name AddNodeHistory
 extends MonologueHistory
 
-
 ## Reference to the graph edit node that this action should apply to.
 var graph_edit: MonologueGraphEdit
 
@@ -27,49 +26,49 @@ var picker_to_names: PackedStringArray
 func _init(graph: MonologueGraphEdit, nodes: Array[MonologueGraphNode]):
 	graph_edit = graph
 	deletion_nodes = nodes
-	
+
 	# store node data (JSON values, connections, and options)
 	for node in nodes:
 		_record_connections(node)
 		restoration_data[node.name] = node._to_dict()
 		if "options" in node:
 			restoration_data[node.name]["Options"] = node.options.value
-	
+
 	_undo_callback = _delete_callback_for_tracked_nodes
 	_redo_callback = func() -> Array[MonologueGraphNode]:
-			# the first key is the node type to re-add, it will handle
-			# auxilliary creations (e.g. BridgeInNode)
-			var node_name = restoration_data.keys().front()
-			var node_type = restoration_data[node_name].get("$type")
-			return graph_edit.add_node(node_type.trim_prefix("Node"), false)
+		# the first key is the node type to re-add, it will handle
+		# auxilliary creations (e.g. BridgeInNode)
+		var node_name = restoration_data.keys().front()
+		var node_type = restoration_data[node_name].get("$type")
+		return graph_edit.add_node(node_type.trim_prefix("Node"), false)
 
 
 func redo():
 	_revert_picker(false)
-	
+
 	# track readded nodes and repopulate their data
 	deletion_nodes = super.redo()
 	# iterating this way, it will go through proper order in restoration_data
 	for i in range(deletion_nodes.size()):
 		var node_name = restoration_data.keys()[i]
 		var node_data = restoration_data[node_name]
-		
+
 		# restore node name
 		deletion_nodes[i].name = node_name
-		
+
 		# restore node data _from_dict()
 		deletion_nodes[i]._from_dict(node_data)
-		
+
 		# for ChoiceNode, _from_dict() clears options and loads from JSON save
 		# but it's okay, we can restore the changes in options from here
 		var options = node_data.get("Options")
 		if options:
 			deletion_nodes[i].options.value = options
 			deletion_nodes[i]._refresh(options)
-		
+
 		# restore graph node connections
 		_restore_connections(node_name)
-	
+
 	return deletion_nodes
 
 
@@ -87,7 +86,7 @@ func _delete_callback_for_tracked_nodes():
 			node = graph_edit.get_node(restoration_data.keys()[i])
 		_record_connections(node)  # record connections first before freeing!!
 		restoration_data[node.name] = graph_edit.free_graphnode(node)
-	
+
 	_revert_picker()
 	return deletion_nodes
 
@@ -103,12 +102,12 @@ func _record_connections(node: MonologueGraphNode):
 func _restore_connections(node_name: String):
 	var inbound_links = inbound_connections.get(node_name)
 	var outbound_links = outbound_connections.get(node_name)
-	
+
 	var connections = inbound_links + outbound_links
 	for co in connections:
 		graph_edit.propagate_connection(
-				co.get("from_node"), co.get("from_port"),
-				co.get("to_node"), co.get("to_port"))
+			co.get("from_node"), co.get("from_port"), co.get("to_node"), co.get("to_port")
+		)
 
 
 ## Reverts the severed connection from when this node was created by picker.
@@ -116,7 +115,6 @@ func _revert_picker(reconnect: bool = true):
 	if picker_from_node:
 		for to_name in picker_to_names:
 			if reconnect:
-				graph_edit.propagate_connection(
-						picker_from_node, picker_from_port, to_name, 0)
+				graph_edit.propagate_connection(picker_from_node, picker_from_port, to_name, 0)
 			else:
 				graph_edit.disconnect_node(picker_from_node, picker_from_port, to_name, 0)

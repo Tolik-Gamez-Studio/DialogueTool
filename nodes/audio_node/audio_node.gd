@@ -1,13 +1,12 @@
 class_name AudioNode extends MonologueGraphNode
 
+var loop := Property.new(TOGGLE, {}, false)
+var volume := Property.new(SLIDER, {"suffix": "db", "minimum": -80, "maximum": 24, "step": 0.25})
+var pitch := Property.new(SLIDER, {"default": 1, "minimum": 0, "maximum": 4, "step": 0.1})
+var audio := Property.new(FILE, {"filters": FilePicker.AUDIO})
 
-var loop   := Property.new(TOGGLE, {}, false)
-var volume := Property.new(SLIDER, { "suffix": "db", "minimum": -80, "maximum": 24, "step": 0.25 })
-var pitch  := Property.new(SLIDER, { "default": 1, "minimum": 0, "maximum": 4, "step": 0.1 })
-var audio  := Property.new(FILE, { "filters": FilePicker.AUDIO })
-
-@onready var _audio_label = $MarginContainer/HBox/AudioLabel
-@onready var _loop_label = $MarginContainer/HBox/LoopLabel
+@onready var _audio_label = $HBox/AudioLabel
+@onready var _loop_label = $HBox/LoopLabel
 
 
 func _ready():

@@ -1,10 +1,10 @@
 class_name CollapsibleField extends VBoxContainer
 
-
 signal add_pressed
 
 @export var show_add_button: bool = false
 @export var separate_items: bool = false
+@export var expand: bool = false
 
 @onready var button := $Button
 @onready var collapsible_container := $CollapsibleContainer
@@ -19,14 +19,36 @@ func _ready() -> void:
 	button.icon = icon_close
 	add_button.visible = show_add_button
 	close()
+	_update()
 
 
 func add_item(item: Control, force_readable_name: bool = false) -> void:
 	var existing_children = vbox.get_children().filter(_is_not_being_deleted)
 	if separate_items and existing_children.size() > 0:
-		vbox.add_child(HSeparator.new(), true)
-	
+		var separator := HSeparator.new()
+		separator.theme_type_variation = "HDottedSeparator"
+		vbox.add_child(separator, true)
+
+	item.visibility_changed.connect(_update)
+
 	vbox.add_child(item, force_readable_name)
+	_update()
+
+
+func _update():
+	var can_see: bool = show_add_button
+
+	for child in vbox.get_children():
+		if not child.visible:
+			continue
+		can_see = true
+
+	if visible != can_see:
+		visible = can_see
+
+	if expand:
+		size_flags_vertical = SIZE_EXPAND_FILL
+		vbox.size_flags_vertical = SIZE_EXPAND_FILL
 
 
 func set_title(text: String) -> void:
@@ -45,6 +67,8 @@ func clear() -> void:
 	for child in vbox.get_children():
 		child.queue_free()
 
+	_update()
+
 
 func _on_button_pressed() -> void:
 	if is_open():
@@ -56,11 +80,13 @@ func _on_button_pressed() -> void:
 func open() -> void:
 	button.icon = icon_open
 	collapsible_container.show()
+	button.release_focus()
 
 
 func close() -> void:
 	button.icon = icon_close
 	collapsible_container.hide()
+	button.release_focus()
 
 
 func _on_add_button_pressed() -> void:

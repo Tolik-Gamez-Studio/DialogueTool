@@ -1,10 +1,11 @@
 class_name RecentFilesContainer extends VBoxContainer
 
-
 @export var button_container: Control
 @export var save_path: String = Constants.HISTORY_PATH
 
-@onready var button_scene: PackedScene = preload("res://common/windows/welcome_window/recent_file_button.tscn")
+@onready var button_scene: PackedScene = preload(
+	"res://common/windows/welcome_window/recent_file_button.tscn"
+)
 
 var recent_filepaths: Array = []
 
@@ -14,7 +15,7 @@ func _ready() -> void:
 	refresh()
 
 
-## Adds a new filepath as recent file and save it to the history file.
+## Adds a new filepath as recent file and saves it to the history file.
 func add(filepath: String) -> void:
 	var file = FileAccess.open(save_path, FileAccess.WRITE)
 	if file:
@@ -35,7 +36,7 @@ func create_button(filepath: String) -> Button:
 		btn_text = btn_text[0].path_join(btn_text[1])
 	else:
 		btn_text = btn_text.back()
-	
+
 	btn.text = Util.truncate_filename(btn_text)
 	btn.pressed.connect(GlobalSignal.emit.bind("load_project", [filepath]))
 	button_container.add_child(btn)
@@ -54,7 +55,7 @@ func load_file() -> void:
 	if file:
 		var data = parse_history(file.get_as_text())
 		file.close()
-		
+
 		for path in data.slice(0, 3):
 			recent_filepaths.append(path)
 			create_button(path)

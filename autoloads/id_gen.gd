@@ -1,6 +1,5 @@
 extends Node
 
-
 var characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 
@@ -13,9 +12,9 @@ func generate(length: int = 10, avoid_ids: Array = []) -> String:
 		for i in range(length):
 			var index = random.randi_range(0, characters.length() - 1)
 			id += characters[index]
-		
+
 		if id not in avoid_ids:
 			return id
-	
+
 	push_error("The program failed to generate a random number.")
 	return ""

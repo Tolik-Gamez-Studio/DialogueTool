@@ -1,20 +1,34 @@
 ## A list field that represents a [MonologueGraphEdit] data item.
 class_name MonologueList extends MonologueField
 
+@onready var button := $CollapsibleField/Button
+@onready var collapsible_container := $CollapsibleField/CollapsibleContainer
+@onready var vbox := $CollapsibleField/CollapsibleContainer/PanelContainer/VBox
+@onready
+var field_container := $CollapsibleField/CollapsibleContainer/PanelContainer/VBox/FieldContainer
 
 var delete_scene = preload("res://common/ui/buttons/delete_button.tscn")
-var stylebox = preload("res://ui/theme_default/list_item.stylebox")
 
 var add_callback: Callable = Constants.empty_callback
 var delete_callback: Callable = func(list): return list
 var get_callback: Callable = Constants.empty_callback
 var data_list: Array = []
+var flat: bool = false
+var expand: bool = false
 
 
 func _ready() -> void:
 	collapsible_field = $CollapsibleField
 	collapsible_field.add_pressed.connect(_on_add_button_pressed)
+	collapsible_field.expand = expand
 	post_ready.call_deferred()
+
+	if flat:
+		collapsible_field.separate_items = false
+		button.hide()
+		collapsible_container.add_theme_constant_override("margin_left", 0)
+		field_container.add_theme_constant_override("margin_left", 0)
+	collapsible_field._update()
 
 
 func post_ready() -> void:
@@ -24,13 +38,20 @@ func post_ready() -> void:
 
 ## Add a new option node into the list and show its fields in the vbox.
 func append_list_item(item) -> void:
-	var panel = create_item_container()
+	var panel := create_flat_item_container() if flat else create_item_container()
 	var field_box = create_item_vbox(panel)
 	collapsible_field.add_item(panel, true)
 	for property_name in item.get_property_names():
-		var field = item.get(property_name).show(field_box)
+		var property = item.get(property_name)
+		if not property.visible:
+			continue
+		var field = item.get(property_name).show(field_box, false)
 		field.set_label_text(Util.to_key_name(property_name, " "))
 	var identifier = item.id.value if "id" in item else item.name.value
+
+	if "custom_delete_button" in item and item.custom_delete_button:
+		item.custom_delete_button.connect("pressed", _on_delete_button_pressed.bind(identifier))
+		return
 	create_delete_button(field_box, identifier)
 
 
@@ -41,7 +62,13 @@ func clear_list():
 
 func create_item_container() -> PanelContainer:
 	var item_container = PanelContainer.new()
-	item_container.add_theme_stylebox_override("panel", stylebox)
+	item_container.theme_type_variation = "ItemContainer"
+	return item_container
+
+
+func create_flat_item_container() -> PanelContainer:
+	var item_container = PanelContainer.new()
+	item_container.theme_type_variation = "ItemContainerFlat"
 	return item_container
 
 
@@ -52,17 +79,14 @@ func create_item_vbox(panel: PanelContainer) -> VBoxContainer:
 
 
 func create_delete_button(field_box: VBoxContainer, id: Variant) -> void:
-	var delete_container = MarginContainer.new()
-	delete_container.add_theme_constant_override("margin_top", 5)
 	var delete_button = delete_scene.instantiate()
 	delete_button.connect("pressed", _on_delete_button_pressed.bind(id))
-	delete_container.add_child(delete_button, true)
-	
+
 	var first_hbox = _find_first_hbox(field_box)
 	if first_hbox:
-		first_hbox.add_child(delete_container, true)
+		first_hbox.add_child(delete_button, true)
 	else:
-		delete_container.queue_free()
+		delete_button.queue_free()
 
 
 func set_label_text(text: String) -> void:
@@ -70,7 +94,6 @@ func set_label_text(text: String) -> void:
 
 
 func set_label_visible(_can_see: bool) -> void:
-	#list_label.visible = can_see
 	pass
 
 
@@ -85,7 +108,7 @@ func propagate(data: Variant) -> void:
 
 func _find_first_hbox(control: Control) -> HBoxContainer:
 	for child in control.get_children():
-		if child is HBoxContainer:
+		if child is HBoxContainer and child.visible:
 			return child
 		else:
 			var recursive = _find_first_hbox(child)
@@ -96,8 +119,10 @@ func _find_first_hbox(control: Control) -> HBoxContainer:
 
 func _on_add_button_pressed() -> void:
 	# the add_callback creates the actual instance in its source node
+	data_list = get_callback.call()
+	data_list = data_list.map(func(r): return r._to_dict())
 	var new_item = add_callback.call()
-	data_list.append(new_item._to_dict())
+	data_list.append(new_item._to_dict.call())
 	append_list_item(new_item)
 	field_updated.emit(data_list)
 

@@ -1,6 +1,5 @@
 extends Node
 
-
 ## Dictionary of Monologue node types and their corresponding scenes.
 const NODE_SCENES = {
 	"Root": preload("res://nodes/root_node/root_node.tscn"),
@@ -11,6 +10,7 @@ const NODE_SCENES = {
 	"BridgeIn": preload("res://nodes/bridge_in_node/bridge_in_node.tscn"),
 	"BridgeOut": preload("res://nodes/bridge_out_node/bridge_out_node.tscn"),
 	"Choice": preload("res://nodes/choice_node/choice_node.tscn"),
+	"Character": preload("res://nodes/character_node/character_node.tscn"),
 	"Comment": preload("res://nodes/comment_node/comment_node.tscn"),
 	"Condition": preload("res://nodes/condition_node/condition_node.tscn"),
 	"Random": preload("res://nodes/random_node/random_node.tscn"),

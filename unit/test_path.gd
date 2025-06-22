@@ -1,6 +1,5 @@
 extends GdUnitTestSuite
 
-
 var linux_file = "/home/mrsharpener/Pen/1_n.json"
 var linux_params = [
 	["/home/mrsharpener/Pen/w/b/20/ac.mp3", "w/b/20/ac.mp3"],
@@ -25,24 +24,34 @@ func reverse_parameters(params: Array):
 
 
 @warning_ignore("unused_parameter")
-func test_absolute_to_relative_linux(path: String, result: String,
-		test_parameters = linux_params):
+
+
+func test_absolute_to_relative_linux(path: String, result: String, test_parameters = linux_params):
 	assert_str(Path.absolute_to_relative(path, linux_file)).is_equal(result)
 
 
 @warning_ignore("unused_parameter")
-func test_absolute_to_relative_windows(path: String, result: String,
-		test_parameters = windows_params):
+
+
+func test_absolute_to_relative_windows(
+	path: String, result: String, test_parameters = windows_params
+):
 	assert_str(Path.absolute_to_relative(path, windows_file)).is_equal(result)
 
 
 @warning_ignore("unused_parameter")
-func test_relative_to_absolute_linux(path: String, result: String,
-		test_parameters = linux_params.map(reverse_parameters)):
+
+
+func test_relative_to_absolute_linux(
+	path: String, result: String, test_parameters = linux_params.map(reverse_parameters)
+):
 	assert_str(Path.relative_to_absolute(path, linux_file)).is_equal(result)
 
 
 @warning_ignore("unused_parameter")
-func test_relative_to_absolute_windows(path: String, result: String,
-		test_parameters = windows_params.map(reverse_parameters)):
+
+
+func test_relative_to_absolute_windows(
+	path: String, result: String, test_parameters = windows_params.map(reverse_parameters)
+):
 	assert_str(Path.relative_to_absolute(path, windows_file)).is_equal(result)

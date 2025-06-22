@@ -3,7 +3,6 @@
 class_name MonologueHistory
 extends RefCounted
 
-
 ## Function to call on undo. Arguments should be bound beforehand.
 var _undo_callback: Callable
 ## Function to call on redo. Arguments should be bound beforehand.

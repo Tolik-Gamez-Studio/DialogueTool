@@ -1,7 +1,6 @@
 ## Represents a graph node property and its UI controls in Monologue.
 class_name Property extends RefCounted
 
-
 ## Emitted when property change is to be commited to undo/redo history.
 signal change(old_value: Variant, new_value: Variant)
 ## Emitted if the graph node of this property should be displayed in panel.
@@ -14,24 +13,41 @@ signal shown
 ## Dictionary of field method names to argument list values.
 var callers: Dictionary = {}
 ## Reference to UI instance.
-var field: MonologueField
+var field: Control
+## Reference to the field container.
+var field_container: Control
 ## Scene used to instantiate the field's UI control.
 var scene: PackedScene
 ## Dictionary of field property names to set values.
 var setters: Dictionary
+## Dictionary of callables to connect to field signals.
+var connecters: Dictionary
 ## Temporary boolean to uncollapse the field when first shown if set to true.
 var uncollapse: bool
+## Initial value of the property.
+var default_value: Variant
 ## Actual value of the property.
-var value: Variant : set = set_value, get = get_value
+var value: Variant:
+	set = set_value,
+	get = get_value
 ## Toggles visibility of the field instance.
-var visible: bool : set = set_visible
+var visible: bool:
+	set = set_visible
+## Overwrites the displayed property label
+var custom_label: Variant
 
 
-func _init(ui_scene: PackedScene, ui_setters: Dictionary = {},
-			default: Variant = "") -> void:
+func _init(
+	ui_scene: PackedScene,
+	ui_setters: Dictionary = {},
+	default: Variant = "",
+	ui_custom_label: Variant = null
+) -> void:
 	scene = ui_scene
 	setters = ui_setters
 	value = default
+	default_value = default
+	custom_label = ui_custom_label
 	visible = true
 
 
@@ -52,7 +68,7 @@ func morph(new_scene: PackedScene) -> void:
 	if is_instance_valid(field):
 		var panel = field.get_parent()
 		var child_index = field.get_index()
-		field.queue_free()
+		field_container.queue_free()
 		show(panel, child_index)
 
 
@@ -60,13 +76,16 @@ func propagate(new_value: Variant, can_display: bool = true) -> void:
 	preview.emit(new_value)
 	if is_instance_valid(field):
 		field.propagate(new_value)
-	elif can_display:
+	elif can_display or not visible:
 		uncollapse = true
 		display.emit()
 
 
 ## Trigger a property value change only when valeus are different.
 func save_value(new_value: Variant) -> void:
+	if new_value is Dictionary:
+		new_value = value.merged(new_value, true)
+
 	if not Util.is_equal(value, new_value):
 		change.emit(value, new_value)
 
@@ -81,18 +100,36 @@ func set_visible(can_see: bool) -> void:
 	_check_visibility()
 
 
-func show(panel: Control, child_index: int = -1) -> MonologueField:
+func show(panel: Control, child_index: int = -1, auto_margin: bool = true) -> MonologueField:
 	field = scene.instantiate()
+
+	field_container = MarginContainer.new()
+	field_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	field_container.size_flags_vertical = field.size_flags_vertical
+	field_container.add_theme_constant_override("margin_right", 0)
+	field_container.add_theme_constant_override("margin_bottom", 0)
+	if field is CollapsibleField or field is MonologueList or not auto_margin:
+		field_container.add_theme_constant_override("margin_left", 0)
+		field_container.add_theme_constant_override("margin_top", 0)
+
 	for property in setters.keys():
 		field.set(property, setters.get(property))
-	
-	panel.add_child(field, true)
+
+	field_container.add_child(field)
+	panel.add_child(field_container)
+	_check_visibility()
+
 	if child_index >= 0:
-		panel.move_child(field, child_index)
-	
+		panel.move_child(field_container, child_index)
+
 	for method in callers.keys():
 		field.callv(method, callers.get(method, []))
-	
+
+	for callable in connecters.keys():
+		var signal_name: String = connecters.get(callable, "")
+		if field.has_signal(signal_name):
+			field.connect(connecters.get(callable), callable)
+
 	field.propagate(value)
 	field.connect("field_changed", preview.emit)
 	field.connect("field_updated", save_value)
@@ -104,4 +141,4 @@ func show(panel: Control, child_index: int = -1) -> MonologueField:
 
 func _check_visibility():
 	if is_instance_valid(field):
-		field.visible = visible
+		field_container.visible = visible

@@ -2,7 +2,6 @@
 ## be used on its own, it should be overridden to replace [member node_type].
 class_name MonologueGraphNode extends GraphNode
 
-
 static var subclasses = []
 
 @export_group("Appearance")
@@ -18,17 +17,21 @@ const LINE = preload("res://common/ui/fields/line_edit/monologue_line_edit.tscn"
 const LIST = preload("res://common/ui/fields/list/monologue_list.tscn")
 const SLIDER = preload("res://common/ui/fields/slider/monologue_slider.tscn")
 const SPINBOX = preload("res://common/ui/fields/spin_box/monologue_spin_box.tscn")
+const TIMELINE = preload("res://common/ui/fields/timeline/monologue_timeline.tscn")
 const TEXT = preload("res://common/ui/fields/text/monologue_text.tscn")
 const TOGGLE = preload("res://common/ui/fields/toggle/monologue_toggle.tscn")
+const VECTOR = preload("res://common/ui/fields/vector/monologue_vector.tscn")
 
 const LEFT_SLOT = preload("res://ui/assets/icons/slot.svg")
 const RIGHT_SLOT = preload("res://ui/assets/icons/slot.svg")
 
 var id := Property.new(LINE, {}, IDGen.generate())
+var editor_position := Property.new(VECTOR, {}, [0.0, 0.0])
 var node_type: String = "NodeUnknown"
 
 
 func _ready() -> void:
+	set_anchors_preset(Control.PRESET_TOP_LEFT)
 	if show_titlebar:
 		_set_titlebar_color(titlebar_color)
 
@@ -36,12 +39,27 @@ func _ready() -> void:
 	id.setters["copyable"] = true
 	id.setters["validator"] = _validate_id
 	id.callers["set_label_visible"] = [false]
+	editor_position.display.connect(_on_editor_position_change)
+	editor_position.visible = false
 	for property_name in get_property_names():
 		get(property_name).connect("change", change.bind(property_name))
 		get(property_name).connect("display", display)
-	
+
 	_update_slot_icons()
 	_harmonize_size.call_deferred()
+
+	dragged.connect(_on_dragged)
+
+
+func _on_dragged(_from: Vector2 = Vector2.ZERO, _to: Vector2 = Vector2.ZERO) -> void:
+	var new_editor_position: Array = [position_offset.x, position_offset.y]
+	editor_position.save_value(new_editor_position)
+
+
+func _on_editor_position_change() -> void:
+	await get_tree().process_frame
+	position_offset.x = editor_position.value[0]
+	position_offset.y = editor_position.value[1]
 
 
 func _update_slot_icons() -> void:
@@ -53,8 +71,9 @@ func _update_slot_icons() -> void:
 
 
 func _harmonize_size() -> void:
-	size.x = ceil(size.x/30)*30
-	size.y = get_combined_minimum_size().y
+	var min_size: Vector2 = get_combined_minimum_size()
+	size.x = ceil(min_size.x / 30) * 30
+	size.y = min_size.y
 
 
 func _set_titlebar_color(val: Color):
@@ -63,19 +82,19 @@ func _set_titlebar_color(val: Color):
 	stylebox.bg_color = val
 	stylebox.corner_radius_top_left = 5
 	stylebox.corner_radius_top_right = 5
-	
+
 	stylebox.border_color = Color("4d4d4d")
 	stylebox.set_border_width_all(1)
 	stylebox.border_width_bottom = 0
-	
+
 	var stylebox_selected = get_theme_stylebox("titlebar_selected", "GraphNode").duplicate()
 	stylebox_selected.bg_color = val
-	
+
 	remove_theme_stylebox_override("titlebar")
 	remove_theme_stylebox_override("titlebar_selected")
 	add_theme_stylebox_override("titlebar", stylebox)
 	add_theme_stylebox_override("titlebar_selected", stylebox_selected)
-	
+
 	var titlebar: HBoxContainer = get_titlebar_hbox()
 	var title_label: Label = titlebar.get_children().filter(func(c) -> bool: return c is Label)[0]
 	title_label.add_theme_color_override("font_color", Color.WHITE if is_dark else Color.BLACK)
@@ -93,7 +112,7 @@ func add_to(graph: MonologueGraphEdit) -> Array[MonologueGraphNode]:
 func change(old_value: Variant, new_value: Variant, property: String) -> void:
 	var changes: Array[PropertyChange] = []
 	changes.append(PropertyChange.new(property, old_value, new_value))
-	
+
 	var graph = get_graph_edit()
 	var undo_redo = graph.undo_redo
 	undo_redo.create_action("%s: %s => %s" % [property, old_value, new_value])
@@ -120,7 +139,7 @@ func get_property_names() -> PackedStringArray:
 
 func is_editable() -> bool:
 	var ignorable := ["id"]
-	
+
 	for property in get_property_names():
 		if property in ignorable:
 			continue
@@ -134,11 +153,19 @@ func reload_preview() -> void:
 
 
 func _from_dict(dict: Dictionary) -> void:
+	var editor_pos = dict.get("EditorPosition")
+	if editor_pos is Dictionary:
+		editor_pos = [editor_pos.get("x", 0), editor_pos.get("y", 0)]
+		dict["EditorPosition"] = editor_pos
+
 	for key in dict.keys():
 		var property = get(key.to_snake_case())
 		if property is Property:
 			property.value = dict.get(key)
-	
+		var private_property = get("_" + key.to_snake_case())
+		if private_property is Property:
+			private_property.value = dict.get(key)
+
 	_load_position(dict)
 	_update()  # refresh node UI after loading properties
 
@@ -152,21 +179,24 @@ func _load_connections(data: Dictionary, key: String = "NextID") -> void:
 
 
 func _load_position(data: Dictionary) -> void:
-	var editor_position = data.get("EditorPosition")
-	if editor_position:
-		position_offset.x = editor_position.get("x", randi_range(-400, 400))
-		position_offset.y = editor_position.get("y", randi_range(-200, 200))
+	var editor_pos = data.get("EditorPosition")
+	if editor_pos and editor_pos is Dictionary:  # Backward compatibility
+		position_offset.x = editor_pos.get("x", randi_range(-400, 400))
+		position_offset.y = editor_pos.get("y", randi_range(-200, 200))
+	elif editor_position and editor_pos is Array:
+		position_offset.x = editor_pos[0]
+		position_offset.y = editor_pos[1]
 
 
 func _to_dict() -> Dictionary:
-	var base_dict = { "$type": node_type, "ID": id.value }
+	var base_dict = {"$type": node_type, "ID": id.value, "EditorPosition": editor_position.value}
 	_to_next(base_dict)
 	_to_fields(base_dict)
-	
-	base_dict["EditorPosition"] = {
-			"x": int(position_offset.x),
-			"y": int(position_offset.y)
-	}
+
+	#base_dict["EditorPosition"] = {
+	#"x": int(position_offset.x),
+	#"y": int(position_offset.y)
+	#}
 	return base_dict
 
 
@@ -186,7 +216,7 @@ func _to_next(dict: Dictionary, key: String = "NextID") -> void:
 
 func _update() -> void:
 	size.y = 0
-	_harmonize_size.call_deferred()
+	_harmonize_size()
 
 
 func _validate_id(text: String) -> bool:
