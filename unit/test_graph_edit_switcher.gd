@@ -1,6 +1,5 @@
 extends GdUnitTestSuite
 
-
 var switcher: GraphEditSwitcher
 
 
@@ -105,7 +104,7 @@ func test_on_tab_close_pressed_unsaved():
 	do_return(true).on(ge).is_unsaved()
 	switcher.graph_edits.add_child(ge)
 	switcher._on_tab_close_pressed(1)
-	
+
 	var save_prompt = null
 	for node in switcher.get_children():
 		if node is PromptWindow:

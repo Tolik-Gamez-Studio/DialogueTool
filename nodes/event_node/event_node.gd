@@ -21,10 +21,10 @@ func get_value_label() -> Label:
 
 func get_operator_options():
 	return [
-		{ "id": 0, "text": "=="  },
-		{ "id": 1, "text": ">=" },
-		{ "id": 2, "text": "<=" },
-		{ "id": 3, "text": "!=" },
+		{"id": 0, "text": "=="},
+		{"id": 1, "text": ">="},
+		{"id": 2, "text": "<="},
+		{"id": 3, "text": "!="},
 	]
 
 
@@ -43,6 +43,6 @@ func _from_dict(dict: Dictionary):
 		operator.value = condition.get("Operator", "==")
 		morphing_value = condition.get("Value", "")
 		value.value = morphing_value
-	
+
 	record_morph(morphing_value)
 	super._from_dict(dict)

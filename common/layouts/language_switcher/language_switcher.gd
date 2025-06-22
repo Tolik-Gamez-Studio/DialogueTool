@@ -1,6 +1,5 @@
 class_name LanguageSwitcher extends Button
 
-
 const DEFAULT_LOCALE = "English"
 
 ## Current graph edit which has the loaded languages.
@@ -60,14 +59,14 @@ func load_languages(list: PackedStringArray = [], graph: MonologueGraphEdit = nu
 	graph_edit = graph
 	for child in vbox.get_children():
 		remove_language(child)
-	
+
 	if graph:
 		selected_index = graph.current_language_index
 	selected_index = 0 if selected_index >= list.size() else selected_index
-	
+
 	if list.is_empty():
 		list.append(DEFAULT_LOCALE)
-	
+
 	var already_added: PackedStringArray = []
 	for i in range(list.size()):
 		if not already_added.has(list[i]):
@@ -106,7 +105,7 @@ func set_enabled(active: bool = true) -> void:
 func show_dropdown(can_see: bool = true) -> void:
 	dropdown_container.visible = can_see
 	icon = arrow_down if can_see else arrow_left
-	
+
 	if !can_see:
 		release_focus()
 
@@ -125,7 +124,7 @@ func _on_option_rename(old: String, new: String, option: LanguageOption) -> void
 	var change = ModifyLanguageHistory.new(graph_edit, option.name, option.language_name, new)
 	graph_edit.undo_redo.add_prepared_history(change)
 	graph_edit.undo_redo.commit_action()
-	
+
 	var selected_option: LanguageOption = vbox.get_children()[selected_index]
 	_on_option_selected(selected_option, false)
 
@@ -134,7 +133,7 @@ func _on_option_selected(option: LanguageOption, refresh: bool = true) -> void:
 	for opt: LanguageOption in vbox.get_children():
 		opt.unselect()
 	option.select()
-	
+
 	selected_index = option.get_index()
 	if graph_edit:
 		graph_edit.current_language_index = selected_index

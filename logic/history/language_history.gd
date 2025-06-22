@@ -1,6 +1,5 @@
 class_name LanguageHistory extends MonologueHistory
 
-
 ## Graph edit which owns the languages.
 var graph_edit: MonologueGraphEdit
 ## Dictionary of old node names to language names.
@@ -14,7 +13,7 @@ func _init(graph: MonologueGraphEdit, old: Dictionary, new: Dictionary) -> void:
 	# old and new params are dictionaries of language names to object reference
 	old_references = _convert_to_node_reference(old)
 	new_references = _convert_to_node_reference(new)
-	
+
 	_undo_callback = revert_language_list
 	_redo_callback = change_language_list
 

@@ -42,9 +42,8 @@ text = "Set Background to Image"
 
 [node name="PathLabel" type="Label" parent="VBox/HBox"]
 layout_mode = 2
-theme_type_variation = &"Label_NodeValue"
+theme_type_variation = &"NodeValue"
 text = "No Image"
-label_settings = SubResource("LabelSettings_ae3bv")
 
 [node name="PreviewRect" type="TextureRect" parent="VBox"]
 visible = false

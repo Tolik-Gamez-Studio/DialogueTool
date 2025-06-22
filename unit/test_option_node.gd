@@ -7,7 +7,7 @@ func test_to_dict():
 	runner.get_property("option").value = "heyho"
 	runner.get_property("one_shot").value = true
 	runner.get_property("next_id").value = "abcde"
-	
+
 	var result = runner.invoke("_to_dict")
 	assert_str(result.get("$type")).is_equal("NodeOption")
 	assert_str(result.get("ID")).is_equal("12345")
@@ -19,15 +19,17 @@ func test_to_dict():
 
 func test_from_dict_v2():
 	var option_node = auto_free(OptionNode.new())
-	option_node._from_dict({
-		"$type": "NodeOption",
-		"ID": "test_v2_id",
-		"NextID": "next_v2_id",
-		"Sentence": "v2 here",
-		"Enable": false,
-		"OneShot": true
-	})
-	
+	option_node._from_dict(
+		{
+			"$type": "NodeOption",
+			"ID": "test_v2_id",
+			"NextID": "next_v2_id",
+			"Sentence": "v2 here",
+			"Enable": false,
+			"OneShot": true
+		}
+	)
+
 	assert_str(option_node.id.value).is_equal("test_v2_id")
 	assert_str(option_node.next_id.value).is_equal("next_v2_id")
 	assert_str(option_node.option.value).is_equal("v2 here")
@@ -37,15 +39,17 @@ func test_from_dict_v2():
 
 func test_from_dict_v3():
 	var option_node = auto_free(OptionNode.new())
-	option_node._from_dict({
-		"$type": "NodeOption",
-		"ID": "test_v3_id",
-		"NextID": "next_v3_id",
-		"Option": "v3 here",
-		"EnableByDefault": false,
-		"OneShot": true
-	})
-	
+	option_node._from_dict(
+		{
+			"$type": "NodeOption",
+			"ID": "test_v3_id",
+			"NextID": "next_v3_id",
+			"Option": "v3 here",
+			"EnableByDefault": false,
+			"OneShot": true
+		}
+	)
+
 	assert_str(option_node.id.value).is_equal("test_v3_id")
 	assert_str(option_node.next_id.value).is_equal("next_v3_id")
 	assert_str(option_node.option.value).is_equal("v3 here")

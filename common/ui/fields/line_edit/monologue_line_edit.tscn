@@ -22,6 +22,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="LineEdit" type="LineEdit" parent="HBox/InnerVBox"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBox/InnerVBox/LineEdit"]
@@ -55,3 +56,8 @@ theme_type_variation = &"NoteLabel"
 theme_override_font_sizes/font_size = 12
 text = "Note: Description"
 autowrap_mode = 3
+
+[connection signal="focus_exited" from="HBox/InnerVBox/LineEdit" to="." method="_on_focus_exited"]
+[connection signal="text_changed" from="HBox/InnerVBox/LineEdit" to="." method="_on_text_changed"]
+[connection signal="text_submitted" from="HBox/InnerVBox/LineEdit" to="." method="_on_text_submitted"]
+[connection signal="pressed" from="HBox/InnerVBox/LineEdit/HBoxContainer/CopyButton" to="." method="_on_copy_button_pressed"]

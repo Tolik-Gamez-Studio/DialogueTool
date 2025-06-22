@@ -1,15 +1,13 @@
 ## Properties which can have language switching.
 class_name Localizable extends Property
 
-
 ## Stores the value in a locale dictionary.
 var raw_data: Dictionary = {}
 ## The value to be initialized on a new locale. Empty string by default.
 var initialized_value: Variant
 
 
-func _init(ui_scene: PackedScene, ui_setters: Dictionary = {},
-			default: Variant = "") -> void:
+func _init(ui_scene: PackedScene, ui_setters: Dictionary = {}, default: Variant = "") -> void:
 	super(ui_scene, ui_setters, default)
 	initialized_value = default
 	GlobalSignal.add_listener("language_deleted", store_data)

@@ -10,3 +10,4 @@ use_native_dialog = true
 script = ExtResource("1_mjdqk")
 
 [connection signal="file_selected" from="." to="." method="_on_file_selected"]
+[connection signal="files_selected" from="." to="." method="_on_files_selected"]

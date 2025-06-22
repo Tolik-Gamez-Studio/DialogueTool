@@ -1,10 +1,9 @@
 ## Common abstract class for nodes that deal with variables.
 class_name AbstractVariableNode extends MonologueGraphNode
 
-
-var variable  := Property.new(DROPDOWN)
-var operator  := Property.new(DROPDOWN, {}, "=")
-var value     := Property.new(LINE)
+var variable := Property.new(DROPDOWN)
+var operator := Property.new(DROPDOWN, {}, "=")
+var value := Property.new(LINE)
 
 var last_boolean: bool
 var last_number: float
@@ -43,11 +42,11 @@ func get_operator_label() -> Label:
 
 func get_operator_options() -> Array[Dictionary]:
 	return [
-		{ "id": 0, "text": "="  },
-		{ "id": 1, "text": "+=" },
-		{ "id": 2, "text": "-=" },
-		{ "id": 3, "text": "*=" },
-		{ "id": 4, "text": "/=" },
+		{"id": 0, "text": "="},
+		{"id": 1, "text": "+="},
+		{"id": 2, "text": "-="},
+		{"id": 3, "text": "*="},
+		{"id": 4, "text": "/="},
 	]
 
 
@@ -77,10 +76,11 @@ func record_morph(new_value: Variant):
 			last_number = new_value
 		TYPE_STRING:
 			last_string = new_value
-	
+
 	# display integer without decimals
 	match get_variable_type(variable.value):
-		"Integer": new_value = int(new_value) if new_value else 0
+		"Integer":
+			new_value = int(new_value) if new_value else 0
 	get_value_label().text = str(new_value)
 
 
@@ -88,7 +88,7 @@ func value_morph(selected_name: Variant = variable.value) -> void:
 	var selected_type = get_variable_type(selected_name)
 	if not selected_type:
 		selected_type = reset_variable()
-	
+
 	match selected_type:
 		"Boolean":
 			operator.invoke("disable_items", [get_operator_disabler()])
@@ -111,8 +111,7 @@ func value_morph(selected_name: Variant = variable.value) -> void:
 
 
 func _update() -> void:
-	variable.callers["set_items"] = \
-		[get_graph_edit().variables, "Name", "ID", "Type"]
+	variable.callers["set_items"] = [get_graph_edit().variables, "Name", "ID", "Type"]
 	value_morph(variable.value)
 	get_variable_label().text = get_default_text(variable.value, "variable")
 	get_operator_label().text = get_default_text(operator.value, "operator")

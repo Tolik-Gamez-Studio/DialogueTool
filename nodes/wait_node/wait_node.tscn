@@ -34,9 +34,8 @@ text = "Wait"
 
 [node name="WaitLabel" type="Label" parent="HBox"]
 layout_mode = 2
-theme_type_variation = &"Label_NodeValue"
+theme_type_variation = &"NodeValue"
 text = "0"
-label_settings = SubResource("LabelSettings_82fue")
 
 [node name="Label2" type="Label" parent="HBox"]
 layout_mode = 2

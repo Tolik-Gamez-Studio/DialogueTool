@@ -1,6 +1,5 @@
 extends GdUnitTestSuite
 
-
 var runner
 var mock_graph_edit
 
@@ -43,7 +42,7 @@ func test_delete_language_undo_restores_data():
 	localizable.value = data
 	var persist = {"Del": data}
 	assert_dict(localizable.to_raw_value()).is_equal(persist)
-	
+
 	var node = runner.get_property("vbox").get_child(1)
 	var deletion = DeleteLanguageHistory.new(mock_graph_edit, "Del", node.name)
 	deletion.redo()
@@ -108,17 +107,17 @@ func test_language_set_value_and_switch_locales():
 	var de = "hallo! ich bin ein test"
 	localizable.value = de
 	assert_str(localizable.value).is_equal(de)
-	
+
 	runner.set_property("selected_index", 1)
 	var fr = "bonjour je suis un test"
 	localizable.value = fr
 	assert_str(localizable.value).is_equal(fr)
-	
+
 	runner.set_property("selected_index", 2)
 	var jp = "ちゃっす、テストだよ"
 	localizable.value = jp
 	assert_str(localizable.value).is_equal(jp)
-	
+
 	assert_dict(localizable.to_raw_value()).is_equal({"Deutsch": de, "Français": fr, "日本語": jp})
 
 

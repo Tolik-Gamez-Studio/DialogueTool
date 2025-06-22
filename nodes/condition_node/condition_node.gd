@@ -20,6 +20,6 @@ func _load_connections(data: Dictionary, key: String = "IfNextID") -> void:
 func _to_next(dict: Dictionary, key: String = "IfNextID") -> void:
 	var next_id_node = get_graph_edit().get_all_connections_from_slot(name, 0)
 	dict[key] = next_id_node[0].id.value if next_id_node else -1
-	
+
 	var else_id_node = get_graph_edit().get_all_connections_from_slot(name, 1)
 	dict["ElseNextID"] = else_id_node[0].id.value if else_id_node else -1

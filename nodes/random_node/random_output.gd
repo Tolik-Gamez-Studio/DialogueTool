@@ -1,9 +1,8 @@
 ## Random output data builder.
 class_name MonologueRandomOutput extends RefCounted
 
-
-var weight  := Property.new(MonologueGraphNode.SPINBOX, { "minimum": 0, "maximum": 100 })
-var id      := Property.new(MonologueGraphNode.SPINBOX, {}, 0)
+var weight := Property.new(MonologueGraphNode.SPINBOX, {"minimum": 0, "maximum": 100})
+var id := Property.new(MonologueGraphNode.SPINBOX, {}, 0)
 var next_id := Property.new(MonologueGraphNode.LINE, {}, -1)
 
 var graph: MonologueGraphEdit
@@ -20,11 +19,11 @@ func _init(node: RandomNode):
 func change_output_weight(old_value: Variant, new_value: Variant):
 	var old_list = graph_node.outputs.value.duplicate(true)
 	var new_list = graph_node.outputs.value.duplicate(true)
-	
+
 	# new value cannot push total weight to exceed 100
 	var clamped = clampi(new_value, 1, 100 - new_list.size() + 1)
 	new_list[id.value]["Weight"] = clamped
-	
+
 	# make up for missing weight by balancing from next
 	var weight_sum = new_list.reduce(func(total, n): return total + n.get("Weight"), 0)
 	var balance = 100 - weight_sum
@@ -39,7 +38,7 @@ func change_output_weight(old_value: Variant, new_value: Variant):
 			balance = 0
 		new_list[i]["Weight"] = new_weight
 		count += 1
-	
+
 	graph.undo_redo.create_action("RandomOutput %s => %s" % [old_value, new_value])
 	graph.undo_redo.add_do_property(graph_node.outputs, "value", new_list)
 	graph.undo_redo.add_do_method(graph_node.outputs.propagate.bind(new_list))
@@ -59,4 +58,4 @@ func _from_dict(dict: Dictionary) -> void:
 
 
 func _to_dict():
-	return { "ID": id.value, "Weight": weight.value, "NextID": next_id.value }
+	return {"ID": id.value, "Weight": weight.value, "NextID": next_id.value}

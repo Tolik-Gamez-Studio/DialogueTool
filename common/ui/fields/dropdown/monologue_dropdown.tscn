@@ -14,5 +14,7 @@ layout_mode = 2
 [node name="OptionButton" type="OptionButton" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
+clip_text = true
+allow_reselect = true
 
 [connection signal="item_selected" from="OptionButton" to="." method="_on_item_selected"]

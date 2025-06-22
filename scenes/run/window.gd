@@ -1,6 +1,5 @@
 class_name TestWindow extends Window
 
-
 @onready var test_instance := preload("res://scenes/run/menu/menu.tscn")
 
 var file_path: String
@@ -18,12 +17,13 @@ func _ready() -> void:
 	size = Vector2(1440, 810)
 	force_native = true
 	transient = true
-	
+
 	var test_scene = test_instance.instantiate()
-	if from_node: test_scene.from_node = from_node
+	if from_node:
+		test_scene.from_node = from_node
 	test_scene.file_path = file_path
 	add_child(test_scene)
-	
+
 	move_to_center.call_deferred()
 	show()
 

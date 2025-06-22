@@ -2,7 +2,6 @@
 class_name PropertyChange
 extends RefCounted
 
-
 ## Name of property/variable to change.
 var property: String
 ## Value before change.

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c75iblt2kuvr2"]
+[gd_scene load_steps=3 format=3 uid="uid://c75iblt2kuvr2"]
 
 [ext_resource type="Script" uid="uid://bimgycdfh52xb" path="res://nodes/bridge_out_node/bridge_out_node.gd" id="1_6kxjr"]
+[ext_resource type="PackedScene" uid="uid://wiapsnoaoc44" path="res://common/ui/custom_spinbox/custom_spinbox.tscn" id="2_qrxgf"]
 
 [node name="BridgeOutNode" type="GraphNode"]
 offset_right = 185.0
@@ -30,11 +31,5 @@ layout_mode = 2
 text = "Link to"
 justification_flags = 195
 
-[node name="LinkNumber" type="SpinBox" parent="HBoxContainer"]
+[node name="LinkNumber" parent="HBoxContainer" instance=ExtResource("2_qrxgf")]
 layout_mode = 2
-min_value = 1.0
-value = 1.0
-allow_greater = true
-allow_lesser = true
-alignment = 1
-update_on_text_changed = true

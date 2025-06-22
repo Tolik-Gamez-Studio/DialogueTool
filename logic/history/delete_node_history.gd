@@ -10,14 +10,14 @@ func _init(graph: MonologueGraphEdit, nodes: Array[MonologueGraphNode]):
 	# difference in this history is that the restoration directly calls
 	# graph edit's add_child() for each individual node
 	_redo_callback = func() -> Array[MonologueGraphNode]:
-			var created_nodes: Array[MonologueGraphNode] = []
-			for name in restoration_data.keys():
-				var type = restoration_data[name].get("$type").trim_prefix("Node")
-				var node = Constants.NODE_SCENES.get(type)
-				var inst = node.instantiate()
-				graph_edit.add_child(inst)
-				created_nodes.append(inst)
-			return created_nodes
+		var created_nodes: Array[MonologueGraphNode] = []
+		for name in restoration_data.keys():
+			var type = restoration_data[name].get("$type").trim_prefix("Node")
+			var node = Constants.NODE_SCENES.get(type)
+			var inst = node.instantiate()
+			graph_edit.add_child(inst)
+			created_nodes.append(inst)
+		return created_nodes
 
 
 func undo():

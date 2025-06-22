@@ -1,6 +1,5 @@
 class_name DeleteLanguageHistory extends AddLanguageHistory
 
-
 var restoration: Dictionary = {}
 var choices: Dictionary = {}
 
@@ -15,10 +14,10 @@ func undo():
 	for localizable in restoration:
 		if is_instance_valid(localizable):
 			localizable.raw_data = restoration.get(localizable).duplicate(true)
-	
+
 	for choice in choices:
 		choice.restore_options(choices.get(choice))
-	
+
 	return redo_result
 
 

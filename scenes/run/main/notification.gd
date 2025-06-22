@@ -1,6 +1,5 @@
 extends PanelContainer
 
-
 const DEFAULT_TIME = 7.5
 
 var tween: Tween
@@ -19,12 +18,13 @@ func notify(text, tag, color, time):
 	bb_parser.get_parsed_text()
 	print("[%s] %s" % [tag, bb_parser.get_parsed_text()])
 	bb_parser.free()
-	
+
 	label.text = "[color=%s][%s][/color] %s" % [color.to_html(false), tag, text]
 	timeleft.custom_minimum_size.x = size.x
 	timeleft.get_theme_stylebox("panel").bg_color = color
-	
-	if tween: tween.kill()
+
+	if tween:
+		tween.kill()
 	tween = get_tree().create_tween()
 	tween.tween_property(timeleft, "custom_minimum_size:x", 0, time)
 	tween.tween_callback(hide)

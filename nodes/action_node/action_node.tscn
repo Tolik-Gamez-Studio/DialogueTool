@@ -1,9 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dg1if067aop0p"]
+[gd_scene load_steps=2 format=3 uid="uid://dg1if067aop0p"]
 
 [ext_resource type="Script" uid="uid://cq8g0jelhsidq" path="res://nodes/action_node/action_node.gd" id="3_s1gpj"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_v4ya3"]
-font_color = Color(0.572549, 0.572549, 0.572549, 1)
 
 [node name="ActionNode" type="GraphNode" node_paths=PackedStringArray("arg_box", "action_label", "no_args_label") groups=["graph_nodes"]]
 custom_minimum_size = Vector2(360, 0)
@@ -47,9 +44,8 @@ text = "Call"
 
 [node name="ActionLabel" type="Label" parent="CallBox"]
 layout_mode = 2
-theme_type_variation = &"Label_NodeValue"
+theme_type_variation = &"NodeValue"
 text = "custom action"
-label_settings = SubResource("LabelSettings_v4ya3")
 
 [node name="WithLabel" type="Label" parent="CallBox"]
 layout_mode = 2
@@ -57,9 +53,8 @@ text = "with"
 
 [node name="NoArgsLabel" type="Label" parent="CallBox"]
 layout_mode = 2
-theme_type_variation = &"Label_NodeValue"
+theme_type_variation = &"NodeValue"
 text = "no arguments"
-label_settings = SubResource("LabelSettings_v4ya3")
 
 [node name="ArgBox" type="VBoxContainer" parent="."]
 layout_mode = 2

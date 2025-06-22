@@ -36,21 +36,21 @@ text = "When"
 
 [node name="VariableLabel" type="Label" parent="HBox"]
 layout_mode = 2
-theme_type_variation = &"Label_NodeValue"
+theme_type_variation = &"NodeValue"
 text = "variable"
-label_settings = SubResource("LabelSettings_v4ya3")
+
 
 [node name="OperatorLabel" type="Label" parent="HBox"]
 layout_mode = 2
-theme_type_variation = &"Label_NodeValue"
+theme_type_variation = &"NodeValue"
 text = "condition"
-label_settings = SubResource("LabelSettings_v4ya3")
+
 
 [node name="ValueLabel" type="Label" parent="HBox"]
 layout_mode = 2
-theme_type_variation = &"Label_NodeValue"
+theme_type_variation = &"NodeValue"
 text = "value"
-label_settings = SubResource("LabelSettings_v4ya3")
+
 
 [node name="DoLabel" type="Label" parent="HBox"]
 layout_mode = 2
