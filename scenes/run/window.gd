@@ -9,6 +9,13 @@ var from_node: Variant
 func _init(path: String, _from_node: Variant = null) -> void:
 	file_path = path
 	from_node = _from_node
+	
+	content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
+	content_scale_aspect = Window.CONTENT_SCALE_ASPECT_EXPAND
+	
+	print(content_scale_mode)
+	print(content_scale_aspect)
+	
 
 
 func _ready() -> void:
