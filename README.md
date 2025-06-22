@@ -16,12 +16,12 @@ Monologue is a **dynamic, flexible, open-source dialogue editor** for creating b
 
 ## Getting Started
 
-1. **Download:** Get the latest version from the [GitHub Releases](https://github.com/monologue-tool/monologue/releases) page or [itch.io](https://atomic-junky.itch.io/monologue). (Windows and Linux executables are provided; for example, itch.io currently offers Monologue v3.0.0-dev1 for 64-bit Windows and Linux.)
-2. **Run Monologue:** Launch the downloaded executable (no installation needed). Alternatively, clone the repo and open it in Godot Engine (v4.x recommended).
+1. **Download:** Get the latest version from the [GitHub Releases](https://github.com/monologue-tool/monologue/releases) page or [itch.io](https://atomic-junky.itch.io/monologue). (Windows and Linux executables are provided.)
+2. **Run Monologue:** Launch the downloaded executable (no installation needed). Alternatively, clone the repo and open it in Godot Engine with the latest version.
 3. **Create/Open a Story:** In Monologue’s UI, create a new dialogue file (`*.json`) or open an existing one. A blank node canvas appears.
-4. **Add Dialogue Nodes:** Click **Add Node** to create conversation nodes. Double-click a node to edit its text, speaker name, variables, conditions, or actions.
+4. **Add Dialogue Nodes:** Click **Add a Node...** to create conversation nodes. Click a node to edit its properties.
 5. **Connect Nodes:** Drag connectors between nodes to build your conversation branches and choices.
-6. **Play and Test:** Use the **Run ▶️** button to play through the story from any selected node. This lets you immediately test how the dialogue flows.
+6. **Play and Test:** Use the **▶️** button to play through the story from any selected node or from the start. This lets you immediately test how the dialogue flows.
 7. **Save/Export:** Save your project. Monologue stores dialogue data as JSON that you can integrate into your game or engine.
 
 ## Use Cases
