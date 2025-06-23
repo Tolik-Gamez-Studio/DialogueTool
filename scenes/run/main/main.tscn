@@ -187,6 +187,10 @@ metadata/_custom_type_script = "uid://yjc4b6p8bg0q"
 
 [node name="MonologueProcessSettings" type="Node" parent="MonologueProcess"]
 script = ExtResource("12_klmu7")
+texture_filter = null
+highlight_speaker = null
+interpolation_type = null
+ease_type = null
 metadata/_custom_type_script = "uid://dd766rndd07e3"
 
 [connection signal="pressed" from="TextBoxContainer/PanelContainer/MarginContainer/Container/HBoxContainer/QuitBtn" to="." method="_on_quit_btn_pressed"]

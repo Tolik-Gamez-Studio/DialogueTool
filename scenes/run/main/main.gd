@@ -18,6 +18,6 @@ func _on_quit_btn_pressed() -> void:
 	var menu_scene_instance = menu_instance.instantiate()
 	menu_scene_instance.from_node = from_node
 	menu_scene_instance.file_path = file_path
-	get_window().add_child(menu_scene_instance)
+	get_window().add_scene(menu_scene_instance)
 	
 	queue_free()

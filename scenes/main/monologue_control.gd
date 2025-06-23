@@ -5,6 +5,7 @@ class_name MonologueControl extends Control
 
 @onready var graph_switcher: GraphEditSwitcher = %GraphEditSwitcher
 @onready var side_panel_node: SidePanel = %SidePanel
+@onready var run_window := preload("res://scenes/run/run_window.tscn")
 
 
 func _ready():
@@ -158,8 +159,10 @@ func save():
 func test_project(from_node: Variant = null):
 	if graph_switcher.current.file_path:
 		await save()
-		var test_window: TestWindow = TestWindow.new(graph_switcher.current.file_path, from_node)
-		get_tree().root.add_child(test_window)
+		var run_window: RunWindow = run_window.instantiate()
+		run_window.file_path = graph_switcher.current.file_path
+		run_window.from_node = from_node
+		get_tree().root.add_child(run_window)
 
 
 func _connect_nodes(node_list: Array) -> void:
