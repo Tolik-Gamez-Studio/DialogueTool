@@ -1,14 +1,13 @@
-[gd_scene load_steps=13 format=4 uid="uid://dnxbsvukyu6a2"]
+[gd_scene load_steps=12 format=4 uid="uid://dnxbsvukyu6a2"]
 
 [ext_resource type="Script" uid="uid://ll40miacgpjf" path="res://scenes/run/main/main.gd" id="1_8rud0"]
 [ext_resource type="Texture2D" uid="uid://371ns5r4jx2n" path="res://scenes/run/assets/background.png" id="2_0y34q"]
-[ext_resource type="Script" uid="uid://ddyt5i3ho2y7y" path="res://scenes/run/main/character_asset.gd" id="3_xil5b"]
-[ext_resource type="Texture2D" uid="uid://dcv65k3aspep6" path="res://ui/assets/icons/side_panel_mode.png" id="4_hc80r"]
-[ext_resource type="Script" uid="uid://fysba1p3u1xp" path="res://scenes/run/common/text_box/text_box.gd" id="4_huku6"]
-[ext_resource type="Script" uid="uid://k28cwg6tlcsh" path="res://scenes/run/main/choice_panel.gd" id="5_gll0q"]
+[ext_resource type="PackedScene" uid="uid://bowhgj32i7bue" path="res://addons/monologue/layout/monologue_character_displayer/monologue_character_displayer.tscn" id="3_nprq0"]
 [ext_resource type="Script" uid="uid://dssbaw32vrnkn" path="res://scenes/run/main/notification.gd" id="6_kev1j"]
-[ext_resource type="PackedScene" uid="uid://cm2caiiwpfydd" path="res://scenes/run/common/text_box/text_box.tscn" id="7_00ova"]
-[ext_resource type="Texture2D" uid="uid://bn7uq5c73oqcw" path="res://ui/assets/icons/textbox_mode.png" id="7_2ymld"]
+[ext_resource type="PackedScene" uid="uid://byobrgy5is3f4" path="res://scenes/run/common/text_box/text_box.tscn" id="7_00ova"]
+[ext_resource type="PackedScene" uid="uid://4br7pp244bp0" path="res://scenes/run/common/choice_selector/choice_selector.tscn" id="7_g2uh0"]
+[ext_resource type="Script" uid="uid://yjc4b6p8bg0q" path="res://addons/monologue/core/monologue_process.gd" id="11_ckl1f"]
+[ext_resource type="Script" uid="uid://dd766rndd07e3" path="res://addons/monologue/core/monologue_process_settings.gd" id="12_klmu7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m05qh"]
 content_margin_left = 10.0
@@ -73,7 +72,10 @@ texture = ExtResource("2_0y34q")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="CharacterAssetContainer" type="Control" parent="."]
+[node name="MonologueCharacterDisplayer" parent="." instance=ExtResource("3_nprq0")]
+layout_mode = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -81,107 +83,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Asset" type="TextureRect" parent="CharacterAssetContainer"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 50.0
-offset_top = 200.0
-offset_right = -75.0
-offset_bottom = -50.0
-grow_horizontal = 2
-grow_vertical = 2
-expand_mode = 1
-stretch_mode = 5
-script = ExtResource("3_xil5b")
-
-[node name="SidePanelContainer" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.666
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 0.5
-grow_horizontal = 0
-grow_vertical = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="PanelContainer" type="PanelContainer" parent="SidePanelContainer"]
+[node name="ChoiceSelector" parent="CenterContainer" instance=ExtResource("7_g2uh0")]
 layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="SidePanelContainer/PanelContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_right = 25
-theme_override_constants/margin_bottom = 150
-
-[node name="ScrollContainer" type="ScrollContainer" parent="SidePanelContainer/PanelContainer/MarginContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-follow_focus = true
-horizontal_scroll_mode = 0
-vertical_scroll_mode = 3
-scroll_deadzone = 10
-
-[node name="Container" type="VBoxContainer" parent="SidePanelContainer/PanelContainer/MarginContainer/ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/separation = 25
-alignment = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="SidePanelContainer/PanelContainer/MarginContainer/ScrollContainer/Container"]
-layout_mode = 2
-theme_override_constants/margin_top = 25
-
-[node name="HBoxContainer" type="HBoxContainer" parent="SidePanelContainer/PanelContainer/MarginContainer/ScrollContainer/Container/MarginContainer"]
-layout_mode = 2
-alignment = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="SidePanelContainer/PanelContainer/MarginContainer/ScrollContainer/Container/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="QuitBtn" type="Button" parent="SidePanelContainer/PanelContainer/MarginContainer/ScrollContainer/Container/MarginContainer/HBoxContainer/HBoxContainer"]
-layout_mode = 2
-mouse_default_cursor_shape = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_m05qh")
-text = "Quit"
-
-[node name="SPSwitchModeButton" type="TextureButton" parent="SidePanelContainer/PanelContainer/MarginContainer/ScrollContainer/Container/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 4
-mouse_default_cursor_shape = 2
-texture_normal = ExtResource("4_hc80r")
-
-[node name="ScrollContainer" type="ScrollContainer" parent="SidePanelContainer/PanelContainer/MarginContainer/ScrollContainer/Container"]
-layout_mode = 2
-size_flags_vertical = 3
-horizontal_scroll_mode = 3
-vertical_scroll_mode = 3
-
-[node name="TextBoxContainer" type="VBoxContainer" parent="SidePanelContainer/PanelContainer/MarginContainer/ScrollContainer/Container/ScrollContainer"]
-clip_contents = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/separation = 50
-alignment = 2
-script = ExtResource("4_huku6")
-
-[node name="ChoiceContainer" type="VBoxContainer" parent="SidePanelContainer/PanelContainer/MarginContainer/ScrollContainer/Container"]
-visible = false
-texture_filter = 1
-layout_mode = 2
-size_flags_horizontal = 3
-script = ExtResource("5_gll0q")
 
 [node name="TextBoxContainer" type="MarginContainer" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.692
@@ -214,35 +119,19 @@ size_flags_vertical = 3
 theme_override_constants/separation = 15
 alignment = 2
 
+[node name="TextBox" parent="TextBoxContainer/PanelContainer/MarginContainer/Container" instance=ExtResource("7_00ova")]
+layout_mode = 2
+size_flags_vertical = 3
+
 [node name="HBoxContainer" type="HBoxContainer" parent="TextBoxContainer/PanelContainer/MarginContainer/Container"]
 layout_mode = 2
 alignment = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TextBoxContainer/PanelContainer/MarginContainer/Container/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="QuitBtn" type="Button" parent="TextBoxContainer/PanelContainer/MarginContainer/Container/HBoxContainer/HBoxContainer"]
+[node name="QuitBtn" type="Button" parent="TextBoxContainer/PanelContainer/MarginContainer/Container/HBoxContainer"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_m05qh")
 text = "Quit"
-
-[node name="TBSwitchModeButton" type="TextureButton" parent="TextBoxContainer/PanelContainer/MarginContainer/Container/HBoxContainer"]
-layout_mode = 2
-mouse_default_cursor_shape = 2
-texture_normal = ExtResource("7_2ymld")
-
-[node name="TextLabel" parent="TextBoxContainer/PanelContainer/MarginContainer/Container" instance=ExtResource("7_00ova")]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="ChoiceContainer" type="VBoxContainer" parent="TextBoxContainer/PanelContainer/MarginContainer/Container"]
-visible = false
-texture_filter = 1
-layout_mode = 2
-size_flags_horizontal = 3
-script = ExtResource("5_gll0q")
 
 [node name="NotificationContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -286,15 +175,20 @@ theme_override_fonts/normal_font = SubResource("FontFile_uhblr")
 bbcode_enabled = true
 fit_content = true
 
-[connection signal="monologue_custom_action" from="." to="." method="_on_monologue_custom_action"]
-[connection signal="monologue_end" from="." to="." method="_on_monologue_end"]
-[connection signal="monologue_event_triggered" from="." to="." method="_on_monologue_event_triggered"]
-[connection signal="monologue_new_choice" from="." to="." method="_on_monologue_new_choice"]
-[connection signal="monologue_notify" from="." to="." method="_on_monologue_notify"]
-[connection signal="monologue_option_chosen" from="." to="." method="_on_monologue_option_chosen"]
-[connection signal="monologue_play_audio" from="." to="." method="_on_monologue_play_audio"]
-[connection signal="monologue_sentence" from="." to="." method="_on_monologue_sentence"]
-[connection signal="monologue_timer_started" from="." to="." method="_on_monologue_timer_started"]
-[connection signal="monologue_update_background" from="." to="." method="_on_monologue_update_background"]
-[connection signal="pressed" from="SidePanelContainer/PanelContainer/MarginContainer/ScrollContainer/Container/MarginContainer/HBoxContainer/HBoxContainer/QuitBtn" to="." method="_exit"]
-[connection signal="pressed" from="TextBoxContainer/PanelContainer/MarginContainer/Container/HBoxContainer/HBoxContainer/QuitBtn" to="." method="_exit"]
+[node name="MonologueProcess" type="Node" parent="." node_paths=PackedStringArray("settings", "text_box", "text_box_container", "choice_selector", "background", "character_displayer")]
+script = ExtResource("11_ckl1f")
+settings = NodePath("MonologueProcessSettings")
+text_box = NodePath("../TextBoxContainer/PanelContainer/MarginContainer/Container/TextBox/VBoxContainer/MonologueTextBox")
+text_box_container = NodePath("../TextBoxContainer")
+choice_selector = NodePath("../CenterContainer/ChoiceSelector")
+background = NodePath("../Background")
+character_displayer = NodePath("../MonologueCharacterDisplayer")
+metadata/_custom_type_script = "uid://yjc4b6p8bg0q"
+
+[node name="MonologueProcessSettings" type="Node" parent="MonologueProcess"]
+script = ExtResource("12_klmu7")
+metadata/_custom_type_script = "uid://dd766rndd07e3"
+
+[connection signal="pressed" from="TextBoxContainer/PanelContainer/MarginContainer/Container/HBoxContainer/QuitBtn" to="." method="_on_quit_btn_pressed"]
+
+[editable path="TextBoxContainer/PanelContainer/MarginContainer/Container/TextBox"]

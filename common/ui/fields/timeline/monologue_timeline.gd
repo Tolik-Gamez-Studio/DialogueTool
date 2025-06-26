@@ -1,4 +1,4 @@
-class_name MonologueTimeline extends MonologueField
+class_name MonologueAnimationTimeline extends MonologueField
 
 const IMAGE = ["*.bmp,*.jpg,*.jpeg,*.png,*.svg,*.webp;Image Files"]
 const DEFAULT_LAYER_NAME: String = "Layer %s"

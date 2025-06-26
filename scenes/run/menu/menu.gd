@@ -6,17 +6,17 @@ var from_node: Variant
 
 func _ready():
 	%CustomIDLabel.hide()
-	if from_node != null:
+	if from_node != null and from_node != "":
 		%CustomIDLabel.text = "(custom start node: " + from_node + ")"
 		%CustomIDLabel.show()
 
 
 func load_scene(scene):
 	var main_scene = scene.instantiate()
-	main_scene.from_node = from_node
+	main_scene.from_node = from_node if from_node else ""
 	main_scene.file_path = file_path
 	main_scene.locale = str(GlobalVariables.language_switcher.get_current_language())
-	get_window().add_child(main_scene)
+	get_window().add_scene(main_scene)
 	queue_free()
 
 

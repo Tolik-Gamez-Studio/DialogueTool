@@ -4,7 +4,7 @@ signal timeline_updated
 
 @onready var hbox := %HBox
 
-var timeline: MonologueTimeline
+var timeline: MonologueAnimationTimeline
 var timeline_cell := preload("res://common/ui/fields/timeline/timeline_cell.tscn")
 var placement_indicator := preload("res://common/ui/vertical_placement_indicator.tscn")
 
