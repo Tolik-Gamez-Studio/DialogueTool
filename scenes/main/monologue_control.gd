@@ -6,6 +6,7 @@ class_name MonologueControl extends Control
 @onready var graph_switcher: GraphEditSwitcher = %GraphEditSwitcher
 @onready var side_panel_node: SidePanel = %SidePanel
 @onready var run_window := preload("res://scenes/run/run_window.tscn")
+@onready var dimmer := $"../../../Dimmer"
 
 
 func _ready():
@@ -159,10 +160,12 @@ func save():
 func test_project(from_node: Variant = null):
 	if graph_switcher.current.file_path:
 		await save()
-		var run_window: RunWindow = run_window.instantiate()
-		run_window.file_path = graph_switcher.current.file_path
-		run_window.from_node = from_node
-		get_tree().root.add_child(run_window)
+		var window: RunWindow = run_window.instantiate()
+		window.file_path = graph_switcher.current.file_path
+		window.from_node = from_node
+		window.tree_exited.connect(dimmer.hide)
+		get_tree().root.add_child(window)
+		dimmer.show()
 
 
 func _connect_nodes(node_list: Array) -> void:
