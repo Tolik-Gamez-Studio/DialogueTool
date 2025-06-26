@@ -1,9 +1,9 @@
 class_name GraphNodePicker extends Window
 
-
 ## Reference to the tab switcher so that the picker knows which tab it is in.
 @export var switcher: GraphEditSwitcher
 
+@onready var dimmer := $"../Dimmer"
 
 ## The node in which the picker was spawned/dragged from.
 var from_node: String
@@ -23,21 +23,26 @@ func _ready():
 	GlobalSignal.add_listener("enable_picker_mode", _on_enable_picker_mode)
 
 
-func _on_enable_picker_mode(node: String = "", port: int = -1, mouse_pos = null,
-			graph_release_pos = null, center_pos = null):
-	if switcher.current.file_path:
+func _on_enable_picker_mode(
+	node: String = "", port: int = -1, mouse_pos = null, graph_release_pos = null, center_pos = null, center_window: bool = false
+):
+	if switcher.current.file_path and (not dimmer or not dimmer.visible):
 		from_node = node
 		from_port = port
 		release = mouse_pos
 		graph_release = graph_release_pos
 		center = center_pos
-		
+
 		if from_node != "":
 			position = Vector2i(release) + get_tree().get_root().position
 		else:
-			var mouse_position =  Vector2i(get_parent().get_global_mouse_position())
+			var mouse_position = Vector2i(get_parent().get_global_mouse_position())
 			position = get_tree().get_root().position + mouse_position
+		current_screen = get_tree().get_root().current_screen
 		show()
+		
+		if center_window:
+			move_to_center()
 
 
 func close() -> void:
@@ -52,6 +57,18 @@ func flush() -> void:
 	center = null
 
 
-func _on_close_requested() -> void: close()
-func _on_cancel_button_pressed() -> void: close()
-func _on_create_button_pressed() -> void: close()
+func _on_close_requested() -> void:
+	close()
+
+
+func _on_cancel_button_pressed() -> void:
+	close()
+
+
+func _on_create_button_pressed() -> void:
+	close()
+
+
+func _on_visibility_changed() -> void:
+	var root_screen: int = get_tree().get_root().current_screen
+	current_screen = root_screen

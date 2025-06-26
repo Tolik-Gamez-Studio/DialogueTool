@@ -1,15 +1,13 @@
 @icon("res://ui/assets/icons/exit.svg")
 class_name EndPathNode extends MonologueGraphNode
 
-
-const NOTE = "Note: Variables are kept with their values between stories when you use this node."
-
-var next_story := Property.new(LINE, { "note_text": NOTE })
+var next_story := Property.new(FILE, {"filters":  ["*.json;Monologue File"]})
 
 
 func _ready():
 	node_type = "NodeEndPath"
 	super._ready()
+	next_story.setters["base_path"] = get_parent().file_path
 
 
 func _from_dict(dict: Dictionary):

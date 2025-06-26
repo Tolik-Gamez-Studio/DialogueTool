@@ -1,54 +1,28 @@
 class_name MonologueControl extends Control
 
+@export var welcome_window: WelcomeWindow
+@export var graph_node_picker: GraphNodePicker
 
-@export var tab_bar: TabBar
-
-var dialog = {}
-var dialog_for_localisation = []
-
-const UNSAVED_FILE_SUFFIX: String = "*"
-
-@onready var graph_edit_inst = preload("res://common/layouts/graph_edit/monologue_graph_edit.tscn")
-@onready var prompt_scene = preload("res://common/windows/prompt_window/prompt_window.tscn")
-
-@onready var graph_edits: Control = $MarginContainer/MainContainer/GraphEditsArea/GraphEditSwitcher/GraphEditZone/GraphEdits
-@onready var side_panel_node = %SidePanel
-@onready var graph_node_selecter = $GraphNodePicker
-@onready var file_dialog = $FileDialog
-@onready var graph: GraphEditSwitcher = %GraphEditSwitcher
-@onready var welcome: WelcomeWindow = $WelcomeWindow
-
-var root_scene = GlobalVariables.node_dictionary.get("Root")
-var live_dict: Dictionary
-
-## Set to true if a file operation is triggered from Header instead of WelcomeWindow.
-var is_header_file_operation: bool = false
-var is_closing_all_tabs: bool = false
-
-var initial_pos = Vector2(40,40)
-var option_index = 0
-var node_index = 0
-var all_nodes_index = 0
-var prev_tab: int = 0
-
-var picker_from_node
-var picker_from_port
-var picker_position
+@onready var graph_switcher: GraphEditSwitcher = %GraphEditSwitcher
+@onready var side_panel_node: SidePanel = %SidePanel
+@onready var run_window := preload("res://scenes/run/run_window.tscn")
+@onready var dimmer := $"../../../Dimmer"
 
 
 func _ready():
 	get_tree().auto_accept_quit = false  # quit handled by _close_tab()
-	welcome.show()
-	
+	welcome_window.show()
+
 	GlobalSignal.add_listener("add_graph_node", add_node_from_global)
 	GlobalSignal.add_listener("select_new_node", _select_new_node)
+	GlobalSignal.add_listener("refresh", refresh)
 	GlobalSignal.add_listener("load_project", load_project)
 	GlobalSignal.add_listener("test_trigger", test_project)
 	GlobalSignal.add_listener("save", save)
 
 
 func _select_new_node() -> void:
-	graph_node_selecter.show()
+	graph_node_picker.show()
 
 
 func _input(event):
@@ -58,13 +32,12 @@ func _input(event):
 
 func _to_dict() -> Dictionary:
 	var list_nodes: Array[Dictionary] = []
-	var graph_edit = graph.current
-	
+
 	# compile all node data of the current graph edit
-	for node in graph_edit.get_nodes():
+	for node in graph_switcher.current.get_nodes():
 		if node.is_queued_for_deletion():
 			continue
-		
+
 		# if side panel is still open, release the focus so that some
 		# text controls trigger the focus_exited() signal to update
 		if side_panel_node.visible and side_panel_node.selected_node == node:
@@ -72,37 +45,39 @@ func _to_dict() -> Dictionary:
 			if refocus:
 				refocus.release_focus()
 				refocus.grab_focus()
-		
+
 		list_nodes.append(node._to_dict())
 		if node.node_type == "NodeChoice":
 			for child in node.get_children():
 				list_nodes.append(child._to_dict())
-	
-	# build data for dialogue speakers
-	var characters = graph.current.speakers
+
+	# build data for dialogue characters
+	var characters = graph_switcher.current.characters
 	if characters.size() <= 0:
-		characters.append({
-			"Reference": "_NARRATOR",
-			"ID": 0
-		})
-	
+		characters.append(
+			{
+				"ID": IDGen.generate(5),
+				"Protected": true,
+				"Character": {"Name": "_NARRATOR"},
+				"EditorIndex": 0
+			}
+		)
+
 	return {
 		"EditorVersion": ProjectSettings.get_setting("application/config/version", "unknown"),
 		"RootNodeID": get_root_dict(list_nodes).get("ID"),
 		"ListNodes": list_nodes,
 		"Characters": characters,
-		"Variables": graph.current.variables
+		"Variables": graph_switcher.current.variables,
+		"Languages": GlobalVariables.language_switcher.get_languages().keys()
 	}
 
 
 ## Function callback for when the user wants to add a node from global context.
 ## Used by header menu and graph node selector (picker).
 func add_node_from_global(node_type: String, picker: GraphNodePicker = null):
-	picker_from_node = picker.from_node
-	picker_from_port = picker.from_port
-	
-	var new_nodes: Array[MonologueGraphNode] = graph.current.add_node(node_type, true)
-	graph.current.pick_and_center(new_nodes, picker)
+	var nodes: Array[MonologueGraphNode] = graph_switcher.current.add_node(node_type, true, picker)
+	graph_switcher.current.pick_and_center(nodes, picker)
 
 
 func get_root_dict(node_list: Array) -> Dictionary:
@@ -114,53 +89,88 @@ func get_root_dict(node_list: Array) -> Dictionary:
 
 func load_project(path: String, new_graph: bool = false) -> void:
 	var file = FileAccess.open(path, FileAccess.READ)
-	if file and not graph.is_file_opened(path):
+	if file and not graph_switcher.is_file_opened(path):
 		if new_graph:
-			graph.new_graph_edit()
-		graph.current.file_path = path  # set path first before tab creation
-		graph.add_tab(path.get_file())
-		
+			graph_switcher.new_graph_edit()
+		graph_switcher.current.file_path = path  # set path first before tab creation
+
 		var data = {}
 		var text = file.get_as_text()
-		if text: data = JSON.parse_string(text)
+		if text:
+			data = JSON.parse_string(text)
 		if not data:
 			data = _to_dict()
 			save()
-		
-		graph.current.clear()
-		graph.current.name = path.get_file().trim_suffix(".json")
-		graph.current.speakers = data.get("Characters")
-		graph.current.variables = data.get("Variables")
-		graph.current.data = data
-		
+
+		var converter := NodeConverter.new()
+		graph_switcher.current.languages = data.get("Languages", [])  # load language before tab
+		graph_switcher.add_tab(path.get_file())
+		graph_switcher.current.clear()
+		graph_switcher.current.name = path.get_file().trim_suffix(".json")
+		graph_switcher.current.characters = converter.convert_characters(data.get("Characters"))
+		graph_switcher.current.variables = data.get("Variables")
+		graph_switcher.current.data = data
+
 		var node_list = data.get("ListNodes")
 		_load_nodes(node_list)
 		_connect_nodes(node_list)
-		graph.add_root()
-		graph.current.update_node_positions()
+		graph_switcher.add_root()
+		graph_switcher.current.update_node_positions()
+		graph_switcher.current.grab_focus()
+		GlobalSignal.emit("load_successful", [path])
+
+
+## Reload the current graph edit and side panel values.
+func refresh(node: MonologueGraphNode = null, affected_properties: PackedStringArray = []) -> void:
+	# if there is a given node, refresh only the parts that were specified
+	if node:
+		node.reload_preview()
+		if node is not OptionNode:
+			node._update.call_deferred()
+		if side_panel_node.visible:
+			# actual property value updates are handled by PropertyHistory
+			for property_name in affected_properties:
+				var field = side_panel_node.collapsibles.get(property_name)
+				if is_instance_valid(field):
+					field.open()
+		else:
+			var choice = node.choice_node if node is OptionNode else node
+			node.get_graph_edit().set_selected(choice)
+	# otherwise, remake the entire panel and refresh all node previews
+	else:
+		for each_node in graph_switcher.current.get_nodes():
+			each_node.reload_preview()
+			#each_node._update.call_deferred()
+		if side_panel_node.visible:
+			var current_node = side_panel_node.selected_node
+			side_panel_node.on_graph_node_selected(current_node, true)
 
 
 func save():
 	var data = JSON.stringify(_to_dict(), "\t", false, true)
 	if data:
-		var path = graph.current.file_path
+		var path = graph_switcher.current.file_path
 		var file = FileAccess.open(path, FileAccess.WRITE)
 		file.store_string(data)
 		file.close()
-		graph.current.update_version()
-		graph.update_save_state()
+		graph_switcher.current.update_version()
+		graph_switcher.update_save_state()
 
 
 func test_project(from_node: Variant = null):
-	if graph.current.file_path:
+	if graph_switcher.current.file_path:
 		await save()
-		var test_window: TestWindow = TestWindow.new(graph.current.file_path, from_node)
-		get_tree().root.add_child(test_window)
+		var window: RunWindow = run_window.instantiate()
+		window.file_path = graph_switcher.current.file_path
+		window.from_node = from_node
+		window.tree_exited.connect(dimmer.hide)
+		get_tree().root.add_child(window)
+		dimmer.show()
 
 
 func _connect_nodes(node_list: Array) -> void:
 	for node in node_list:
-		var current_node = graph.current.get_node_by_id(node.get("ID", ""))
+		var current_node = graph_switcher.current.get_node_by_id(node.get("ID", ""))
 		if current_node:
 			current_node._load_connections(node)
 
@@ -172,18 +182,30 @@ func _load_nodes(node_list: Array) -> void:
 		var node_type = data.get("$type").trim_prefix("Node")
 		if node_type == "Option":
 			# option data gets sent to the base_options dictionary
-			graph.current.base_options[data.get("ID")] = data
+			graph_switcher.current.base_options[data.get("ID")] = data
 		else:
-			var node_scene = GlobalVariables.node_dictionary.get(node_type)
+			var node_scene = Constants.NODE_SCENES.get(node_type)
 			if node_scene:
 				var node_instance = node_scene.instantiate()
 				node_instance.id.value = data.get("ID")
-				graph.current.add_child(node_instance, true)
+				graph_switcher.current.add_child(node_instance, true)
 				node_instance._from_dict(data)
 
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		get_viewport().gui_release_focus()
-		graph.is_closing_all_tabs = true
-		graph._on_tab_close_pressed(0)
+		graph_switcher.is_closing_all_tabs = true
+		graph_switcher._on_tab_close_pressed(0)
+
+
+func _on_button_sparkle_pressed() -> void:
+	# TODO: Create an undo/redo action for every nodes. Need to pack undo/redo action into one action.
+	pass
+	#graph_switcher.current.set_block_signals(true)
+	#graph_switcher.current.arrange_nodes()
+	#graph_switcher.current.set_block_signals.bind(false).call_deferred()
+
+
+func _on_button_settings_pressed() -> void:
+	GlobalSignal.emit("show_current_config")

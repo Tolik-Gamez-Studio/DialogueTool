@@ -1,7 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bhf5b42cv02m4"]
 
-[ext_resource type="Script" path="res://common/windows/file_dialog/file_dialog.gd" id="1_mjdqk"]
-
+[ext_resource type="Script" uid="uid://b2l7hjfyrnr3x" path="res://common/windows/file_dialog/file_dialog.gd" id="1_mjdqk"]
 
 [node name="FileDialog" type="FileDialog"]
 auto_translate_mode = 1
@@ -11,3 +10,4 @@ use_native_dialog = true
 script = ExtResource("1_mjdqk")
 
 [connection signal="file_selected" from="." to="." method="_on_file_selected"]
+[connection signal="files_selected" from="." to="." method="_on_files_selected"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=4 uid="uid://clxk4rmxxwgvh"]
 
-[ext_resource type="Script" path="res://scenes/run/menu/menu.gd" id="1_e8xk2"]
+[ext_resource type="Script" uid="uid://brbh1hmixywo8" path="res://scenes/run/menu/menu.gd" id="1_e8xk2"]
 [ext_resource type="Texture2D" uid="uid://bb1r87b6k7pv4" path="res://title_banner.png" id="2_osv2s"]
 
 [sub_resource type="FontFile" id="FontFile_rkw4b"]
@@ -8,7 +8,9 @@ data = PackedByteArray("AAEAAAARAQAABAAQR0RFRhksGkkAAAIAAAAAYkdQT1Oo3v0TAAA+GAAA
 font_name = "VT323"
 style_name = "Regular"
 font_style = 4
+subpixel_positioning = 0
 msdf_pixel_range = 8
+msdf_size = 128
 cache/0/16/0/ascent = 13.0
 cache/0/16/0/descent = 4.0
 cache/0/16/0/underline_position = 2.39063

@@ -1,5 +1,4 @@
-extends CenterContainer
-
+extends MarginContainer
 
 @onready var text_edit: TextEdit = %TextEdit
 var little_text_edit: TextEdit
@@ -13,7 +12,7 @@ func _ready() -> void:
 func _on_expand_text_edit(little_te: TextEdit) -> void:
 	little_text_edit = little_te
 	text_edit.text = little_text_edit.text
-	
+
 	show()
 
 
@@ -25,3 +24,10 @@ func _on_button_pressed() -> void:
 func _on_text_edit_text_changed() -> void:
 	little_text_edit.text = text_edit.text
 	little_text_edit.text_changed.emit()
+
+
+func _on_visibility_changed() -> void:
+	if visible:
+		GlobalSignal.emit("show_dimmer", [self])
+		return
+	GlobalSignal.emit("hide_dimmer", [self])

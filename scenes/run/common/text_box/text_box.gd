@@ -15,6 +15,7 @@ var _display: bool = false
 
 var tick = 0
 
+
 func _ready():
 	scroll_bar.connect("changed", handle_scrollbar_changed)
 	reset()
@@ -24,21 +25,22 @@ func _ready():
 func handle_scrollbar_changed():
 	scroll_container.scroll_vertical = scroll_bar.max_value
 
+
 func _process(delta):
 	if complete:
 		pass
-	
+
 	if not _display:
 		return
-	
-	tick+=1
-	
+
+	tick += 1
+
 	if text_speed < 0 or current_text_box.visible_ratio >= 1:
 		current_text_box.visible_characters = -1
 		_display = false
 		complete = true
 		return
-	
+
 	current_text_box.visible_characters += text_speed * delta * 60
 
 
@@ -63,9 +65,9 @@ func append_text_box():
 	if current_text_box:
 		current_text_box.remove_theme_color_override("default_color")
 		current_text_box.add_theme_color_override("default_color", Color("656565"))
-	
+
 	var new_text_box = text_box.instantiate()
 	add_child(new_text_box)
 	current_text_box = new_text_box
-	
+
 	current_text_box.grab_click_focus()

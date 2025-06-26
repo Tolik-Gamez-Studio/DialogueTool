@@ -1,7 +1,6 @@
 @icon("res://ui/assets/icons/dice.svg")
 class_name RandomNode extends MonologueGraphNode
 
-
 @onready var output_line := preload("res://nodes/random_node/output_line.tscn")
 
 var outputs := Property.new(LIST, {}, [])
@@ -12,12 +11,12 @@ var _output_references: Array = []
 func _ready():
 	node_type = "NodeRandom"
 	super._ready()
-	
+
 	outputs.setters["add_callback"] = add_output
 	outputs.setters["delete_callback"] = modify_on_delete
 	outputs.setters["get_callback"] = get_outputs
 	outputs.connect("preview", _refresh)
-	
+
 	if outputs.value.size() <= 0:
 		load_outputs([])
 		_refresh(outputs.value)
@@ -28,7 +27,7 @@ func _from_dict(dict: Dictionary) -> void:
 	if dict.has("Target"):
 		var converter = NodeConverter.new()
 		dict = converter.convert_dice_roll(dict)
-	
+
 	load_outputs(dict.get("Outputs", []))
 	_load_position(dict)
 	_update()
@@ -49,23 +48,23 @@ func add_output(data: Dictionary = {}) -> MonologueRandomOutput:
 	if data:
 		output._from_dict(data)
 		link_output(data, output.id.value)
-	
+
 	_output_references.append(output)
 	var line_instance := output_line.instantiate()
 	add_child(line_instance)
-	line_instance.update_label(str(output.weight.value) + "%")
-	
+	line_instance.update_label(str(int(output.weight.value)) + "%")
+
 	# if output was added from scratch, redistribute all equally
 	if not data:
 		var share = 100.0 / _output_references.size()
 		for idx in range(_output_references.size()):
 			var weight = ceil(share) if idx == 0 else floor(share)
 			_output_references[idx].weight.value = weight
-		
+
 		var refs = _output_references.slice(0, _output_references.size() - 1)
 		var dicts = refs.map(func(r): return r._to_dict())
 		outputs.propagate(dicts)
-	
+
 	return output
 
 
@@ -93,7 +92,7 @@ func load_outputs(new_output_list: Array):
 	new_output_list.sort_custom(ascending)
 	for output_data in new_output_list:
 		add_output(output_data)
-	
+
 	if _output_references.is_empty():
 		var first = add_output()
 		var second = add_output()
@@ -109,7 +108,7 @@ func modify_on_delete(data_list: Array):
 		# reassign IDs on delete
 		for i in range(data_list.size()):
 			data_list[i]["ID"] = i
-		
+
 		# rebalance weights if the sum is not equal to 100
 		var weights = data_list.map(func(d): return d.get("Weight"))
 		var sum = weights.reduce(func(total, w): return total + w)
@@ -139,7 +138,7 @@ func _refresh(new_outputs_list: Array):
 		var to_node = connection.get("to_node")
 		get_parent().disconnect_node(name, from_port, to_node, 0)
 	clear_children()
-	
+
 	for new_output_data in new_outputs_list:
 		add_output(new_output_data)
 	_update()
@@ -147,5 +146,5 @@ func _refresh(new_outputs_list: Array):
 
 func _update(_new_value: Variant = null) -> void:
 	for idx in get_child_count():
-		set_slot(idx, (idx==0), 0, Color.WHITE, true, 0, Color.WHITE, LEFT_SLOT, RIGHT_SLOT)
+		set_slot(idx, idx == 0, 0, Color.WHITE, true, 0, Color.WHITE, LEFT_SLOT, RIGHT_SLOT)
 	super._update()

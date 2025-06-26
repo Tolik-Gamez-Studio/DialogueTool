@@ -1,7 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dbq34pvukxcce"]
 
-[ext_resource type="Script" path="res://common/windows/welcome_window/recent_file_container.gd" id="1_0a36f"]
-
+[ext_resource type="Script" uid="uid://dpp03lxtpf520" path="res://common/windows/welcome_window/recent_file_container.gd" id="1_0a36f"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_1l82f"]
 font_color = Color(0.572549, 0.572549, 0.572549, 1)

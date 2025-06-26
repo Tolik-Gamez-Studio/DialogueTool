@@ -1,6 +1,5 @@
 class_name RerouteNode extends MonologueGraphNode
 
-
 @onready var drag_panel: PanelContainer = $Control/CenterContainer/DragPanel
 
 

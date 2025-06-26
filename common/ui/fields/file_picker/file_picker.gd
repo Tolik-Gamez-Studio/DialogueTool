@@ -1,6 +1,5 @@
 class_name FilePicker extends MonologueField
 
-
 const AUDIO = ["*.mp3,*.ogg,*.wav;Sound Files"]
 const IMAGE = ["*.bmp,*.jpg,*.jpeg,*.png,*.svg,*.webp;Image Files"]
 
@@ -8,8 +7,8 @@ const IMAGE = ["*.bmp,*.jpg,*.jpeg,*.png,*.svg,*.webp;Image Files"]
 @export var filters: PackedStringArray
 
 @onready var label: Label = $Label
-@onready var line_edit: LineEdit = $VBox/LineEdit
-@onready var picker_button: Button = $VBox/LineEdit/HBoxContainer/FilePickerButton
+@onready var line_edit: LineEdit = $VBox/HBox/LineEdit
+@onready var picker_button: Button = $VBox/HBox/FilePickerButton
 @onready var warn_label: Label = $VBox/WarnLabel
 
 
@@ -28,7 +27,6 @@ func validate(path: String) -> bool:
 	var is_valid = true
 	path = path.lstrip(" ")
 	path = path.rstrip(" ")
-	
 	if path and filters:
 		var absolute_path = Path.relative_to_absolute(path, base_path)
 		if not FileAccess.file_exists(absolute_path):
@@ -44,7 +42,6 @@ func validate(path: String) -> bool:
 					if file_name.match(target):
 						correct_suffix = true
 						break
-			
 			if not correct_suffix:
 				warn_label.show()
 				var formats = Array(filters).map(_split_match)
@@ -64,8 +61,7 @@ func _on_focus_exited() -> void:
 
 
 func _on_picker_button_pressed():
-	GlobalSignal.emit("open_file_request",
-			[_on_file_selected, filters, base_path.get_base_dir()])
+	GlobalSignal.emit("open_file_request", [_on_file_selected, filters, base_path.get_base_dir()])
 
 
 func _on_text_changed(new_text: String) -> void:

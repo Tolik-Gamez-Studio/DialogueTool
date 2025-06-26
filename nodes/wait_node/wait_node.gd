@@ -1,9 +1,8 @@
 class_name WaitNode extends MonologueGraphNode
 
+var time := Property.new(SPINBOX, {"minimum": 0, "maximum": 120})
 
-var time := Property.new(SPINBOX, { "minimum": 0, "maximum": 120 })
-
-@onready var wait_label := $MainContainer/HBox/WaitLabel
+@onready var wait_label := $HBox/WaitLabel
 
 
 func _ready() -> void:
@@ -13,7 +12,7 @@ func _ready() -> void:
 
 
 func _on_wait_preview(value: Variant):
-	wait_label.text = str(value)
+	wait_label.text = str(int(value))
 
 
 func _update():

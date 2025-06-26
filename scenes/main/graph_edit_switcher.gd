@@ -3,29 +3,29 @@
 class_name GraphEditSwitcher extends VBoxContainer
 
 
-const UNSAVED_FILE_SUFFIX: String = "*"
-
 ## Reference to the side panel control to connect graph edits to.
 @export var side_panel: SidePanel
+## Reference to the tab bar for switching graph edits.
+@export var tab_bar: TabBar
 
 var current: MonologueGraphEdit: get = get_current_graph_edit
 var graph_edit_scene = preload("res://common/layouts/graph_edit/monologue_graph_edit.tscn")
 var is_closing_all_tabs: bool
 var pending_new_graph: MonologueGraphEdit
 var prompt_scene = preload("res://common/windows/prompt_window/prompt_window.tscn")
-var root_scene = GlobalVariables.node_dictionary.get("Root")
-var tab_bar: TabBar
+var root_scene = Constants.NODE_SCENES.get("Root")
+var last_selected_tab: int = 0
+var prevent_switching: bool = false
 
 @onready var graph_edits: Control = $GraphEditZone/GraphEdits
-@onready var control: MonologueControl = $"../../../.."
 
 
 func _ready() -> void:
-	tab_bar = control.tab_bar
 	tab_bar.connect("tab_changed", _on_tab_changed)
 	tab_bar.connect("tab_close_pressed", _on_tab_close_pressed)
 	new_graph_edit()
 	GlobalSignal.add_listener("previous_tab", previous_tab)
+	GlobalSignal.add_listener("last_tab", last_tab)
 	GlobalSignal.add_listener("show_current_config", show_current_config)
 
 
@@ -80,7 +80,6 @@ func new_graph_edit() -> MonologueGraphEdit:
 	var graph_edit = graph_edit_scene.instantiate()
 	var root_node = root_scene.instantiate()
 	
-	graph_edit.control_node = control
 	graph_edit.add_child(root_node)
 	connect_side_panel(graph_edit)
 	graph_edits.add_child(graph_edit)
@@ -92,6 +91,9 @@ func new_graph_edit() -> MonologueGraphEdit:
 
 
 func _on_tab_close_pressed(tab: int) -> void:
+	if prevent_switching:
+		return
+	
 	var ge = graph_edits.get_child(tab)
 	if ge.is_unsaved():  # prompt user if there are unsaved changes
 		GlobalSignal.emit("disable_picker_mode")
@@ -111,6 +113,11 @@ func previous_tab():
 		tab_bar.select_previous_available()
 
 
+func last_tab():
+	tab_bar.current_tab = last_selected_tab
+	tab_bar.tab_changed.emit(last_selected_tab)
+
+
 ## Select the RootNode of the current graph edit, which opens the side panel.
 func show_current_config() -> void:
 	var root_node = current.get_root_node()
@@ -120,14 +127,15 @@ func show_current_config() -> void:
 ## Update tab title with a suffix based on the current graph_edit's save state.
 func update_save_state() -> void:
 	var index = current.get_index()
-	var trim = tab_bar.get_tab_title(index).trim_suffix(UNSAVED_FILE_SUFFIX)
-	var title = trim + UNSAVED_FILE_SUFFIX if current.is_unsaved() else trim
+	var trim = tab_bar.get_tab_title(index).trim_suffix(Constants.UNSAVED_FILE_SUFFIX)
+	var title = trim + Constants.UNSAVED_FILE_SUFFIX if current.is_unsaved() else trim
 	tab_bar.set_tab_title(index, title)
 
 
 func _close_tab(graph_edit, tab_index, save_first = false) -> void:
 	if save_first:
 		GlobalSignal.emit("save", [true])
+	GlobalSignal.emit("close_character_edit")
 	graph_edit.queue_free()
 	await graph_edit.tree_exited  # buggy if we switch tabs without waiting
 	tab_bar.remove_tab(tab_index)
@@ -139,6 +147,10 @@ func _close_tab(graph_edit, tab_index, save_first = false) -> void:
 
 
 func _on_tab_changed(tab: int) -> void:
+	if prevent_switching:
+		tab_bar.current_tab = last_selected_tab
+		return
+	
 	if tab < tab_bar.tab_count - 1:
 		# this allows user to switch out of the new tab (welcome window)
 		tab_bar.tab_close_display_policy = TabBar.CLOSE_BUTTON_SHOW_ACTIVE_ONLY
@@ -146,18 +158,22 @@ func _on_tab_changed(tab: int) -> void:
 			pending_new_graph.queue_free()
 			pending_new_graph = null
 		GlobalSignal.emit("hide_welcome")
+		GlobalSignal.emit("enable_language_switcher")
 		
 		for ge in graph_edits.get_children():
 			if graph_edits.get_child(tab) == ge:
 				ge.visible = true
+				GlobalSignal.emit("load_languages", [ge.languages, ge])
 				if ge.active_graphnode:
 					side_panel.on_graph_node_selected(ge.active_graphnode, true)
 				else:
 					side_panel.hide()
 			else:
 				ge.visible = false
+		last_selected_tab = tab
 	else:
 		tab_bar.tab_close_display_policy = TabBar.CLOSE_BUTTON_SHOW_NEVER
 		pending_new_graph = new_graph_edit()
 		GlobalSignal.emit("show_welcome")
+		GlobalSignal.emit("disable_language_switcher")
 		side_panel.hide()
