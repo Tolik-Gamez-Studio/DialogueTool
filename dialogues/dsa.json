@@ -1,0 +1,29 @@
+{
+	"EditorVersion": "3.0.0-dev2",
+	"RootNodeID": "F9yR2tIPLS",
+	"ListNodes": [
+		{
+			"$type": "NodeRoot",
+			"ID": "F9yR2tIPLS",
+			"EditorPosition": [
+				0.0,
+				0.0
+			],
+			"NextID": -1
+		}
+	],
+	"Characters": [
+		{
+			"ID": "RXzv4GHHGr",
+			"Protected": true,
+			"Character": {
+				"Name": "_NARRATOR"
+			},
+			"EditorIndex": 0
+		}
+	],
+	"Variables": [],
+	"Languages": [
+		"English"
+	]
+}
