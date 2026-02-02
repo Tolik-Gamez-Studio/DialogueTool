@@ -2,10 +2,13 @@ class_name MonologueWindow extends Window
 
 
 func _ready() -> void:
-	get_parent().connect("resized", _on_resized)
+	print("[MonologueWindow] _ready() for %s" % name)
+	if get_parent():
+		get_parent().connect("resized", _on_resized)
 	update_size.call_deferred()
 	visibility_changed.connect(_on_visibility_changed)
 	_on_visibility_changed()
+	print("[MonologueWindow] _ready() done for %s, visible=%s" % [name, visible])
 
 
 func update_size() -> void:

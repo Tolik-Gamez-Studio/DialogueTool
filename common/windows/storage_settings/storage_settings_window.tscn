@@ -1,0 +1,171 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://common/windows/storage_settings/storage_settings_window.gd" id="1_script"]
+
+[node name="StorageSettingsWindow" type="Window"]
+title = "Storage Settings"
+initial_position = 2
+size = Vector2i(450, 380)
+visible = false
+wrap_controls = true
+transient = true
+exclusive = true
+always_on_top = true
+script = ExtResource("1_script")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = -16.0
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TypeSection" type="VBoxContainer" parent="MarginContainer/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TypeLabel" type="Label" parent="MarginContainer/VBox/TypeSection"]
+layout_mode = 2
+text = "Where to save dialogue files:"
+
+[node name="StorageTypeOption" type="OptionButton" parent="MarginContainer/VBox/TypeSection"]
+unique_name_in_owner = true
+layout_mode = 2
+item_count = 2
+popup/item_0/text = "Local (on this computer)"
+popup/item_0/id = 0
+popup/item_1/text = "GitHub (cloud sync)"
+popup/item_1/id = 2
+
+[node name="GitHubSettings" type="VBoxContainer" parent="MarginContainer/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HeaderLabel" type="Label" parent="MarginContainer/VBox/GitHubSettings"]
+layout_mode = 2
+text = "GitHub Settings (no Git installation needed):"
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+
+[node name="OwnerBox" type="HBoxContainer" parent="MarginContainer/VBox/GitHubSettings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/GitHubSettings/OwnerBox"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "Username/Org:"
+
+[node name="RepoOwnerEdit" type="LineEdit" parent="MarginContainer/VBox/GitHubSettings/OwnerBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "e.g. my-username"
+
+[node name="RepoBox" type="HBoxContainer" parent="MarginContainer/VBox/GitHubSettings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/GitHubSettings/RepoBox"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "Repository:"
+
+[node name="RepoNameEdit" type="LineEdit" parent="MarginContainer/VBox/GitHubSettings/RepoBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "e.g. my-dialogues"
+
+[node name="BranchBox" type="HBoxContainer" parent="MarginContainer/VBox/GitHubSettings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/GitHubSettings/BranchBox"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "Branch:"
+
+[node name="BranchEdit" type="LineEdit" parent="MarginContainer/VBox/GitHubSettings/BranchBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "main"
+placeholder_text = "main"
+
+[node name="TokenBox" type="HBoxContainer" parent="MarginContainer/VBox/GitHubSettings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/GitHubSettings/TokenBox"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "Access Token:"
+
+[node name="TokenEdit" type="LineEdit" parent="MarginContainer/VBox/GitHubSettings/TokenBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "ghp_xxxx..."
+secret = true
+
+[node name="PasteTokenBtn" type="Button" parent="MarginContainer/VBox/GitHubSettings/TokenBox"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "Paste from clipboard"
+text = "📋"
+
+[node name="TokenHelp" type="Label" parent="MarginContainer/VBox/GitHubSettings"]
+layout_mode = 2
+text = "Create token at: github.com/settings/tokens"
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 12
+
+[node name="PathBox" type="HBoxContainer" parent="MarginContainer/VBox/GitHubSettings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBox/GitHubSettings/PathBox"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "Folder in repo:"
+
+[node name="BasePathEdit" type="LineEdit" parent="MarginContainer/VBox/GitHubSettings/PathBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "dialogues"
+placeholder_text = "dialogues"
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="StatusLabel" type="Label" parent="MarginContainer/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.6, 0.8, 0.6, 1)
+
+[node name="ButtonsBox" type="HBoxContainer" parent="MarginContainer/VBox"]
+layout_mode = 2
+alignment = 2
+theme_override_constants/separation = 12
+
+[node name="SaveButton" type="Button" parent="MarginContainer/VBox/ButtonsBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 36)
+layout_mode = 2
+text = "Save"
+
+[node name="CloseButton" type="Button" parent="MarginContainer/VBox/ButtonsBox"]
+custom_minimum_size = Vector2(100, 36)
+layout_mode = 2
+text = "Close"
+
+[connection signal="item_selected" from="MarginContainer/VBox/TypeSection/StorageTypeOption" to="." method="_on_storage_type_changed"]
+[connection signal="pressed" from="MarginContainer/VBox/GitHubSettings/TokenBox/PasteTokenBtn" to="." method="_on_paste_token_pressed"]
+[connection signal="pressed" from="MarginContainer/VBox/ButtonsBox/SaveButton" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="MarginContainer/VBox/ButtonsBox/CloseButton" to="." method="_on_close_pressed"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bim51g1aibuw0"]
+[gd_scene load_steps=15 format=3 uid="uid://bim51g1aibuw0"]
 
 [ext_resource type="Texture2D" uid="uid://dd8v3hpxxk33d" path="res://ui/assets/icons/logo_white.svg" id="1_1u5fg"]
 [ext_resource type="PackedScene" uid="uid://bqjfdabrxujp7" path="res://scenes/main/graph.tscn" id="1_kiov6"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://d3f7d4bb40iht" path="res://common/windows/preview_window/preview_window.tscn" id="8_7qdje"]
 [ext_resource type="PackedScene" uid="uid://bqqcww601rcx5" path="res://common/windows/welcome_window/welcome_window.tscn" id="9_fp7qq"]
 [ext_resource type="Script" uid="uid://b2l7hjfyrnr3x" path="res://common/windows/file_dialog/file_dialog.gd" id="10_r77hi"]
+[ext_resource type="PackedScene" path="res://common/windows/storage_settings/storage_settings_window.tscn" id="11_storage"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7ks4x"]
 shader = ExtResource("5_1u5fg")
@@ -126,6 +127,9 @@ size = Vector2i(419, 201)
 access = 2
 use_native_dialog = true
 script = ExtResource("10_r77hi")
+
+[node name="StorageSettingsWindow" parent="." instance=ExtResource("11_storage")]
+visible = false
 
 [connection signal="visibility_changed" from="CharacterEditContainer" to="CharacterEditContainer" method="_on_visibility_changed"]
 [connection signal="file_selected" from="FileDialog" to="FileDialog" method="_on_file_selected"]

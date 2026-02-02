@@ -12,6 +12,10 @@ config_version=5
 
 markdown_book/docs_folder=""
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Monologue"
@@ -20,7 +24,7 @@ config/tags=PackedStringArray("monologue")
 run/main_scene="res://scenes/splash/splash.tscn"
 run/print_header=false
 run/enable_alt_space_menu=true
-config/features=PackedStringArray("4.4")
+config/features=PackedStringArray("4.6")
 boot_splash/bg_color=Color(0.117647, 0.117647, 0.129412, 1)
 boot_splash/show_image=false
 config/icon="res://icon.png"
@@ -37,6 +41,7 @@ Path="*res://autoloads/path.gd"
 IDGen="*res://autoloads/id_gen.gd"
 Cursor="*res://autoloads/cursor.gd"
 ImageLoader="*res://autoloads/image_loader.gd"
+Storage="*res://autoloads/storage/storage_manager.gd"
 
 [debug]
 
@@ -55,7 +60,7 @@ window/size/fullscreen=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/monologue/plugin.cfg")
+enabled=PackedStringArray("res://addons/monologue/plugin.cfg")
 
 [file_customization]
 
@@ -75,10 +80,10 @@ ui/inspector/tree_view_mode=1
 
 [gui]
 
-theme/custom="uid://budfhk1hudcfj"
-theme/custom_font="uid://xxjublydw27h"
 theme/default_font_hinting=2
 theme/lcd_subpixel_layout=0
+theme/custom="uid://budfhk1hudcfj"
+theme/custom_font="uid://xxjublydw27h"
 
 [input]
 

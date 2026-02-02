@@ -3,6 +3,9 @@ class_name MonologueControl extends Control
 @export var welcome_window: WelcomeWindow
 @export var graph_node_picker: GraphNodePicker
 
+func _enter_tree():
+	print("[MonologueControl] _enter_tree")
+
 @onready var graph_switcher: GraphEditSwitcher = %GraphEditSwitcher
 @onready var side_panel_node: SidePanel = %SidePanel
 @onready var run_window := preload("res://scenes/run/run_window.tscn")
@@ -11,7 +14,12 @@ class_name MonologueControl extends Control
 
 func _ready():
 	get_tree().auto_accept_quit = false  # quit handled by _close_tab()
-	welcome_window.show()
+	print("[MonologueControl] Showing welcome window...")
+	if welcome_window:
+		welcome_window.show()
+		print("[MonologueControl] welcome_window.visible = %s" % welcome_window.visible)
+	else:
+		push_error("[MonologueControl] welcome_window is null!")
 
 	GlobalSignal.add_listener("add_graph_node", add_node_from_global)
 	GlobalSignal.add_listener("select_new_node", _select_new_node)
@@ -88,36 +96,51 @@ func get_root_dict(node_list: Array) -> Dictionary:
 
 
 func load_project(path: String, new_graph: bool = false) -> void:
-	var file = FileAccess.open(path, FileAccess.READ)
-	if file and not graph_switcher.is_file_opened(path):
-		if new_graph:
-			graph_switcher.new_graph_edit()
-		graph_switcher.current.file_path = path  # set path first before tab creation
+	# GitHub paths always exist (we got them from listing)
+	var is_github_path = path.begins_with("github://")
+	if not is_github_path and not Storage.file_exists(path) and not FileAccess.file_exists(path):
+		push_error("File does not exist: %s" % path)
+		return
+	
+	if graph_switcher.is_file_opened(path):
+		return
+	
+	if new_graph:
+		graph_switcher.new_graph_edit()
+	graph_switcher.current.file_path = path  # set path first before tab creation
 
-		var data = {}
-		var text = file.get_as_text()
-		if text:
-			data = JSON.parse_string(text)
-		if not data:
-			data = _to_dict()
-			save()
+	var data = {}
+	var text: String
+	if is_github_path:
+		# Load from GitHub (async)
+		text = await Storage.load_file_async(path)
+	else:
+		text = Storage.load_file(path)
+	
+	if text:
+		data = JSON.parse_string(text)
+	
+	if not data:
+		data = _to_dict()
+		save()
 
-		var converter := NodeConverter.new()
-		graph_switcher.current.languages = data.get("Languages", [])  # load language before tab
-		graph_switcher.add_tab(path.get_file())
-		graph_switcher.current.clear()
-		graph_switcher.current.name = path.get_file().trim_suffix(".json")
-		graph_switcher.current.characters = converter.convert_characters(data.get("Characters"))
-		graph_switcher.current.variables = data.get("Variables")
-		graph_switcher.current.data = data
+	var converter := NodeConverter.new()
+	graph_switcher.current.languages = data.get("Languages", [])  # load language before tab
+	graph_switcher.add_tab(path.get_file())
+	graph_switcher.current.clear()
+	graph_switcher.current.name = path.get_file().trim_suffix(".json")
+	graph_switcher.current.characters = converter.convert_characters(data.get("Characters"))
+	graph_switcher.current.variables = data.get("Variables")
+	graph_switcher.current.data = data
 
-		var node_list = data.get("ListNodes")
-		_load_nodes(node_list)
-		_connect_nodes(node_list)
-		graph_switcher.add_root()
-		graph_switcher.current.update_node_positions()
-		graph_switcher.current.grab_focus()
-		GlobalSignal.emit("load_successful", [path])
+	var node_list = data.get("ListNodes")
+	_load_nodes(node_list)
+	_connect_nodes(node_list)
+	graph_switcher.add_root()
+	graph_switcher.current.update_node_positions()
+	graph_switcher.current.grab_focus()
+	GlobalSignal.emit("load_successful", [path])
+	GlobalSignal.emit("hide_welcome")
 
 
 ## Reload the current graph edit and side panel values.
@@ -150,11 +173,21 @@ func save():
 	var data = JSON.stringify(_to_dict(), "\t", false, true)
 	if data:
 		var path = graph_switcher.current.file_path
-		var file = FileAccess.open(path, FileAccess.WRITE)
-		file.store_string(data)
-		file.close()
-		graph_switcher.current.update_version()
-		graph_switcher.update_save_state()
+		
+		# For GitHub paths, we need to handle them specially
+		if path.begins_with("github://"):
+			# Save to GitHub directly
+			var github_path = path.replace("github://", "")
+			if Storage.current_provider is GitHubStorageProvider:
+				var provider = Storage.current_provider as GitHubStorageProvider
+				provider._upload_file_background(github_path, data, "Update: " + github_path.get_file())
+				graph_switcher.current.update_version()
+				graph_switcher.update_save_state()
+		elif Storage.save_file(path, data):
+			graph_switcher.current.update_version()
+			graph_switcher.update_save_state()
+		else:
+			push_error("Failed to save file: %s" % path)
 
 
 func test_project(from_node: Variant = null):
