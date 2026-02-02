@@ -6,8 +6,8 @@
 			"$type": "NodeRoot",
 			"ID": "VnS1ntCAyC",
 			"EditorPosition": [
-				0.0,
-				0.0
+				278.33331298828125,
+				479.9999694824219
 			],
 			"NextID": -1
 		}
@@ -19,7 +19,7 @@
 			"Character": {
 				"Name": "_NARRATOR"
 			},
-			"EditorIndex": 0
+			"EditorIndex": 0.0
 		}
 	],
 	"Variables": [],
