@@ -42,12 +42,18 @@ func add(filepath: String) -> void:
 		refresh()
 
 
-func create_button(filepath: String) -> Button:
+func create_button(filepath: String) -> Control:
 	if not button_container:
 		push_error("[RecentFiles] button_container is null!")
 		return null
 	
+	# Create container for file button + delete button
+	var hbox = HBoxContainer.new()
+	hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	
+	# Create file button
 	var btn = button_scene.instantiate()
+	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var btn_text: String
 	
 	# Handle GitHub paths
@@ -66,9 +72,54 @@ func create_button(filepath: String) -> Button:
 		btn.text = Util.truncate_filename(btn_text)
 	
 	btn.pressed.connect(GlobalSignal.emit.bind("load_project", [filepath]))
-	button_container.add_child(btn)
-	print("[RecentFiles] Button added: %s, size=%s, visible=%s" % [btn.text, btn.size, btn.visible])
-	return btn
+	
+	# Create delete button
+	var delete_btn = Button.new()
+	delete_btn.text = "🗑"
+	delete_btn.tooltip_text = "Delete file"
+	delete_btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	delete_btn.pressed.connect(_on_delete_file.bind(filepath, hbox))
+	
+	hbox.add_child(btn)
+	hbox.add_child(delete_btn)
+	button_container.add_child(hbox)
+	
+	print("[RecentFiles] Button added: %s" % btn.text)
+	return hbox
+
+
+## Handle file deletion
+func _on_delete_file(filepath: String, container: Control) -> void:
+	# Show confirmation
+	var confirm = ConfirmationDialog.new()
+	confirm.dialog_text = "Delete '%s'?\n\nThis cannot be undone!" % filepath.get_file()
+	confirm.title = "Confirm Delete"
+	confirm.confirmed.connect(_delete_file_confirmed.bind(filepath, container, confirm))
+	confirm.canceled.connect(confirm.queue_free)
+	add_child(confirm)
+	confirm.popup_centered()
+
+
+func _delete_file_confirmed(filepath: String, container: Control, dialog: ConfirmationDialog) -> void:
+	dialog.queue_free()
+	
+	var success = false
+	if Storage:
+		success = await Storage.delete_file(filepath)
+	
+	if success:
+		print("[RecentFiles] Deleted: %s" % filepath)
+		recent_filepaths.erase(filepath)
+		container.queue_free()
+		
+		# Also remove from local history
+		if not filepath.begins_with("github://"):
+			var file = FileAccess.open(save_path, FileAccess.WRITE)
+			if file:
+				file.store_string(JSON.stringify(recent_filepaths.slice(0, 10)))
+				file.close()
+	else:
+		push_error("[RecentFiles] Failed to delete: %s" % filepath)
 
 
 ## Create the recent file history save in user directory if it doesn't exist.

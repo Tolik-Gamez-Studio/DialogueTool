@@ -80,6 +80,13 @@ func file_exists(path: String) -> bool:
 
 
 func delete_file(path: String) -> bool:
+	# Handle GitHub paths
+	if path.begins_with("github://"):
+		if not is_available:
+			return false
+		return await _delete_file_remote(path.replace("github://", ""))
+	
+	# Delete local file
 	var dir = DirAccess.open(path.get_base_dir())
 	if dir:
 		var error = dir.remove(path.get_file())
@@ -87,6 +94,52 @@ func delete_file(path: String) -> bool:
 			operation_completed.emit(true, "File deleted: %s" % path)
 			return true
 	return false
+
+
+## Delete file from GitHub repository
+func _delete_file_remote(file_path: String) -> bool:
+	print("[GitHub] Deleting file: %s" % file_path)
+	
+	# First get the SHA of the file
+	var sha = await _get_file_sha(file_path)
+	if sha.is_empty():
+		print("[GitHub] Cannot delete - file not found or no SHA")
+		return false
+	
+	var url = "https://api.github.com/repos/%s/%s/contents/%s" % [_repo_owner, _repo_name, file_path]
+	
+	var headers = [
+		"Authorization: Bearer " + _token,
+		"Accept: application/vnd.github.v3+json",
+		"Content-Type: application/json",
+		"User-Agent: Monologue-Editor"
+	]
+	
+	var body = {
+		"message": "Delete: " + file_path.get_file(),
+		"sha": sha,
+		"branch": _branch
+	}
+	
+	var http = HTTPRequest.new()
+	Engine.get_main_loop().root.add_child(http)
+	
+	var error = http.request(url, headers, HTTPClient.METHOD_DELETE, JSON.stringify(body))
+	if error != OK:
+		http.queue_free()
+		return false
+	
+	var result = await http.request_completed
+	http.queue_free()
+	
+	var response_code = result[1]
+	if response_code == 200:
+		print("[GitHub] File deleted successfully")
+		operation_completed.emit(true, "Deleted from GitHub: " + file_path.get_file())
+		return true
+	else:
+		print("[GitHub] Delete failed: %d - %s" % [response_code, result[3].get_string_from_utf8()])
+		return false
 
 
 func list_files(directory: String, extension: String = "") -> Array[String]:

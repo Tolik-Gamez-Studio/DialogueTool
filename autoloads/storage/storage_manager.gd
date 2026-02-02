@@ -23,28 +23,83 @@ func _ready():
 	_initialize_provider()
 
 
-## CONFIGURE THESE FOR WEB BUILD (so users don't need to enter manually)
-const PRESET_GITHUB_OWNER = ""  # e.g. "Tolik-Gamez-Studio"
-const PRESET_GITHUB_REPO = ""   # e.g. "DialogueTool"
-const PRESET_GITHUB_TOKEN = ""  # e.g. "ghp_xxxx" - BE CAREFUL with this!
-const PRESET_GITHUB_BRANCH = "main"
-const PRESET_GITHUB_PATH = "dialogues"
-
-
 func _load_config():
 	var err = _config.load(STORAGE_CONFIG_PATH)
 	if err != OK:
-		# Set defaults - use presets if available (for Web builds)
-		var use_github = not PRESET_GITHUB_OWNER.is_empty() and not PRESET_GITHUB_TOKEN.is_empty()
-		
-		_config.set_value("storage", "type", 
-			StorageProvider.StorageType.GITHUB_API if use_github else StorageProvider.StorageType.LOCAL)
-		_config.set_value("github", "repo_owner", PRESET_GITHUB_OWNER)
-		_config.set_value("github", "repo_name", PRESET_GITHUB_REPO)
-		_config.set_value("github", "branch", PRESET_GITHUB_BRANCH)
-		_config.set_value("github", "token", PRESET_GITHUB_TOKEN)
-		_config.set_value("github", "base_path", PRESET_GITHUB_PATH)
+		# First run - try to load defaults from external JSON file
+		_load_defaults_from_external_file()
 		_save_config()
+
+
+## Get path to external config file (next to .exe or project root)
+func _get_external_config_path() -> String:
+	if OS.has_feature("editor"):
+		# In editor - use project root
+		return ProjectSettings.globalize_path("res://storage_config.json")
+	else:
+		# Exported - use folder next to executable
+		return OS.get_executable_path().get_base_dir().path_join("storage_config.json")
+
+
+## Load default settings from external storage_config.json
+func _load_defaults_from_external_file():
+	var config_path = _get_external_config_path()
+	print("[Storage] Looking for config at: %s" % config_path)
+	
+	var defaults = _read_external_config(config_path)
+	
+	# Determine storage type
+	var storage_type_str = defaults.get("storage_type", "local")
+	var storage_type = StorageProvider.StorageType.LOCAL
+	if storage_type_str == "github":
+		storage_type = StorageProvider.StorageType.GITHUB_API
+	
+	# Get GitHub settings
+	var github = defaults.get("github", {})
+	var repo_owner = github.get("repo_owner", "")
+	var repo_name = github.get("repo_name", "")
+	var branch = github.get("branch", "main")
+	var token = github.get("token", "")
+	var base_path = github.get("base_path", "dialogues")
+	
+	# Only use GitHub if configured
+	if storage_type == StorageProvider.StorageType.GITHUB_API:
+		if repo_owner.is_empty() or token.is_empty():
+			storage_type = StorageProvider.StorageType.LOCAL
+			print("[Storage] GitHub not fully configured, falling back to Local")
+	
+	_config.set_value("storage", "type", storage_type)
+	_config.set_value("github", "repo_owner", repo_owner)
+	_config.set_value("github", "repo_name", repo_name)
+	_config.set_value("github", "branch", branch)
+	_config.set_value("github", "token", token)
+	_config.set_value("github", "base_path", base_path)
+	
+	print("[Storage] Loaded config: type=%s, owner=%s, repo=%s" % [storage_type_str, repo_owner, repo_name])
+
+
+## Read external JSON config file
+func _read_external_config(path: String) -> Dictionary:
+	if not FileAccess.file_exists(path):
+		print("[Storage] No config file found at: %s" % path)
+		print("[Storage] Create storage_config.json next to the executable with your settings")
+		return {}
+	
+	var file = FileAccess.open(path, FileAccess.READ)
+	if not file:
+		print("[Storage] Cannot open config file: %s" % path)
+		return {}
+	
+	var text = file.get_as_text()
+	file.close()
+	
+	var json = JSON.parse_string(text)
+	if json is Dictionary:
+		print("[Storage] Config loaded successfully")
+		return json
+	
+	print("[Storage] Invalid JSON in config file")
+	return {}
 
 
 func _save_config():
@@ -143,10 +198,10 @@ func file_exists(path: String) -> bool:
 	return false
 
 
-## Delete a file
+## Delete a file (async for remote files)
 func delete_file(path: String) -> bool:
 	if current_provider:
-		return current_provider.delete_file(path)
+		return await current_provider.delete_file(path)
 	return false
 
 
