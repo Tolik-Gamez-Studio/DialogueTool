@@ -10,6 +10,23 @@
 				0.0
 			],
 			"NextID": -1
+		},
+		{
+			"$type": "NodeSentence",
+			"ID": "G0hNpCdADy",
+			"EditorPosition": [
+				620.0,
+				-136.66665649414063
+			],
+			"NextID": -1,
+			"Speaker": 0,
+			"DisplayName": "",
+			"Sentence": {
+				"English": ""
+			},
+			"Voiceline": {
+				"English": ""
+			}
 		}
 	],
 	"Characters": [
